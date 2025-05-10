@@ -25,17 +25,17 @@
                     @csrf
                         <div class="input-group">
                             <label for="name">Full Name</label>
-                            <input type="text" id="name" placeholder="Enter your Full Name here">
+                            <input type="text" id="name" name="name" placeholder="Enter your Full Name here">
                         </div>
                         <div class="input-group">
                             <label for="email">Email</label>
-                            <input type="email" id="email" placeholder="Enter your Email here">
+                            <input type="email" id="email" name="email" placeholder="Enter your Email here">
                         </div>
                         <div class="input-group">
                             <label for="password">Password</label>
-                            <input type="password" id="password" placeholder="Enter your Password here">
+                            <input type="password" id="password" name="password" placeholder="Enter your Password here">
                         </div>
-                        <button class="btn-login" type="submit" onclick="window.location.href='login.html'">Create Account</button>
+                        <button class="btn-login" type="submit">Create Account</button>
                    </form>
 
                     <p class="login-text">Already have an account? <a href="/login">Log in</a></p>

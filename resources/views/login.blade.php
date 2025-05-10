@@ -38,11 +38,11 @@
                         @csrf
                         <div class="input-group">
                             <label for="email">Email</label>
-                            <input type="email" id="email" placeholder="Enter your Email here">
+                            <input type="email" id="email" name="email" placeholder="Enter your Email here">
                         </div>
                         <div class="input-group">
                             <label for="password">Password</label>
-                            <input type="password" id="password" placeholder="Enter your Password here">
+                            <input type="password" id="password" name="password" placeholder="Enter your Password here">
                         </div>
                         <button type="submit" class="btn-login">Login</button>
                     </form>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
@@ -29,11 +31,36 @@ class AuthController extends Controller
     }
 
     function register(){
+
+        if (Auth::check()) {
+            // Jika sudah login dan belum verifikasi, arahkan ke halaman verifikasi
+            if (is_null(Auth::user()->email_verified_at)) {
+                return redirect('/email/verify');
+            }
+
+            // Jika sudah login dan sudah verifikasi, arahkan ke halaman home
+            return redirect('/profile');
+        }
         return view('register');
     }
 
-    function createUser(){
+    function createUser(Request $request){
+        $credentials = $request->validate([
+            'name' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password)
+        ]);
+
+        Auth::login($user);
+
+        event(new Registered($user));
+        return redirect('/profile');
     }
 
 }
