@@ -7,6 +7,8 @@
     <title>Document</title>
 </head>
 <body>
-    <button>logout</button>
+    <a type="button"  href="{{route('logout')}}" class="">
+                  Logout
+                </a>
 </body>
 </html>

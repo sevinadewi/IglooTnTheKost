@@ -4,12 +4,14 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Igloo Indekost</title>
+        <title>Reset Password</title>
 
         <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/vendor/boxicons/css/boxicons.min.css">
 
         <link rel="stylesheet" href="assets/css/aside.css">
+        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
         <link rel="stylesheet" href="assets/css/style.css">
     </head>
     <body>
@@ -20,7 +22,28 @@
                     <h2>Igloo Indekost</h2>
                 </div>
                 <div class="right">
-                    <h2>Login</h2>
+                    <h2>Reset Password</h2>
+
+                    <form action="/reset-password" method="POST">
+                        @csrf
+                        <div class="input-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your Email here">
+                        </div>
+                        <div class="input-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Enter your Password here">
+                        </div>
+                        <div class="input-group">
+                            <label for="repassword"> Retype Password</label>
+                            <input type="password" id="repassword" name="password_confirmation" placeholder="Re-Enter your Password here">
+                        </div>
+                        <div class="input-group">
+                            <input type="hidden" id="token" name="token" value="{{ $token }}">
+                        </div>
+                      
+                        <button type="submit" class="btn-login">Send</button>
+                    </form>
 
                     @if ($errors->any())
                         <div class="alert alert-danger col-md-6">
@@ -34,34 +57,8 @@
                         </div>
                     @endif
 
-                    <form action="login" method="POST">
-                        @csrf
-                        <div class="input-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" placeholder="Enter your Email here">
-                        </div>
-                        <div class="input-group">
-                            <label for="password">Password</label>
-                            <input type="password" id="password" name="password" placeholder="Enter your Password here">
-                        </div>
-                        <div>
-                            Lupa password?
-                        </div>
-                        <button type="submit" class="btn-login">Login</button>
-                    </form>
-                    <p class="login-text">Don't have an account? <a href="register.html">Sign up</a></p>
-                    <p class="or">- OR -</p>
-                    <div class="google-btn">
-                        <i class='bx bxl-google'></i>
-                        <span>Sign in with Google</span>
-                    </div>
                     <p class="footer-login">Copyright Igloo Indekost</p>
                 </div>
-                @if (session('status'))
-                        <div class="alert alert-success mt-3">
-                            {{ session('status') }}
-                        </div>
-                    @endif
             </div>
         </div>
 
