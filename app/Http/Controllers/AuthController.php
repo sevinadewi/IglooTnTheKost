@@ -21,7 +21,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
  
-            return redirect()->intended('contohlogout');
+            return redirect()->intended('/property');
         }
 
         return back()->withErrors([

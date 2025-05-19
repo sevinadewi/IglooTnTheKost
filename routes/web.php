@@ -46,6 +46,11 @@ Route::middleware(['auth'])->group(function (){
     return view('contohlogout');
     });
 
+    Route::get('/property', function () {
+    return view('property');
+    });
+
+
 });
 
 // Auth pages

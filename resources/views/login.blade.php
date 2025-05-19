@@ -8,7 +8,7 @@
 
         <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/vendor/boxicons/css/boxicons.min.css">
-
+        
         <link rel="stylesheet" href="assets/css/aside.css">
         <link rel="stylesheet" href="assets/css/style.css">
     </head>
@@ -34,7 +34,7 @@
                         </div>
                     @endif
 
-                    <form action="login" method="POST">
+                    <form action="login" method="POST" onsubmit="return validateLogin()">
                         @csrf
                         <div class="input-group">
                             <label for="email">Email</label>
@@ -68,7 +68,9 @@
         <script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
         <script src="assets/vendor/jquery/jquery-3.5.1.min.js"></script>
         <script src="assets/vendor/one-page/scrollIt.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+        <script src="{{ asset('assets/js/validation.js') }}"></script>
         <script src="assets/js/script.js"></script>
     </body>
 </html>
