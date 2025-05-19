@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PropertyController;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -46,9 +47,12 @@ Route::middleware(['auth'])->group(function (){
     return view('contohlogout');
     });
 
-    Route::get('/property', function () {
-    return view('property');
-    });
+    // Route::get('/property', function () {
+    // return view('property');
+    // });
+
+    Route::get('/property', [PropertyController::class, 'index'])->name('property.index');
+    Route::post('/property', [PropertyController::class, 'store'])->name('property.store');
 
 
 });
