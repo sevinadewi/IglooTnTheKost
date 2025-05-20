@@ -17,67 +17,66 @@
                 <div class="steps">
                     <h3>Ikuti langkah-langkah ini untuk mulai mengelola properti Anda</h3>
 
-                    {{-- Step 1: Tambah Properti --}}
-                    <div class="step {{ session('currentStep', 1) > 1 ? 'inactive' : 'active' }}">
-                        <div class="circle {{ session('currentStep', 1) > 1 ? 'checked' : '' }}">1</div>
+                    <div class="step active">
+                        <div class="circle">1</div>
                         Tambahkan properti pertama saya
-                        <button onclick="showForm('propertyModal')" class="btn-add" {{ session('currentStep', 1) > 1 ? 'style=display:none;' : '' }}>Tambah</button>
+                        <button onclick="showForm()" class="btn-add">Tambah</button>
                     </div>
 
                     <!-- Modal Form -->
-                    <div id="propertyModal" class="modal" role="dialog" aria-modal="true">
+                    <div id="formModal" class="modal" role="dialog" aria-modal="true">
                         <div class="modal-content">
                            <form action="{{ route('property.store')}}" method="POST">
                             @csrf
                                 <h3 id="formTitle">Tambah properti baru</h3>
-                                {{-- <input type="hidden" id="editingIndex"> --}}
+                                <input type="hidden" id="editingIndex">
                                 <div class="form-group">
                                     <label for="properti">Nama Properti</label>
-                                    <input type="text" id="properti" name="properti" placeholder="Nama Properti *" value="{{ old('properti') }}" required>
+                                    <input type="text" id="properti" name="properti" placeholder="Nama Properti *">
                                 </div>
                                 <div class="form-group">
                                     <label for="alamat">Alamat</label>
-                                    <input type="text" id="alamat" name="alamat" placeholder="Alamat *" value="{{ old('alamat') }}" required>
+                                    <input type="text" id="alamat" name="alamat" placeholder="Alamat *">
                                 </div>
                                 <div class="form-group">
                                     <label for="kodePos">Kode Pos</label>
-                                    <input type="text" id="kodePos" name="kodePos" placeholder="Kode pos *" value="{{ old('kodePos') }}" required>
+                                    <input type="text" id="kodePos" name="kodePos" placeholder="Kode pos *">
                                 </div>
                                 <div class="form-group">
                                     <label for="provinsi">Provinsi</label>
-                                    <input type="text" id="provinsi" name="provinsi" placeholder="Provinsi *" value="{{ old('provinsi') }}" required>
+                                    <input type="text" id="provinsi" name="provinsi" placeholder="Provinsi *">
                                 </div>
                                 <div class="form-group">
                                     <label for="kotaKab">Kota/Kabupaten</label>
-                                    <input type="text" id="kotaKab" name="kotaKab" placeholder="Kota/Kabupaten *" value="{{ old('kotaKab') }}" required>
+                                    <input type="text" id="kotaKab" name="kotaKab" placeholder="Kota/Kabupaten *">
                                 </div>
                                 <div class="form-group">
                                     <label for="kec">Kecamatan</label>
-                                    <input type="text" id="kec" name="kec" placeholder="Kecamatan *" value="{{ old('kec') }}" required>
+                                    <input type="text" id="kec" name="kec" placeholder="Kecamatan *">
                                 </div>
                                 <div class="form-group">
                                     <label for="kel">Kelurahan</label>
-                                    <input type="text" id="kel" name="kel" placeholder="Kelurahan *" value="{{ old('kel') }}" required>
+                                    <input type="text" id="kel" name="kel" placeholder="Kelurahan *">
                                 </div>
                                 <div class="form-group">
                                     <label for="nomor">Whatsapp Admin Properti</label>
-                                    <input type="text" id="nomor" name="no_wa" placeholder="Whatsapp Admin Properti" value="{{ old('no_wa') }}">
+                                    <input type="text" id="nomor" name="no_wa" placeholder="Whatsapp Admin Properti">
                                 </div>
 
                                 <div class="form-buttons">
-                                    <button type="submit" class="btn-save">Simpan</button>
-                                    <button type="button" onclick="hideForm('propertyModal')" class="btn-cancel">Batal</button>
+                                    <button type="submit" onclick="saveTenant()" class="btn-save">Simpan</button>
+                                    <button type="button" onclick="hideForm()" class="btn-cancel">Batal</button>
                                 </div>
                            </form>
                         </div>
                     </div>
 
                     {{-- Langkah 2: Tambah Kamar --}}
-                    <div class="step {{ session('currentStep', 1) < 2 ? 'inactive' : (session('currentStep', 1) > 2 ? 'inactive' : 'active') }}">
-                        <div class="circle {{ session('currentStep', 1) > 2 ? 'checked' : '' }}">2</div>
+                    <div class="step inactive">
+                        <div class="circle">2</div>
                         Tambahkan kamar pertama saya
-                        <button class="btn-add" id="addRoomBtn"  onclick="showForm('roomModal')" {{ session('currentStep', 1) < 2 ? 'style=display:none;' : '' }}>Tambah</button>
-
+                        <button class="btn-add" id="addRoomBtn">Tambah</button>
+                        
                         <div class="modal" id="roomModal">
                             <div class="modal-content">
                                 <h3 id="modalTitle">Tambah Kamar</h3>

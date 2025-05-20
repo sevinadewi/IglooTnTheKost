@@ -8,7 +8,9 @@ class PropertyController extends Controller
 {
     public function index()
     {
-        return view('property.index');
+        // return view('property.index');
+        $currentStep = session('currentStep', 1); // default 1 kalau belum ada
+        return view('property.index', compact('currentStep'));
     }
 
     public function store(Request $request)
@@ -34,6 +36,9 @@ class PropertyController extends Controller
             'kelurahan' => $validated['kel'],
             'no_wa' => $validated['no_wa'],
         ]);
+
+        // ⬇️ Tambahkan baris ini untuk menyimpan step ke sesi
+        session(['currentStep' => 2]);
 
         return redirect()->route('property.index')->with('success', 'Properti berhasil ditambahkan.');
     }
