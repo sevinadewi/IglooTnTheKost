@@ -19,4 +19,9 @@ class Property extends Model
         'kelurahan',
         'no_wa',
     ];
+
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
 }

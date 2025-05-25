@@ -3,14 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Room;
+use App\Models\Tenant;
 use App\Models\Property;
+
 class PropertyController extends Controller
 {
     public function index()
     {
-        // return view('property.index');
-        $currentStep = session('currentStep', 1); // default 1 kalau belum ada
-        return view('property.index', compact('currentStep'));
+        $currentStep = session('currentStep', 1);
+
+        $rooms = Room::with('property')->get();
+        $tenants = Tenant::with('room')->get();
+
+        return view('property.index', compact('currentStep', 'rooms', 'tenants'));
     }
 
     public function store(Request $request)
@@ -26,7 +32,7 @@ class PropertyController extends Controller
             'no_wa' => 'nullable|string',
         ]);
 
-        Property::create([
+        $property = Property::create([
             'nama' => $validated['properti'],
             'alamat' => $validated['alamat'],
             'kode_pos' => $validated['kodePos'],
@@ -37,9 +43,58 @@ class PropertyController extends Controller
             'no_wa' => $validated['no_wa'],
         ]);
 
-        // ⬇️ Tambahkan baris ini untuk menyimpan step ke sesi
         session(['currentStep' => 2]);
+        session(['property_id' => $property->id]);
 
         return redirect()->route('property.index')->with('success', 'Properti berhasil ditambahkan.');
+    }
+
+    public function storeRoom(Request $request)
+    {
+        $validated = $request->validate([
+            'nama_kamar' => 'required|string',
+            'harga' => 'required|numeric',
+        ]);
+
+        $propertyId = session('property_id');
+
+        Room::create([
+            'property_id' => $propertyId,
+            'nama' => $validated['nama_kamar'],
+            'harga' => $validated['harga'],
+        ]);
+
+        session(['currentStep' => 3]);
+
+        return redirect()->route('property.index')->with('success', 'Kamar berhasil ditambahkan.');
+    }
+
+    public function storeTenant(Request $request)
+    {
+        $validated = $request->validate([
+            'room_id' => 'required|exists:rooms,id',
+            'nama_penyewa' => 'required|string',
+            'no_hp' => 'nullable|string',
+        ]);
+
+        Tenant::create([
+            'room_id' => $validated['room_id'],
+            'nama' => $validated['nama_penyewa'],
+            'no_hp' => $validated['no_hp'],
+        ]);
+
+        session(['currentStep' => 1]);
+        session()->forget('property_id');
+
+        return redirect()->route('property.index')->with('success', 'Penyewa berhasil ditambahkan.');
+    }
+
+    // Opsional: reset atau navigasi manual
+    public function resetStep()
+    {
+        session(['currentStep' => 1]);
+        session()->forget('property_id');
+
+        return redirect()->route('property.index');
     }
 }

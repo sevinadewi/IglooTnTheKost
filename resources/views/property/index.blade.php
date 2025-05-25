@@ -80,42 +80,57 @@
 
                         <div class="modal" id="roomModal">
                             <div class="modal-content">
-                                <h3 id="modalTitle">Tambah Kamar</h3>
-                                <input type="text" id="roomName" placeholder="Nama Kamar">
-                                <input type="text" id="roomFacilities" placeholder="Fasilitas (pisahkan dengan koma)">
-                                <input type="number" id="roomPrice" placeholder="Harga">
-                                <input type="file" id="roomImage" accept="image/*">
-                                <select id="roomStatus">
-                                    <option value="Kosong">Kosong</option>
-                                    <option value="Terisi">Terisi</option>
-                                </select>
-                                <div class="form-buttons">
-                                    <button class="btn-save" id="saveRoomBtn">Simpan</button>
-                                    <button class="btn-cancel" id="cancelRoomBtn">Batal</button>
+                                <form action="{{ route('rooms.store')}}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <h3 id="modalTitle">Tambah Kamar</h3>
+                                    <input type="hidden" name="property_id" value="{{ session('property_id') ?? '' }}">
+                                    <input type="text" id="roomName" name="nama" placeholder="Nama Kamar">
+                                    <input type="text" id="roomFacilities" name="fasilitas" placeholder="Fasilitas (pisahkan dengan koma)">
+                                    <input type="number" id="roomPrice" name="harga" placeholder="Harga">
+                                    <input type="file" id="roomImage" name="gambar" accept="image/*">
+                                    <select id="roomStatus" name="status">
+                                        <option value="Kosong">Kosong</option>
+                                        <option value="Terisi">Terisi</option>
+                                    </select>
+                                    <div class="form-buttons">
+                                    <button type="submit" class="btn-save"  id="saveRoomBtn">Simpan</button>
+                                    <button type="button" class="btn-cancel" onclick="hideForm('roomModal')" id="cancelRoomBtn">Batal</button>
                                 </div>
+                                </form>
                             </div>
                         </div>      
                     </div>
 
-                    <div class="step inactive">
-                        <div class="circle">3</div>
+                    <div class="step {{ session('currentStep', 1) < 3 ? 'inactive' : (session('currentStep', 1) > 3 ? 'inactive' : 'active') }}">
+                        <div class="circle {{ session('currentStep', 1) > 3 ? 'checked' : ''}}">3</div>
                         Tambahkan penyewa pertama saya
-                        <button onclick="showForm()" class="btn-add">Tambah</button>
-                        <div id="formModal" class="modal">
+                        <button onclick="showForm('tenantModal')" class="btn-add" {{ session('currentStep', 1) < 3 ? 'style=display:none;' : ''}}>Tambah</button>
+                        
+                        <div id="tenantModal" class="modal">
                             <div class="modal-content">
-                            <h3 id="formTitle">Tambah Penyewa</h3>
-                            <input type="hidden" id="editingIndex">
-                            <input type="text" id="nama" placeholder="Nama">
-                            <input type="text" id="telepon" placeholder="No. Telepon">
-                            <input type="date" id="tanggal">
-                            <input type="text" id="kamar" placeholder="Kamar">
-                            <input type="text" id="harga" placeholder="Harga (cth: Rp1.000.000)">
-                            <div class="form-buttons">
-                                <button onclick="saveTenant()" class="btn-save">Simpan</button>
-                                <button onclick="hideForm()" class="btn-cancel">Batal</button>
-                            </div>
+                                <form action="{{ route('tenant.store')}}" method="POST">
+                                    @csrf
+                                    <h3 id="formTitle">Tambah Penyewa</h3>
+                                    <input type="hidden" id="editingIndex">
+                                    <input type="text" id="nama" name="nama" placeholder="Nama">
+                                    <input type="text" id="telepon" name="telepon" placeholder="No. Telepon">
+                                    <input type="date" id="tanggal" name="tanggal">
+                                    
+                                    <select name="room_id" id="roomSelect" required>
+                                        <option value="">Pilih Kamar</option>
+                                        @foreach ($rooms as $room)
+                                            <option value="{{ $room->id}}" data-harga="{{ $room->harga }}">{{ $room->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="text" name="harga" id="hargaField" placeholder="Harga" readonly required>
+                                    <div class="form-buttons">
+                                        <button type="submit" class="btn-save">Simpan</button>
+                                        <button type="button" id="" onclick="hideForm('tenantModal')" class="btn-cancel">Batal</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>

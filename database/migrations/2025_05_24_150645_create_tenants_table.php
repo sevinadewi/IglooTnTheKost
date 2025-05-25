@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoomsTable extends Migration
+class CreateTenantsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateRoomsTable extends Migration
      */
     public function up()
     {
-        Schema::create('rooms', function (Blueprint $table) {
+        Schema::create('tenants', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('property_id')->constrained()->onDelete('cascade'); // ini penting
             $table->string('nama');
-            $table->json('fasilitas');
-            $table->string('gambar');
+            $table->string('telepon');
+            $table->date('tanggal');
+            $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade');
             $table->integer('harga');
-            $table->string('status');
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ class CreateRoomsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rooms');
+        Schema::dropIfExists('tenants');
     }
 }

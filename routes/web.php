@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\RoomController;
+use App\Http\Controllers\TenantController;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -51,9 +53,27 @@ Route::middleware(['auth'])->group(function (){
     // return view('property');
     // });
 
+    // Route::get('/property', [PropertyController::class, 'index'])->name('property.index');
+    // Route::post('/property', [PropertyController::class, 'store'])->name('property.store');
+    // Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
+    // Route::get('/tenant', [TenantController::class, 'index'])->name('tenant.index');
+    // Route::get('/tenant/create', [TenantController::class, 'create'])->name('tenant.create');
+    // Route::post('/tenant/store', [TenantController::class, 'store'])->name('tenant.store');
+    // Route::get('/tenant/{tenant}/edit', [TenantController::class, 'edit'])->name('tenant.edit');
+    // Route::put('/tenant/{tenant}/update', [TenantController::class, 'update'])->name('tenant.update');
+    // Route::delete('/tenant/{tenant}/destroy', [TenantController::class, 'destroy'])->name('tenant.destroy');
     Route::get('/property', [PropertyController::class, 'index'])->name('property.index');
+
+Route::post('/property', [PropertyController::class, 'store'])->name('property.store');
+Route::post('/property/room', [PropertyController::class, 'storeRoom'])->name('property.storeRoom');
+Route::post('/property/tenant', [PropertyController::class, 'storeTenant'])->name('property.storeTenant');
+
+Route::get('/property/reset', [PropertyController::class, 'resetStep'])->name('property.reset');
     Route::post('/property', [PropertyController::class, 'store'])->name('property.store');
 
+Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
+
+Route::post('/tenant/store', [TenantController::class, 'store'])->name('tenant.store');
 
 });
 
