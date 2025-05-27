@@ -18,6 +18,7 @@ class Property extends Model
         'kecamatan',
         'kelurahan',
         'no_wa',
+        'foto',
     ];
 
     public function rooms()

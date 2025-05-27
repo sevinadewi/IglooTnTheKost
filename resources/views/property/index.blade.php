@@ -63,6 +63,10 @@
                                     <label for="nomor">Whatsapp Admin Properti</label>
                                     <input type="text" id="nomor" name="no_wa" placeholder="Whatsapp Admin Properti" value="{{ old('no_wa') }}">
                                 </div>
+                                <div class="form-group">
+                                    <label for="foto">Foto Kos</label>
+                                    <input type="file" id="foto" name="foto" value="{{ old('foto') }}"  accept="image/*>
+                                </div>
 
                                 <div class="form-buttons">
                                     <button type="submit" class="btn-save">Simpan</button>

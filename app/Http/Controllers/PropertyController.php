@@ -30,7 +30,17 @@ class PropertyController extends Controller
             'kec' => 'required|string',
             'kel' => 'required|string',
             'no_wa' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+
+        $fotoPath = null;
+
+        if($request->hasFile('foto')) {
+            $fotoPath = $request->file('foto')->store('public/foto_property');
+            $fotoPath = str_replace('public/','storage/', $fotoPath);
+        } else {
+            $fotoPath = 'assets/css/img/default-property.png';
+        }
 
         $property = Property::create([
             'nama' => $validated['properti'],
@@ -41,6 +51,7 @@ class PropertyController extends Controller
             'kecamatan' => $validated['kec'],
             'kelurahan' => $validated['kel'],
             'no_wa' => $validated['no_wa'],
+            'foto' => $fotoPath,
         ]);
 
         session(['currentStep' => 2]);

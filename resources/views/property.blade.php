@@ -60,6 +60,10 @@
                                 <label for="nomor">Whatsapp Admin Properti</label>
                                 <input type="text" id="nomor" placeholder="Whatsapp Admin Properti">
                             </div>
+                            <div class="form-group">
+                                <label for="foto">Whatsapp Admin Properti</label>
+                                <input type="file" id="foto" placeholder="Whatsapp Admin Properti">
+                            </div>
 
                             <div class="form-buttons">
                                 <button onclick="saveTenant()" class="btn-save">Simpan</button>
