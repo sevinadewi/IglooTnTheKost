@@ -49,7 +49,7 @@
                         </div>
                         <button type="submit" class="btn-login">Login</button>
                     </form>
-                    <p class="login-text">Don't have an account? <a href="register.html">Sign up</a></p>
+                    <p class="login-text">Don't have an account? <a href="/register">Sign up</a></p>
                     <p class="or">- OR -</p>
                     <div class="google-btn">
                         <i class='bx bxl-google'></i>

@@ -64,16 +64,16 @@ Route::middleware(['auth'])->group(function (){
     // Route::delete('/tenant/{tenant}/destroy', [TenantController::class, 'destroy'])->name('tenant.destroy');
     Route::get('/property', [PropertyController::class, 'index'])->name('property.index');
 
-Route::post('/property', [PropertyController::class, 'store'])->name('property.store');
-Route::post('/property/room', [PropertyController::class, 'storeRoom'])->name('property.storeRoom');
-Route::post('/property/tenant', [PropertyController::class, 'storeTenant'])->name('property.storeTenant');
+    Route::post('/property', [PropertyController::class, 'store'])->name('property.store');
+    Route::post('/property/room', [PropertyController::class, 'storeRoom'])->name('property.storeRoom');
+    Route::post('/property/tenant', [PropertyController::class, 'storeTenant'])->name('property.storeTenant');
 
-Route::get('/property/reset', [PropertyController::class, 'resetStep'])->name('property.reset');
+    Route::get('/property/reset', [PropertyController::class, 'resetStep'])->name('property.reset');
     Route::post('/property', [PropertyController::class, 'store'])->name('property.store');
 
-Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
+    Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
 
-Route::post('/tenant/store', [TenantController::class, 'store'])->name('tenant.store');
+    Route::post('/tenant/store', [TenantController::class, 'store'])->name('tenant.store');
 
 });
 
@@ -93,7 +93,8 @@ Route::middleware('auth')->group(function (){
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
  
-        return redirect('/profile');
+        // return redirect('/profile');
+        return redirect()->route('login')->with('status', 'Email berhasil diverifikasi');
     })->middleware(['auth', 'signed'])->name('verification.verify');
 
 });

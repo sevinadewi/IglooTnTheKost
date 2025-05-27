@@ -48,8 +48,8 @@ class AuthController extends Controller
                 return redirect('/email/verify');
             }
 
-            // Jika sudah login dan sudah verifikasi, arahkan ke halaman home
-            return redirect('/profile');
+            // Jika sudah login dan sudah verifikasi, arahkan ke halaman
+            return redirect('/login');
         }
         return view('register');
     }
@@ -70,7 +70,8 @@ class AuthController extends Controller
         Auth::login($user);
 
         event(new Registered($user));
-        return redirect('/profile');
+        // return redirect('/login');
+        return redirect()->route('verification.notice');
     }
 
 }
