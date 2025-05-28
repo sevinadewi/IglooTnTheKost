@@ -41,9 +41,9 @@ Route::middleware(['auth', 'verified'])->group(function (){
 });
 
 Route::middleware(['auth'])->group(function (){
-    Route::get('/', function () {
-    return view('welcome');
-    });
+    // Route::get('/', function () {
+    // return view('welcome');
+    // });
 
     Route::get('/contohlogout', function () {
     return view('contohlogout');
@@ -70,7 +70,7 @@ Route::middleware(['auth'])->group(function (){
 
     Route::get('/property/reset', [PropertyController::class, 'resetStep'])->name('property.reset');
     Route::post('/property', [PropertyController::class, 'store'])->name('property.store');
-
+    Route::get('/display-property', [PropertyController::class, 'showProperty'])->name('property.display-property');
     Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
 
     Route::post('/tenant/store', [TenantController::class, 'store'])->name('tenant.store');

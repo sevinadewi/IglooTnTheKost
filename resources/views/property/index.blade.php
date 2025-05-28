@@ -27,7 +27,7 @@
                     <!-- Modal Form -->
                     <div id="propertyModal" class="modal" role="dialog" aria-modal="true">
                         <div class="modal-content">
-                           <form action="{{ route('property.store')}}" method="POST">
+                           <form action="{{ route('property.store')}}" method="POST" enctype="multipart/form-data">
                             @csrf
                                 <h3 id="formTitle">Tambah properti baru</h3>
                                 {{-- <input type="hidden" id="editingIndex"> --}}
@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="foto">Foto Kos</label>
-                                    <input type="file" id="foto" name="foto" value="{{ old('foto') }}"  accept="image/*>
+                                    <input type="file" id="foto" name="foto"  accept="image/*>
                                 </div>
 
                                 <div class="form-buttons">

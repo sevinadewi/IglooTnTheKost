@@ -6,14 +6,18 @@ use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\Tenant;
 use App\Models\Property;
+use Illuminate\Support\Facades\Auth;
 
 class PropertyController extends Controller
 {
     public function index()
     {
         $currentStep = session('currentStep', 1);
+        $propertyId = session('property_id');
 
-        $rooms = Room::with('property')->get();
+        $rooms = Room::with('property')
+        ->where('property_id', $propertyId)
+        ->get();
         $tenants = Tenant::with('room')->get();
 
         return view('property.index', compact('currentStep', 'rooms', 'tenants'));
@@ -39,7 +43,7 @@ class PropertyController extends Controller
             $fotoPath = $request->file('foto')->store('public/foto_property');
             $fotoPath = str_replace('public/','storage/', $fotoPath);
         } else {
-            $fotoPath = 'assets/css/img/default-property.png';
+            $fotoPath = 'assets/img/default-property.png';
         }
 
         $property = Property::create([
@@ -52,6 +56,7 @@ class PropertyController extends Controller
             'kelurahan' => $validated['kel'],
             'no_wa' => $validated['no_wa'],
             'foto' => $fotoPath,
+            'user_id' => Auth::id(),
         ]);
 
         session(['currentStep' => 2]);
@@ -97,7 +102,7 @@ class PropertyController extends Controller
         session(['currentStep' => 1]);
         session()->forget('property_id');
 
-        return redirect()->route('property.index')->with('success', 'Penyewa berhasil ditambahkan.');
+        return redirect()->route('property.display-property')->with('success', 'Penyewa berhasil ditambahkan.');
     }
 
     // Opsional: reset atau navigasi manual
@@ -108,4 +113,13 @@ class PropertyController extends Controller
 
         return redirect()->route('property.index');
     }
+
+    public function showProperty()
+    {
+        $userId = Auth::id();
+        $properties = Property::where('user_id', $userId)->get();
+        return view('property.display-property', compact('properties'));
+    }
+
+    
 }
