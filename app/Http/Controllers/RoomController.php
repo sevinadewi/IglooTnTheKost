@@ -108,4 +108,12 @@ class RoomController extends Controller
 
         return redirect()->route('rooms.index')->with('success', 'Kamar berhasil dihapus');
     }
+
+    public function listByProperty($propertyId)
+    {
+    // Ambil semua kamar berdasarkan properti tertentu
+    $rooms = Room::where('property_id', $propertyId)->get();
+
+    return view('dashboard.dashboard-kamar', compact('rooms'));
+    }
 }

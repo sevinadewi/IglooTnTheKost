@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TenantController;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,14 @@ Route::middleware(['auth', 'verified'])->group(function (){
     
 });
 
+// Route::get('/dashboard-index', function () {
+//     return view('dashboard.dashboard-index');
+//     });
+
+Route::get('/dashboard-kamar', function () {
+    return view('dashboard.dashboard-kamar');
+    });
+
 Route::middleware(['auth'])->group(function (){
     // Route::get('/', function () {
     // return view('welcome');
@@ -74,6 +83,15 @@ Route::middleware(['auth'])->group(function (){
     Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
 
     Route::post('/tenant/store', [TenantController::class, 'store'])->name('tenant.store');
+
+
+    // dashboard
+    Route::get('/dashboard-index/{id}', [DashboardController::class, 'show'])->name('property.dashboard');
+    Route::get('/dashboard-kamar/{id}', [DashboardController::class, 'showRooms'])->name('dashboard.kamar');
+    Route::resource('rooms', RoomController::class);
+
+
+
 
 });
 

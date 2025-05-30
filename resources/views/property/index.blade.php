@@ -5,16 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset ('assets/css/property.css')}}">
+    <link rel="stylesheet" href="{{asset ('assets/css/style.css')}}">
     <title>Document</title>
 </head>
 <body>
      <div class="content">
             <div class="card">
-                <div class="illustration">
-                    <img src="https://via.placeholder.com/300x250?text=Ilustrasi" alt="Ilustrasi Properti">
+                <div class="left">
+                    <div class="illustration">
+                        <img src="https://via.placeholder.com/300x250?text=Ilustrasi" alt="Ilustrasi Properti">
+                    </div>
                 </div>
 
-                <div class="steps">
+                <div class="right">
+                    <div class="steps">
                     <h3>Ikuti langkah-langkah ini untuk mulai mengelola properti Anda</h3>
 
                     {{-- Step 1: Tambah Properti --}}
@@ -65,7 +69,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="foto">Foto Kos</label>
-                                    <input type="file" id="foto" name="foto"  accept="image/*>
+                                    <input type="file" id="foto" name="foto"  accept="image/*">
                                 </div>
 
                                 <div class="form-buttons">
@@ -137,6 +141,10 @@
                         
                     </div>
                 </div>
+                </div>
+                
+
+                
             </div>
         </div>
 
