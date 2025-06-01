@@ -15,11 +15,17 @@ class Tenant extends Model
         'tanggal',
         'room_id',
         'harga',
+        'property_id'
     ];
 
     // Relasi ke Kamar (opsional)
     public function room()
     {
         return $this->belongsTo(Room::class);
+    }
+
+    public function property()
+    {
+        return $this->belongsTo(Property::class);
     }
 }

@@ -32,16 +32,18 @@ class TenantController extends Controller
         $room = Room::findOrFail($request->room_id);
 
         Tenant::create([
+            
             'nama' => $request->nama,
             'telepon' => $request->telepon,
             'tanggal' => $request->tanggal,
             'room_id' => $room->id,
+            'property_id' => $room->property_id,
             'harga' => $room->harga,
         ]);
 
         $room->update(['status' => 'terisi']);
 
-        return redirect()->route('property.index')->with('success', 'Penyewa berhasil ditambahkan');
+        return redirect()->route('dashboard.dashboard-penghuni')->with('success', 'Penyewa berhasil ditambahkan');
     }
 
     public function edit(Tenant $tenant)
@@ -90,5 +92,12 @@ class TenantController extends Controller
         $tenant->delete();
 
         return redirect()->route('tenants.index')->with('success', 'Penyewa berhasil dihapus');
+    }
+
+    public function showTenant($propertyId)
+    {
+        $tenants = Tenant::with('room')->where('property_id', $propertyId)->get();
+
+        return view('dashboard.dashboard-penghuni', compact('tenants'));
     }
 }

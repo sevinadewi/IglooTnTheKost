@@ -45,9 +45,9 @@ Route::middleware(['auth', 'verified'])->group(function (){
 //     return view('dashboard.dashboard-index');
 //     });
 
-Route::get('/dashboard-kamar', function () {
-    return view('dashboard.dashboard-kamar');
-    });
+// Route::get('/dashboard-penghuni', function () {
+//     return view('dashboard.dashboard-penghuni');
+//     });
 
 Route::middleware(['auth'])->group(function (){
     // Route::get('/', function () {
@@ -90,7 +90,16 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/dashboard-kamar/{id}', [DashboardController::class, 'showRooms'])->name('dashboard.kamar');
     Route::resource('rooms', RoomController::class);
 
+    Route::prefix('tenants')->name('tenants.')->group(function () {
+        Route::get('/', [TenantController::class, 'index'])->name('index');
+        Route::get('/create', [TenantController::class, 'create'])->name('create');
+        Route::post('/', [TenantController::class, 'store'])->name('store');
+        Route::get('/{tenant}/edit', [TenantController::class, 'edit'])->name('edit');
+        Route::put('/{tenant}', [TenantController::class, 'update'])->name('update');
+        Route::delete('/{tenant}', [TenantController::class, 'destroy'])->name('destroy');
+    });
 
+    Route::get('/dashboard-penghuni/{propertyId}', [TenantController::class, 'showTenant'])->name('dashboard.penghuni');
 
 
 });

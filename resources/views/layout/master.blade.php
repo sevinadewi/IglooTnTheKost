@@ -26,10 +26,8 @@
     @yield('content')
 
 
-    <script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/vendor/jquery/jquery-3.5.1.min.js"></script>
-    <script src="assets/vendor/one-page/scrollIt.min.js"></script>
     <script src="{{ asset ('assets/js/room.js')}}"></script>
+    <script src="{{ asset ('assets/js/dashboard.js')}}"></script>
 
 </body>
 </html>
