@@ -6,7 +6,31 @@
                         <i class='bx bx-search'></i>
                         <input type="text" id="searchInput" placeholder="Cari Penyewa" class="search-input">
                     </div>
-                    <a href="{{ route('tenants.create')}}" class="btn-add">+ Tambah Penyewa</a>
+                    <button onclick="toogleAddModal()" class="btn-add">+ Tambah Penyewa</button>
+                </div>
+
+                <div id="tenantModal" class="modal">
+                            <div class="modal-content">
+                                <form action="{{ route('tenants.store')}}" method="POST">
+                                    @csrf
+                                    <h3 id="formTitle">Tambah Penyewa</h3>
+                                    <input type="text" id="nama" name="nama" placeholder="Nama">
+                                    <input type="text" id="telepon" name="telepon" placeholder="No. Telepon">
+                                    <input type="date" id="tanggal" name="tanggal">
+                                    
+                                    <select name="room_id" id="roomSelect" required>
+                                        <option value="">Pilih Kamar</option>
+                                        @foreach ($rooms as $room)
+                                            <option value="{{ $room->id}}" data-harga="{{ $room->harga }}">{{ $room->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="text" name="harga" id="hargaField" placeholder="Harga" readonly required>
+                                    <div class="form-buttons">
+                                        <button type="submit" class="btn-save">Simpan</button>
+                                        <button type="button" id="" onclick="hideForm('tenantModal')" class="btn-cancel">Batal</button>
+                                    </div>
+                                </form>
+                            </div>
                 </div>
             
 
@@ -33,7 +57,7 @@
                     @endforeach
                 </div>
             
-                <div id="formModal" class="modal">
+                <div id="tenantModal" class="modal">
                     <div class="modal-content">
                     <h3 id="formTitle">Tambah Penyewa</h3>
                     <input type="hidden" id="editingIndex">

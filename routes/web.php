@@ -88,15 +88,19 @@ Route::middleware(['auth'])->group(function (){
     // dashboard
     Route::get('/dashboard-index/{id}', [DashboardController::class, 'show'])->name('property.dashboard');
     Route::get('/dashboard-kamar/{id}', [DashboardController::class, 'showRooms'])->name('dashboard.kamar');
+    // web.php
+   
+
     Route::resource('rooms', RoomController::class);
 
     Route::prefix('tenants')->name('tenants.')->group(function () {
         Route::get('/', [TenantController::class, 'index'])->name('index');
-        Route::get('/create', [TenantController::class, 'create'])->name('create');
+        // Route::get('/create', [TenantController::class, 'create'])->name('create');
         Route::post('/', [TenantController::class, 'store'])->name('store');
         Route::get('/{tenant}/edit', [TenantController::class, 'edit'])->name('edit');
         Route::put('/{tenant}', [TenantController::class, 'update'])->name('update');
         Route::delete('/{tenant}', [TenantController::class, 'destroy'])->name('destroy');
+        
     });
 
     Route::get('/dashboard-penghuni/{propertyId}', [TenantController::class, 'showTenant'])->name('dashboard.penghuni');

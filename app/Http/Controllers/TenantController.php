@@ -5,20 +5,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\Tenant;
+use App\Models\Property;
 
 class TenantController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $propertyId = $request->query('property_id');
         $tenants = Tenant::with('room')->get();
-        return view('tenants.index', compact('tenants'));
+        $rooms = Room::with('property')
+        ->where('property_id', $propertyId)
+        ->get();
+        return view('tenants.index', compact('tenants','rooms', 'propertyId'));
     }
 
-    public function create()
-    {
-        $rooms = Room::where('status', 'kosong')->get();
-        return view('tenants.create', compact('rooms'));
-    }
+    // public function create()
+    // {
+    //     $rooms = Room::where('status', 'kosong')->get();
+    //     return view('tenants.create', compact('rooms'));
+    // }
 
     public function store(Request $request)
     {
