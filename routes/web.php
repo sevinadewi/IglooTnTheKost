@@ -87,7 +87,9 @@ Route::middleware(['auth'])->group(function (){
 
     // dashboard
     Route::get('/dashboard-index/{id}', [DashboardController::class, 'show'])->name('property.dashboard');
-    Route::get('/dashboard-kamar/{id}', [DashboardController::class, 'showRooms'])->name('dashboard.kamar');
+    Route::get('/dashboard-kamar/{id}', [RoomController::class, 'dashboardViewByProperty'])->name('dashboard-kamar');
+
+    // Route::get('/dashboard-kamar/{id}', [DashboardController::class, 'showRooms'])->name('dashboard.kamar');
     // web.php
    
 

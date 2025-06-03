@@ -16,7 +16,7 @@
     <div class="sidebar">
     
           <h2><img src="assets/img/IndekostLogo.svg" alt="Logo"> Igloo Indekos</h2>
-          <a href="/dashboard-index" class="active"><i class='bx bx-home-alt'></i> Dashboard</a>
+          <a href="{{route('property.dashboard', ['id' => $property->id])}}" class="active"><i class='bx bx-home-alt'></i> Dashboard</a>
           <a href="{{route('dashboard-kamar', ['id' => $property->id])}}"><i class='bx bx-bed'></i> Data Kamar</a>
           <a href="penghuni.html"><i class='bx bx-user'></i> Data Penghuni</a>
           <a href="pembayaran.html"><i class='bx bx-wallet'></i> Data Pembayaran</a>
