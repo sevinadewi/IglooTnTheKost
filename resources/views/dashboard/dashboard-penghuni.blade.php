@@ -57,21 +57,43 @@
                     @endforeach
                 </div>
             
-                <div id="tenantModal" class="modal">
-                    <div class="modal-content">
-                    <h3 id="formTitle">Tambah Penyewa</h3>
-                    <input type="hidden" id="editingIndex">
-                    <input type="text" id="nama" placeholder="Nama">
-                    <input type="text" id="telepon" placeholder="No. Telepon">
-                    <input type="date" id="tanggal">
-                    <input type="text" id="kamar" placeholder="Kamar">
-                    <input type="text" id="harga" placeholder="Harga (cth: Rp1.000.000)">
-                    <div class="form-buttons">
-                        <button onclick="saveTenant()" class="btn-save">Simpan</button>
-                        <button onclick="hideForm()" class="btn-cancel">Batal</button>
-                    </div>
-                    </div>
-                </div>
             </div>
         </main>
+        <script>
+            function toogleAddModal() {
+                const modal = document.getElementById('tenantModal');
+                modal.style.display = 'block';
+            }
+
+            function hideForm() {
+                const modal = document.getElementById('tenantModal');
+                modal.style.display = 'none';
+            }
+            // Tutup modal jika klik luar area modal
+            window.onclick = function(event) {
+                const modal = document.getElementById('tenantModal');
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            }
+
+            //form penyewa
+            function setUpHargaOtomatis(roomSelectId = "roomSelect", hargaFieldId = "hargaField") {
+                document.addEventListener("DOMContentLoaded", function () {
+                    const roomSelect = document.getElementById(roomSelectId);
+                    const hargaField = document.getElementById(hargaFieldId);
+
+                    if (!roomSelect || !hargaField) return;
+
+                    roomSelect.addEventListener("change", function () {
+                        const selectedOption = this.options[this.selectedIndex];
+                        const harga = selectedOption.getAttribute("data-harga");
+                        hargaField.value = harga ? harga : '';
+                    })
+                })
+            }
+
+            // Jalankan fungsi saat file ini dimuat
+            setUpHargaOtomatis();
+        </script>
 @endsection

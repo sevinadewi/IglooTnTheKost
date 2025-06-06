@@ -116,7 +116,7 @@
                         
                         <div id="tenantModal" class="modal">
                             <div class="modal-content">
-                                <form action="{{ route('tenant.store')}}" method="POST">
+                                <form action="{{ route('property.storeTenant')}}" method="POST">
                                     @csrf
                                     <h3 id="formTitle">Tambah Penyewa</h3>
                                     <input type="hidden" id="editingIndex">

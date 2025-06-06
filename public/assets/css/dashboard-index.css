@@ -193,10 +193,11 @@
         background-color: #b7950b;
     }
 
-    .topbar {
+    /* .topbar {
       position: absolute;
       top: 30px;
       right: 30px;
+      
     }
 
     .topbar i {
@@ -210,9 +211,9 @@
 
     table, th, td {
         border: 1px solidrgb(143, 159, 177); /* Warna biru */
-        border-collapse: collapse;
+        /* border-collapse: collapse;
     }
     th, td {
         padding: 8px;
         text-align: left;
-    }
+    } */ */

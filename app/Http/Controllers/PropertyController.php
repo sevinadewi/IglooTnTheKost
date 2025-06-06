@@ -87,20 +87,27 @@ class PropertyController extends Controller
 
     public function storeTenant(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'telepon' => 'required|string|max:20',
+            'tanggal' => 'required|date',
             'room_id' => 'required|exists:rooms,id',
-            'nama_penyewa' => 'required|string',
-            'no_hp' => 'nullable|string',
         ]);
+
+        $room = Room::findOrFail($request->room_id);
 
         Tenant::create([
-            'room_id' => $validated['room_id'],
-            'nama' => $validated['nama_penyewa'],
-            'no_hp' => $validated['no_hp'],
+            
+            'nama' => $request->nama,
+            'telepon' => $request->telepon,
+            'tanggal' => $request->tanggal,
+            'room_id' => $room->id,
+            'property_id' => $room->property_id,
+            'harga' => $room->harga,
         ]);
 
-        session(['currentStep' => 1]);
-        session()->forget('property_id');
+        $room->update(['status' => 'terisi']);
+
 
         return redirect()->route('property.display-property')->with('success', 'Penyewa berhasil ditambahkan.');
     }

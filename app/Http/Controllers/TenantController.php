@@ -12,11 +12,13 @@ class TenantController extends Controller
     public function index(Request $request)
     {
         $propertyId = $request->query('property_id');
-        $tenants = Tenant::with('room')->get();
-        $rooms = Room::with('property')
-        ->where('property_id', $propertyId)
-        ->get();
-        return view('tenants.index', compact('tenants','rooms', 'propertyId'));
+        $tenants = Tenant::with('room')->when($propertyId, function ($query) use ($propertyId) {
+        return $query->where('property_id', $propertyId);
+    })->get();
+        $rooms = Room::when($propertyId, function ($query) use ($propertyId) {
+        return $query->where('property_id', $propertyId);
+    })->get();
+        return view('dashboard.dashboard-penghuni', compact('tenants','rooms', 'propertyId'));
     }
 
     // public function create()
@@ -48,7 +50,7 @@ class TenantController extends Controller
 
         $room->update(['status' => 'terisi']);
 
-        return redirect()->route('dashboard.dashboard-penghuni')->with('success', 'Penyewa berhasil ditambahkan');
+        return redirect()->route('dashboard.dashboard-penghuni', ['propertyId' => $room->property_id])->with('success', 'Penyewa berhasil ditambahkan');
     }
 
     public function edit(Tenant $tenant)
@@ -99,10 +101,10 @@ class TenantController extends Controller
         return redirect()->route('tenants.index')->with('success', 'Penyewa berhasil dihapus');
     }
 
-    public function showTenant($propertyId)
-    {
-        $tenants = Tenant::with('room')->where('property_id', $propertyId)->get();
+    // public function showTenant($propertyId)
+    // {
+    //     $tenants = Tenant::with('room')->where('property_id', $propertyId)->get();
 
-        return view('dashboard.dashboard-penghuni', compact('tenants'));
-    }
+    //     return view('dashboard.dashboard-penghuni', compact('tenants'));
+    // }
 }

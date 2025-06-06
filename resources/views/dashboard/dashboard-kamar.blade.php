@@ -1,6 +1,8 @@
 @extends('layout.master')
 @section('content')
-    <div class="top-bar">
+
+<div style="padding: 0 20px; width: 100%; margin: 20px;">
+            <div class="top-bar">
                 <button class="btn-add" id="addRoomBtn">+ Tambah kamar</button>
                 <div class="search-wrapper">
                     <i class='bx bx-search'></i>
@@ -56,22 +58,29 @@
                     </tbody>
                 </table>
             </div>
-            
+        </div>    
             <div class="modal" id="roomModal">
                 <div class="modal-content">
-                    <h3 id="modalTitle">Tambah Kamar</h3>
-                    <input type="text" id="roomName" placeholder="Nama Kamar">
-                    <input type="text" id="roomFacilities" placeholder="Fasilitas (pisahkan dengan koma)">
-                    <input type="number" id="roomPrice" placeholder="Harga">
-                    <input type="file" id="roomImage" accept="image/*">
-                    <select id="roomStatus">
-                        <option value="Kosong">Kosong</option>
-                        <option value="Terisi">Terisi</option>
-                    </select>
-                    <div class="form-buttons">
-                        <button class="btn-save" id="saveRoomBtn">Simpan</button>
-                        <button class="btn-cancel" id="cancelRoomBtn">Batal</button>
-                    </div>
+                   {{-- <form action="{{ route('rooms.store')}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <h3 id="modalTitle">Tambah Kamar</h3>
+                        <input type="text" id="roomName" placeholder="Nama Kamar">
+                        <input type="text" id="roomFacilities" placeholder="Fasilitas (pisahkan dengan koma)">
+                        <input type="number" id="roomPrice" placeholder="Harga">
+                        <input type="file" id="roomImage" accept="image/*">
+                        <select id="roomStatus">
+                            <option value="Kosong">Kosong</option>
+                            <option value="Terisi">Terisi</option>
+                        </select>
+                        <div class="form-buttons">
+                            <button class="btn-save" id="saveRoomBtn">Simpan</button>
+                            <button class="btn-cancel" id="cancelRoomBtn">Batal</button>
+                        </div>
+                   </form> --}}
                 </div>
             </div>
+            </div>
+
+</div>
+        
 @endsection

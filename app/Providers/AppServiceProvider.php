@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('layout.master', function ($view) {
-        $view->with('properties', Property::select('id', 'nama')->get());
+        $view->with('property', Property::select('id', 'nama')->first());
         });
     }
 }

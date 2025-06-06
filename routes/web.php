@@ -75,11 +75,11 @@ Route::middleware(['auth'])->group(function (){
 
     Route::post('/property', [PropertyController::class, 'store'])->name('property.store');
     Route::post('/property/room', [PropertyController::class, 'storeRoom'])->name('property.storeRoom');
-    Route::post('/property/tenant', [PropertyController::class, 'storeTenant'])->name('property.storeTenant');
+    Route::post('/property/tenant/store', [PropertyController::class, 'storeTenant'])->name('property.storeTenant');
 
     Route::get('/property/reset', [PropertyController::class, 'resetStep'])->name('property.reset');
     Route::post('/property', [PropertyController::class, 'store'])->name('property.store');
-    Route::get('/display-property', [PropertyController::class, 'showProperty'])->name('property.display-property');
+    Route::get('/property/display-property', [PropertyController::class, 'showProperty'])->name('property.display-property');
     Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
 
     Route::post('/tenant/store', [TenantController::class, 'store'])->name('tenant.store');
@@ -104,8 +104,9 @@ Route::middleware(['auth'])->group(function (){
         Route::delete('/{tenant}', [TenantController::class, 'destroy'])->name('destroy');
         
     });
+    Route::get('/dashboard-penghuni', [TenantController::class, 'index'])->name('dashboard.dashboard-penghuni');
 
-    Route::get('/dashboard-penghuni/{propertyId}', [TenantController::class, 'showTenant'])->name('dashboard.penghuni');
+    // Route::get('/dashboard-penghuni/{propertyId}', [TenantController::class, 'showTenant'])->name('dashboard.dashboard-penghuni');
 
 
 });

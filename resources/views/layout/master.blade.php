@@ -16,7 +16,9 @@
     <div class="sidebar">
     
           <h2><img src="assets/img/IndekostLogo.svg" alt="Logo"> Igloo Indekos</h2>
+          @if(isset($property))
           <a href="{{route('property.dashboard', ['id' => $property->id])}}" class="active"><i class='bx bx-home-alt'></i> Dashboard</a>
+          @endif
           <a href="{{route('dashboard-kamar', ['id' => $property->id])}}"><i class='bx bx-bed'></i> Data Kamar</a>
           <a href="penghuni.html"><i class='bx bx-user'></i> Data Penghuni</a>
           <a href="pembayaran.html"><i class='bx bx-wallet'></i> Data Pembayaran</a>
@@ -49,8 +51,8 @@
 
     
 </script>
-    {{-- <script src="{{ asset ('assets/js/room.js')}}"></script>
-    <script src="{{ asset('assets/js/dashboard.js') }}"></script> --}}
+
+    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
     
 
 </body>
