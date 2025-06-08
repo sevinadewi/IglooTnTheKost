@@ -55,10 +55,9 @@ class RoomController extends Controller
             'status' => $request->status,
         ]);
 
-        // Set session currentStep agar step 3 aktif saat reload halaman
-        session(['currentStep' => 3]);
+        
 
-        return redirect()->route('property.index')->with('success', 'Kamar berhasil ditambahkan');
+        return redirect()->route('dashboard.dashboard-kamar', ['propertyId' => $request->property_id])->with('success', 'Kamar berhasil ditambahkan');
     }
 
     public function edit(Room $room)

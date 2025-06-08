@@ -61,7 +61,7 @@
         </div>    
             <div class="modal" id="roomModal">
                 <div class="modal-content">
-                   {{-- <form action="{{ route('rooms.store')}}" method="POST" enctype="multipart/form-data">
+                   <form action="{{ route('rooms.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <h3 id="modalTitle">Tambah Kamar</h3>
                         <input type="text" id="roomName" placeholder="Nama Kamar">
@@ -76,11 +76,44 @@
                             <button class="btn-save" id="saveRoomBtn">Simpan</button>
                             <button class="btn-cancel" id="cancelRoomBtn">Batal</button>
                         </div>
-                   </form> --}}
+                   </form>
                 </div>
             </div>
             </div>
 
 </div>
+<script>
+            function toggleAddModal() {
+                const modal = document.getElementById('roomModal');
+                modal.style.display = 'block';
+            }
+
+            function hideForm() {
+                const modal = document.getElementById('roomModal');
+                modal.style.display = 'none';
+            }
+
+            // Tambahkan event listener pada tombol
+            document.addEventListener('DOMContentLoaded', function () {
+                const addRoomBtn = document.getElementById('addRoomBtn');
+                const cancelRoomBtn = document.getElementById('cancelRoomBtn');
+
+                addRoomBtn.addEventListener('click', function () {
+                    toggleAddModal();
+                });
+
+                cancelRoomBtn.addEventListener('click', function (e) {
+                    e.preventDefault(); // Biar tidak submit form
+                    hideForm();
+                });
+            });
+            // Tutup modal jika klik luar area modal
+            window.onclick = function(event) {
+                const modal = document.getElementById('roomModal');
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            }
+</script>
         
 @endsection

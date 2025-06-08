@@ -9,16 +9,20 @@ use App\Models\Property;
 
 class TenantController extends Controller
 {
-    public function index(Request $request)
+    public function index($propertyId)
     {
-        $propertyId = $request->query('property_id');
-        $tenants = Tenant::with('room')->when($propertyId, function ($query) use ($propertyId) {
-        return $query->where('property_id', $propertyId);
-    })->get();
-        $rooms = Room::when($propertyId, function ($query) use ($propertyId) {
-        return $query->where('property_id', $propertyId);
-    })->get();
-        return view('dashboard.dashboard-penghuni', compact('tenants','rooms', 'propertyId'));
+    //     $propertyId = $request->query('property_id');
+    //     $tenants = Tenant::with('room')->when($propertyId, function ($query) use ($propertyId) {
+    //     return $query->where('property_id', $propertyId);
+    // })->get();
+    //     $rooms = Room::when($propertyId, function ($query) use ($propertyId) {
+    //     return $query->where('property_id', $propertyId);
+    // })->get();
+        $property = Property::findOrFail($propertyId);
+        $tenants = Tenant::with('room')->where('property_id', $propertyId)->get();
+        $rooms = Room::where('property_id', $propertyId)->get();
+
+        return view('dashboard.dashboard-penghuni', compact('tenants','rooms', 'property', 'propertyId'));
     }
 
     // public function create()
@@ -50,7 +54,9 @@ class TenantController extends Controller
 
         $room->update(['status' => 'terisi']);
 
-        return redirect()->route('dashboard.dashboard-penghuni', ['propertyId' => $room->property_id])->with('success', 'Penyewa berhasil ditambahkan');
+        // return redirect()->route('dashboard.dashboard-penghuni', ['propertyId' => $room->property_id])->with('success', 'Penyewa berhasil ditambahkan');
+        return redirect()->route('dashboard.dashboard-penghuni', ['propertyId' => $room->property_id])
+                     ->with('success', 'Penyewa berhasil ditambahkan');
     }
 
     public function edit(Tenant $tenant)
@@ -101,10 +107,10 @@ class TenantController extends Controller
         return redirect()->route('tenants.index')->with('success', 'Penyewa berhasil dihapus');
     }
 
-    // public function showTenant($propertyId)
-    // {
-    //     $tenants = Tenant::with('room')->where('property_id', $propertyId)->get();
+    public function showTenant($propertyId)
+    {
+        $tenants = Tenant::with('room')->where('property_id', $propertyId)->get();
 
-    //     return view('dashboard.dashboard-penghuni', compact('tenants'));
-    // }
+        return view('dashboard.dashboard-penghuni', compact('tenants'));
+    }
 }

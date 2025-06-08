@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\Tenant;
@@ -67,22 +67,41 @@ class PropertyController extends Controller
 
     public function storeRoom(Request $request)
     {
-        $validated = $request->validate([
-            'nama_kamar' => 'required|string',
-            'harga' => 'required|numeric',
+             // Ubah string fasilitas jadi array (trim tiap elemen)
+    $fasilitasArray = array_map('trim', explode(',', $request->input('fasilitas')));
+
+    // Ganti input fasilitas jadi array supaya validasi array bisa jalan
+    $request->merge(['fasilitas' => $fasilitasArray]);
+    
+        Log::info('Room store request:', $request->all());
+    
+
+        $request->validate([
+            'property_id' => 'required|exists:properties,id',
+            'nama' => 'required|string|max:255',
+            'fasilitas' => 'required|array',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'harga' => 'required|integer',
+            'status' => 'required|string',
         ]);
 
-        $propertyId = session('property_id');
+        // Simpan gambar ke storage publik
+        $gambarPath = $request->file('gambar')->store('gambar_kamar', 'public');
 
+        // Simpan data kamar ke DB
         Room::create([
-            'property_id' => $propertyId,
-            'nama' => $validated['nama_kamar'],
-            'harga' => $validated['harga'],
+            'property_id' => $request->property_id,
+            'nama' => $request->nama,
+            'fasilitas' => $request->fasilitas, // array akan otomatis diserialisasi ke JSON
+            'gambar' => $gambarPath,
+            'harga' => $request->harga,
+            'status' => $request->status,
         ]);
 
+        // Set session currentStep agar step 3 aktif saat reload halaman
         session(['currentStep' => 3]);
 
-        return redirect()->route('property.index')->with('success', 'Kamar berhasil ditambahkan.');
+        return redirect()->route('property.index')->with('success', 'Kamar berhasil ditambahkan');
     }
 
     public function storeTenant(Request $request)

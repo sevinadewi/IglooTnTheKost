@@ -88,7 +88,7 @@
 
                         <div class="modal" id="roomModal">
                             <div class="modal-content">
-                                <form action="{{ route('rooms.store')}}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('property.storeRoom')}}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <h3 id="modalTitle">Tambah Kamar</h3>
                                     <input type="hidden" name="property_id" value="{{ session('property_id') ?? '' }}">

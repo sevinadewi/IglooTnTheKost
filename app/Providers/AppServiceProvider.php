@@ -26,7 +26,17 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('layout.master', function ($view) {
-        $view->with('property', Property::select('id', 'nama')->first());
+        // $view->with('property', Property::select('id', 'nama')->first());
+            // Coba ambil dari parameter route 'id' atau 'property_id'
+            $routeId = request()->route('id') ?? request()->route('property_id');
+
+            if ($routeId) {
+                $property = Property::select('id', 'nama')->find($routeId);
+                $view->with('property', $property);
+            } else {
+                // Jika tidak ada parameter di route, bisa skip atau kasih default
+                $view->with('property', null); // atau Property::first() jika ingin fallback
+            }
         });
     }
 }
