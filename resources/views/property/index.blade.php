@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="{{asset ('assets/css/style.css')}}">
     <link rel="stylesheet" href="{{asset ('assets/css/property.css')}}">
-    <link rel="stylesheet" href="{{asset ('assets/css/style.css')}}">
+   
     <title>Document</title>
 </head>
 <body>
@@ -13,7 +14,8 @@
             <div class="card">
                 <div class="left">
                     <div class="illustration">
-                        <img src="https://via.placeholder.com/300x250?text=Ilustrasi" alt="Ilustrasi Properti">
+                        <img src="{{ asset('assets/img/ilustrasi_kamar.svg') }}" alt="Ilustrasi Properti">
+
                     </div>
                 </div>
 

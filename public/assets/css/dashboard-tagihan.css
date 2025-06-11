@@ -1,7 +1,13 @@
 .tagihan-main {
   display: block;
-}
+  width: 100%;
+  margin: 0 auto;
+   padding: 20px 60px 20px 20px;
+  max-width: 1200px;
 
+  
+}
+/*
 .status-belum-bayar {
       color: red;
       font-weight: 700;
@@ -26,4 +32,79 @@
       display: flex;
       margin: 0;
       background-color: #f8f9fa;
+    } */
+
+
+     .btn-add {
+      background-color: #37393b;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
     }
+    .btn-add i {
+      font-size: 18px;
+    }
+    .card {
+      border-top: 3px solid #37393b;
+    }
+    .card-header button {
+      background: none;
+      border: none;
+      font-size: 20px;
+      line-height: 1;
+      padding: 0 8px;
+    }
+    .card-header button:hover {
+      color: #37393b;
+      cursor: pointer;
+    }
+    form label {
+      font-weight: 600;
+    }
+    #formSection form {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    #formSection .btn-submit {
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+
+
+    /* #tagihanCard {
+  min-height: 300px; 
+   overflow-y: auto;
+} */
+
+#tagihanCardDefault, #tagihanCard {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+#tagihanCardDefault .card-body {
+  height: auto !important;
+  overflow: visible !important;
+  padding-bottom: 30px;
+}
+
+/* .card {
+  border: 2px dashed red;
+  background-color: lightyellow;
+}
+.tagihan-main {
+  border: 2px dashed blue;
+} */
+.card-header {
+  height: 50px;
+  padding: 16px;
+  overflow: visible;
+  position: relative;
+  z-index: 10;
+  color: 0C0C20;
+  
+}
