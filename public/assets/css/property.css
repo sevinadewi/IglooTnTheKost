@@ -30,6 +30,7 @@ html, body {
   max-width: 1200px;
   min-height: 80vh;
   overflow: hidden;
+  font-family: Arial, sans-serif;
 }
 
 .left, .right {
@@ -116,6 +117,7 @@ html, body {
             background-color: rgba(0, 0, 0, 0.5);
             justify-content: center;
             align-items: center;
+            z-index: 1000; /* Penting! agar modal di atas */
         }
 
         .modal-content {
@@ -123,11 +125,16 @@ html, body {
             padding: 20px;
             border-radius: 8px;
             max-width: 500px;
-            width: 100%;
+            max-height: 90vh;      /* supaya tidak melebihi layar */
+            overflow-y: auto;      /* bisa di-scroll jika panjang */
+            width: 90%;
+            box-sizing: border-box;
+            scrollbar-gutter: stable;
         }
 
         .modal.show {
             display: flex;
+            padding-right: 1rem; /* atau 16px */
         }
 
         /* Tambahan untuk checklist pada langkah yang selesai */

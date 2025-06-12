@@ -5,60 +5,138 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
+    {{-- <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="{{asset ('assets/css/property.css')}}">
-    <link rel="stylesheet" href="{{asset ('assets/css/style.css')}}">
-    {{-- <style>
-        .card-link {
-            text-decoration: none;
-            color: inherit;
+    <link rel="stylesheet" href="{{asset ('assets/css/style.css')}}"> --}}
+    <style>
+        .cards-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 40px 20px;
+        box-sizing: border-box;
+    }
+
+        .cards-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 20px;
+        justify-content: center;
         }
 
-        .card:hover {
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            transform: translateY(-5px);
-            transition: 0.3s;
+        .card, .card-plus {
+        width: 250px;
+        height: 300px;
+        background: #fcfbf8;
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        padding: 10px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
         }
-    </style> --}}
+
+        .card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 8px;
+        background-color: #FFF8E7;
+        }
+
+        .card h4 {
+        margin: 10px 0 0;
+        }
+
+        .card p {
+        margin: 5px 0 0;
+        }
+
+        .card-plus {
+        border: 2px dashed gold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 48px;
+        color: gold;
+        }
+
+        .edit-btn {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        background: rgb(84, 88, 105);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 4px 8px;
+        cursor: pointer;
+        font-size: 12px;
+        }
+
+        /* Modal */
+        .modal {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        }
+
+        .modal.show {
+        display: flex;
+        }
+
+        .modal-content {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 500px;
+        }
+
+        .modal-content input {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        }
+
+        .form-buttons {
+        display: flex;
+        justify-content: space-between;
+        }
+
+        .btn-save, .btn-cancel {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        }
+
+        .btn-save { background: green; color: white; }
+        .btn-cancel { background: red; color: white; }
+    </style>
 </head>
 <body>
     <div class="container">
         <h2>Daftar Properti</h2>
         <div class="row">
-            
-                {{-- <div class="col-md-4">
-                    <div class="card mb-3">
-                        <img src="{{ asset($property->foto) }}" class="card-img-top" alt="Foto Properti">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $property->nama }}</h5>
-                            <p class="card-text">{{ $property->alamat }}</p>
-                            <p class="card-text"><small class="text-muted">{{ $property->kota_kabupaten }}, {{ $property->provinsi }}</small></p>
-                        </div>
-                    </div>
-                </div> --}}
-
-                 {{-- <div class="col-md-4 mb-3">
-                    <a href="{{ route('property.dashboard', $property->id) }}" class="card-link">
-                        <div class="card h-100">
-                            <img src="{{ asset($property->foto) }}" class="card-img-top" alt="Foto Properti" style="height: 200px; object-fit: cover;">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $property->nama }}</h5>
-                                <p class="card-text">{{ $property->alamat }}</p>
-                                <p class="card-text">
-                                    <small class="text-muted">{{ $property->kotaKab }}, {{ $property->provinsi }}</small>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div> --}}
 
         <div class="cards-wrapper" id="cardsWrapper">
             <!-- Contoh card properti -->
             @foreach ($properties as $property)
             <div class="card">
                 <a href="{{ route('property.dashboard', $property->id) }}" class="card-link" >
-                <img src="{{ asset($property->foto) }}" alt="Properti" style="height: 50px; object-fit: cover; width: 100%;">
+                <img src="{{ asset($property->foto) }}" alt="Properti" >
                 <h4>{{ $property->nama }}</h4>
                 <p>{{ $property->alamat }}</p>
                 </a>
