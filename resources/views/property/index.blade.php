@@ -125,6 +125,7 @@
                                     <input type="text" id="nama" name="nama" placeholder="Nama">
                                     <input type="text" id="telepon" name="telepon" placeholder="No. Telepon">
                                     <input type="date" id="tanggal" name="tanggal">
+                                    <input type="email" id="email" name="email"  placeholder="email">
                                     
                                     <select name="room_id" id="roomSelect" required>
                                         <option value="">Pilih Kamar</option>

@@ -12,6 +12,7 @@ class Tenant extends Model
      protected $fillable = [
         'nama',
         'telepon',
+        'email',
         'tanggal',
         'room_id',
         'harga',

@@ -37,6 +37,7 @@ class TenantController extends Controller
             'nama' => 'required|string|max:255',
             'telepon' => 'required|string|max:20',
             'tanggal' => 'required|date',
+            'email' => 'nullable|email',
             'room_id' => 'required|exists:rooms,id',
         ]);
 
@@ -50,6 +51,7 @@ class TenantController extends Controller
             'room_id' => $room->id,
             'property_id' => $room->property_id,
             'harga' => $room->harga,
+            'email' => $request->email,
         ]);
 
         $room->update(['status' => 'terisi']);

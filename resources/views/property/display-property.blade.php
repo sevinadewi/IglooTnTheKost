@@ -10,6 +10,12 @@
     <link rel="stylesheet" href="{{asset ('assets/css/property.css')}}">
     <link rel="stylesheet" href="{{asset ('assets/css/style.css')}}"> --}}
     <style>
+
+        body {
+            background-color: #fff9db;
+            font-family: Arial, sans-serif;
+        }
+
         .cards-container {
         display: flex;
         justify-content: center;
@@ -17,6 +23,7 @@
         min-height: 100vh;
         padding: 40px 20px;
         box-sizing: border-box;
+        
     }
 
         .cards-wrapper {
@@ -48,12 +55,25 @@
         background-color: #FFF8E7;
         }
 
+
         .card h4 {
         margin: 10px 0 0;
         }
 
+        .card a {
+            text-decoration: none;
+            color: inherit; /* supaya warnanya tetap seperti teks biasa */
+        }
+
         .card p {
         margin: 5px 0 0;
+        }
+
+        .card h4 {
+            color: goldenrod;
+            margin: 10px 0 0;
+            font-size: 24px;
+            font-weight: bold;
         }
 
         .card-plus {
@@ -63,6 +83,11 @@
         align-items: center;
         font-size: 48px;
         color: gold;
+        }
+
+        .card:hover {
+            background-color: #fffbea;
+            transition: 0.3s;
         }
 
         .edit-btn {
@@ -128,7 +153,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>Daftar Properti</h2>
+        {{-- <h2>Daftar Properti</h2> --}}
         <div class="row">
 
         <div class="cards-wrapper" id="cardsWrapper">
