@@ -19,7 +19,7 @@ class TenantController extends Controller
     //     return $query->where('property_id', $propertyId);
     // })->get();
         $property = Property::findOrFail($propertyId);
-        $tenants = Tenant::with('room')->where('property_id', $propertyId)->get();
+        $tenants = Tenant::with('room')->where('property_id', $propertyId)->where('status', 'aktif')->get();
         $rooms = Room::where('property_id', $propertyId)->get();
 
         return view('dashboard.dashboard-penghuni', compact('tenants','rooms', 'property', 'propertyId'));
@@ -52,6 +52,7 @@ class TenantController extends Controller
             'property_id' => $room->property_id,
             'harga' => $room->harga,
             'email' => $request->email,
+            'status' => 'aktif'
         ]);
 
         $room->update(['status' => 'terisi']);
@@ -115,4 +116,18 @@ class TenantController extends Controller
 
         return view('dashboard.dashboard-penghuni', compact('tenants'));
     }
+
+    public function keluar(Tenant $tenant)
+    {
+    $tenant->update([
+        'status' => 'keluar'
+    ]);
+
+    if ($tenant->room) {
+        $tenant->room->update(['status' => 'kosong']);
+    }
+
+    return redirect()->back()->with('success', 'Penyewa telah keluar kos.');
+    }
+
 }

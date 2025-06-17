@@ -1,10 +1,49 @@
+
 :root {
       --sb-width: 250px;
     }
 
+    html, body {
+      height: 100vh;
+      overflow: hidden; /* Menghindari scroll */
+      margin: 0;
+      padding: 0;
+    }
+
+    .main-container {
+      height: calc(100vh - 150px); /* Atur sesuai ukuran top-bar + margin */
+      overflow: auto; //untuk scroll
+    }
     body.sb-collapsed {
       --sb-width: 80px;
     }
+
+    #pagination {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .pagination-btn {
+      padding: 6px 12px;
+      background-color: #eee;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .pagination-btn.active {
+      background-color: #fcd92c;
+      font-weight: bold;
+    }
+
+    .pagination-btn:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+
 
     .sidebar {
       width: var(--sb-width); /* ← ini kunci */
@@ -217,3 +256,27 @@
         padding: 8px;
         text-align: left;
     } */ */
+
+
+    .icon-btn {
+        background: none;
+    border: none;
+    padding: 4px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #333;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+    }
+
+    .icon-btn.edit {
+        color: #2a9d8f; /* warna hijau */
+    }
+
+    .icon-btn.delete {
+        color: #e63946; /* warna merah */
+    }
+
+   

@@ -57,7 +57,7 @@ class RoomController extends Controller
 
         
 
-        return redirect()->route('dashboard.dashboard-kamar', ['propertyId' => $request->property_id])->with('success', 'Kamar berhasil ditambahkan');
+        return redirect()->route('dashboard-kamar', ['id' => $request->property_id])->with('success', 'Kamar berhasil ditambahkan');
     }
 
     public function edit(Room $room)

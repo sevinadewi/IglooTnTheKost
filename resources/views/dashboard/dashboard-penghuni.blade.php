@@ -45,11 +45,14 @@
                         <i class='bx bx-money' ></i> Rp{{ number_format($tenant->harga, 0, ',', '.') }}
                         <div style="position:absolute; top:10px; right:10px;">
                             <a href="{{ route('tenants.edit', $tenant->id)}}"><i class='bx bx-edit-alt' ></i></button>
-                            <form action="{{ route('tenants.destroy', $tenant->id)}}" method="POST">
+                            <form action="{{ route('tenants.keluar', $tenant->id) }}" method="POST" style="display: inline;">
                                 @csrf
-                                @method('DELETE')
-                                <button type="submit" onclick="return confirm('Yakin ingin menghapus penyewa ini?')"><i class='bx bx-trash'></i></button>
+                                @method('PATCH')
+                                <button type="submit" onclick="return confirm('Yakin penyewa ini keluar kos?')">
+                                    <i class='bx bx-log-out'></i>
+                                </button>
                             </form>
+
                                 
                         </div>
                         {{-- <pre>{{ dd($tenant->room) }}</pre> --}}

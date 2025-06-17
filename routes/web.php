@@ -10,6 +10,9 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use App\Models\Tenant;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PengingatTagihanMail;
 
 
 
@@ -91,7 +94,8 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/dashboard-penghuni/{id}', [TenantController::class, 'index'])->name('dashboard-penghuni');
     // Route::get('/dashboard-kamar/{id}', [DashboardController::class, 'showRooms'])->name('dashboard.kamar');
     // web.php
-   
+    Route::patch('/tenants/{tenant}/keluar', [TenantController::class, 'keluar'])->name('tenants.keluar');
+
 
     Route::resource('rooms', RoomController::class);
 
@@ -141,4 +145,17 @@ Route::middleware('guest')->group(function (){
     Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLink'])->name('password.email');
     Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetPasswordForm'])->name('password.reset');
     Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])->name('password.update');
+});
+
+
+Route::get('/test-email/{tenantId}', function ($tenantId) {
+    $tenant = Tenant::findOrFail($tenantId);
+
+    if (!$tenant->email) {
+        return "Tenant ini belum memiliki email.";
+    }
+
+    Mail::to($tenant->email)->send(new PengingatTagihanMail($tenant));
+
+    return "Email pengingat berhasil dikirim ke " . $tenant->email;
 });

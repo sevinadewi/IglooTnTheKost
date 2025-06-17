@@ -41,6 +41,8 @@
 
     <!-- Main Content -->
     @yield('content')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <script>
     //   const resizeBtn = document.querySelector('[data-resize-btn]');

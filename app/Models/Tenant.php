@@ -16,7 +16,8 @@ class Tenant extends Model
         'tanggal',
         'room_id',
         'harga',
-        'property_id'
+        'property_id',
+        'status'
     ];
 
     // Relasi ke Kamar (opsional)

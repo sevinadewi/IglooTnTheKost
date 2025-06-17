@@ -452,6 +452,7 @@
     background: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
+   
 }
 
 .modal-content {
@@ -464,10 +465,18 @@
     gap: 0.5rem;
 }
 
+
+
 .modal-content input {
     padding: 0.5rem;
     border: 1px solid #D9D9D9;
     border-radius: 0.375rem;
+}
+
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* Menambahkan jarak antar elemen input */
 }
 
 .form-buttons {

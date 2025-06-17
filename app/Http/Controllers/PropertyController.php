@@ -125,6 +125,7 @@ class PropertyController extends Controller
             'room_id' => $room->id,
             'property_id' => $room->property_id,
             'harga' => $room->harga,
+            'status' => 'aktif'
         ]);
 
         $room->update(['status' => 'terisi']);
@@ -147,6 +148,19 @@ class PropertyController extends Controller
         $userId = Auth::id();
         $properties = Property::where('user_id', $userId)->get();
         return view('property.display-property', compact('properties'));
+    }
+
+    public function keluar(Tenant $tenant)
+    {
+    $tenant->update([
+        'status' => 'keluar'
+    ]);
+
+    if ($tenant->room) {
+        $tenant->room->update(['status' => 'kosong']);
+    }
+
+    return redirect()->back()->with('success', 'Penyewa telah keluar kos.');
     }
 
     
