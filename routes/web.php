@@ -6,6 +6,7 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TenantController;
+use App\Http\Controllers\BillController;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -15,26 +16,6 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\PengingatTagihanMail;
 
 
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
-
-// Route::get('/register', function(){
-//     return view('register');
-// });
-// Route::get('/login', function () {
-//     return view('login');
-// });
 Route::get('/profile', function () {
     return auth()->user()->name;
 })->middleware('verified');
@@ -48,9 +29,9 @@ Route::middleware(['auth', 'verified'])->group(function (){
 //     return view('dashboard.dashboard-index');
 //     });
 
-Route::get('/dashboard-tagihan', function () {
-    return view('dashboard.dashboard-tagihan');
-    });
+// Route::get('/dashboard-tagihan', function () {
+//     return view('dashboard.dashboard-tagihan');
+//     });
 
 Route::middleware(['auth'])->group(function (){
     // Route::get('/', function () {
@@ -61,19 +42,7 @@ Route::middleware(['auth'])->group(function (){
     return view('contohlogout');
     });
 
-    // Route::get('/property', function () {
-    // return view('property');
-    // });
 
-    // Route::get('/property', [PropertyController::class, 'index'])->name('property.index');
-    // Route::post('/property', [PropertyController::class, 'store'])->name('property.store');
-    // Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
-    // Route::get('/tenant', [TenantController::class, 'index'])->name('tenant.index');
-    // Route::get('/tenant/create', [TenantController::class, 'create'])->name('tenant.create');
-    // Route::post('/tenant/store', [TenantController::class, 'store'])->name('tenant.store');
-    // Route::get('/tenant/{tenant}/edit', [TenantController::class, 'edit'])->name('tenant.edit');
-    // Route::put('/tenant/{tenant}/update', [TenantController::class, 'update'])->name('tenant.update');
-    // Route::delete('/tenant/{tenant}/destroy', [TenantController::class, 'destroy'])->name('tenant.destroy');
     Route::get('/property', [PropertyController::class, 'index'])->name('property.index');
 
     Route::post('/property', [PropertyController::class, 'store'])->name('property.store');
@@ -113,6 +82,7 @@ Route::middleware(['auth'])->group(function (){
     
 
     // Route::get('/dashboard-penghuni/{propertyId}', [TenantController::class, 'showTenant'])->name('dashboard.dashboard-penghuni');
+    Route::get('/dashboard-tagihan/{propertyId}', [BillController::class, 'index'])->name('dashboard-tagihan');
 
 
 });

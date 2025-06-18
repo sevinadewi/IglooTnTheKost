@@ -15,6 +15,11 @@ class CreateBillsTable extends Migration
     {
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('tenant_id')->constrained()->onDelete('cascade');
+            $table->string('bulan'); // atau bisa enum/bulan numerik
+            $table->year('tahun');
+            $table->integer('jumlah'); // nominal tagihan dalam rupiah
+            $table->enum('status', ['lunas', 'belum_lunas'])->default('belum_lunas');
             $table->timestamps();
         });
     }

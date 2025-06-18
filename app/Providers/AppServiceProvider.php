@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer('layout.master', function ($view) {
         // $view->with('property', Property::select('id', 'nama')->first());
             // Coba ambil dari parameter route 'id' atau 'property_id'
-            $routeId = request()->route('id') ?? request()->route('property_id');
+            $routeId = request()->route('id') ?? request()->route('propertyId') ?? request()->route('property_id');
 
             if ($routeId) {
                 $property = Property::select('id', 'nama')->find($routeId);
