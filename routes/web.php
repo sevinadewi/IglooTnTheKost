@@ -53,6 +53,7 @@ Route::middleware(['auth'])->group(function (){
     Route::post('/property', [PropertyController::class, 'store'])->name('property.store');
     Route::get('/property/display-property', [PropertyController::class, 'showProperty'])->name('property.display-property');
     Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
+    Route::post('/penghuni', [TenantController::class, 'store'])->name('tenants.store');
 
     // Route::post('/tenant/store', [TenantController::class, 'store'])->name('tenant.store');
 
@@ -64,6 +65,7 @@ Route::middleware(['auth'])->group(function (){
     // Route::get('/dashboard-kamar/{id}', [DashboardController::class, 'showRooms'])->name('dashboard.kamar');
     // web.php
     Route::patch('/tenants/{tenant}/keluar', [TenantController::class, 'keluar'])->name('tenants.keluar');
+    
 
 
     Route::resource('rooms', RoomController::class);
@@ -71,7 +73,7 @@ Route::middleware(['auth'])->group(function (){
     Route::prefix('tenants')->name('tenants.')->group(function () {
         // Route::get('/', [TenantController::class, 'index'])->name('index');
         // Route::get('/create', [TenantController::class, 'create'])->name('create');
-        Route::post('/', [TenantController::class, 'store'])->name('store');
+        // Route::post('/', [TenantController::class, 'store'])->name('store');
         Route::get('/{tenant}/edit', [TenantController::class, 'edit'])->name('edit');
         Route::put('/{tenant}', [TenantController::class, 'update'])->name('update');
         Route::delete('/{tenant}', [TenantController::class, 'destroy'])->name('destroy');

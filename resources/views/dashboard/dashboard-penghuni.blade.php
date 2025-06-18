@@ -63,6 +63,31 @@
             
             </div>
         </main>
+        
+            {{-- NOTIFIKASI SUCCESS --}}
+        @if(session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        </script>
+        @endif
+
+        {{-- NOTIFIKASI ERROR --}}
+        @if($errors->any())
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                html: `{!! implode('<br>', $errors->all()) !!}`
+            });
+        </script>
+        @endif
+
         <script>
             function toogleAddModal() {
                 const modal = document.getElementById('tenantModal');
@@ -101,3 +126,4 @@
             setUpHargaOtomatis();
         </script>
 @endsection
+

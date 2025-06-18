@@ -12,6 +12,10 @@
       {{-- <button class="btn-add" id="addRoomBtn">
         <i class='bx bx-edit-alt'></i> Buat Tagihan
       </button> --}}
+      <div class="alert alert-info mx-4 mt-3" style="margin-bottom: 8px;">
+        <i class='bx bx-info-circle'></i>
+        Tagihan otomatis telah dijadwalkan dan akan dikirim ke penyewa setiap bulan sesuai tanggal jatuh tempo.
+    </div>
     </div>
 
     <!-- Card form default -->

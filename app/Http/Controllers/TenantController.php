@@ -11,34 +11,30 @@ class TenantController extends Controller
 {
     public function index($propertyId)
     {
-    //     $propertyId = $request->query('property_id');
-    //     $tenants = Tenant::with('room')->when($propertyId, function ($query) use ($propertyId) {
-    //     return $query->where('property_id', $propertyId);
-    // })->get();
-    //     $rooms = Room::when($propertyId, function ($query) use ($propertyId) {
-    //     return $query->where('property_id', $propertyId);
-    // })->get();
+   
         $property = Property::findOrFail($propertyId);
         $tenants = Tenant::with('room')->where('property_id', $propertyId)->where('status', 'aktif')->get();
-        $rooms = Room::where('property_id', $propertyId)->get();
+        $rooms = Room::where('property_id', $propertyId)->where('status', 'kosong')->get();
 
         return view('dashboard.dashboard-penghuni', compact('tenants','rooms', 'property', 'propertyId'));
     }
 
-    // public function create()
-    // {
-    //     $rooms = Room::where('status', 'kosong')->get();
-    //     return view('tenants.create', compact('rooms'));
-    // }
+    public function create()
+    {
+        $rooms = Room::where('status', 'kosong')->get();
+        return view('tenants.create', compact('rooms'));
+    }
 
     public function store(Request $request)
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'telepon' => 'required|string|max:20',
+            'telepon' => 'required|string|max:20|unique:tenants,telepon',
             'tanggal' => 'required|date',
             'email' => 'nullable|email',
             'room_id' => 'required|exists:rooms,id',
+        ],[
+            'telepon.unique' => 'Nomor telepon ini sudah digunakan oleh penyewa lain.'
         ]);
 
         $room = Room::findOrFail($request->room_id);
@@ -58,7 +54,7 @@ class TenantController extends Controller
         $room->update(['status' => 'terisi']);
 
         // return redirect()->route('dashboard.dashboard-penghuni', ['propertyId' => $room->property_id])->with('success', 'Penyewa berhasil ditambahkan');
-        return redirect()->route('dashboard.dashboard-penghuni', ['propertyId' => $room->property_id])
+        return redirect()->route('dashboard-penghuni', ['id' => $room->property_id])
                      ->with('success', 'Penyewa berhasil ditambahkan');
     }
 

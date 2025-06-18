@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css" />
   <link rel="stylesheet" href="assets/vendor/boxicons/css/boxicons.min.css" />
   <link rel="stylesheet" href="{{ asset ('assets/css/dashboard-index.css')}}">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href=" {{ asset ('assets/css/style.css')}}">
   @yield('styles')
 </head>
