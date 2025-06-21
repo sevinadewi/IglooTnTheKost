@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Property;
+use App\Models\Tenant;
 use App\Models\Room;
 use Illuminate\Http\Request;
 
@@ -10,8 +11,23 @@ class DashboardController extends Controller
     public function show($id)
     {
         $property = Property::findOrFail($id);
-        return view('dashboard.dashboard-index', compact('property'));
-    }
+        $totalKamar = $property->rooms->count();
+         // Hitung penghuni aktif dan non-aktif
+        $penghuniAktif = Tenant::where('property_id', $id)
+                            ->where('status', 'aktif')
+                            ->count();
+
+        $penghuniNonAktif = Tenant::where('property_id', $id)
+                                ->where('status', 'non-aktif')
+                                ->count();
+
+        return view('dashboard.dashboard-index', compact(
+            'property',
+            'totalKamar',
+            'penghuniAktif',
+            'penghuniNonAktif'
+        ));
+        }
 
     public function showRooms($id)
     {
@@ -23,4 +39,6 @@ class DashboardController extends Controller
 
     return view('dashboard.dashboard-kamar', compact('property', 'rooms'));
     }
+   
+
 }
