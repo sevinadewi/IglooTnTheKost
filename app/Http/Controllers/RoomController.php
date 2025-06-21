@@ -94,7 +94,9 @@ class RoomController extends Controller
             'gambar' => $room->gambar,
         ]);
 
-        return redirect()->route('rooms.index')->with('success', 'Kamar berhasil diperbarui');
+        $room->save();
+
+       return redirect()->back()->with('success', 'Data kamar berhasil diperbarui.');
     }
 
     public function destroy(Room $room)

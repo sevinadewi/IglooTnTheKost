@@ -81,7 +81,40 @@
                    </form>
                 </div>
             </div>
+        </div>
+
+        <div id="editRoomModal" class="modal">
+            <div class="modal-content">
+                <form id="editRoomForm" method="POST"  enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <h3>Edit Kamar</h3>
+                <input type="hidden" name="property_id" value="{{ $property->id }}">
+               <input type="text" id="editRoomName" name="nama" placeholder="Nama Kamar" required>
+
+                <input type="text" id="editRoomFacilities" name="fasilitas" placeholder="Fasilitas (pisahkan dengan koma)">
+
+                <input type="number" id="editRoomPrice" name="harga" placeholder="Harga" required>
+
+                <select id="editRoomStatus" name="status">
+                    <option value="Kosong">Kosong</option>
+                    <option value="Terisi">Terisi</option>
+                </select>
+
+                <input type="file" id="editRoomImage" name="gambar" accept="image/*">
+
+                {{-- Preview gambar lama --}}
+                <div id="editRoomImagePreview" style="margin-top: 10px;">
+                    <img src="" id="currentRoomImage" alt="Gambar kamar" style="max-width: 100px; display:none;">
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn-save">Simpan</button>
+                    <button type="button" onclick="hideForm('editRoomModal')" class="btn-cancel">Batal</button>
+                </div>
+                </form>
             </div>
+        </div>
 
 </div>
 <script>

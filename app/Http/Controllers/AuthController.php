@@ -49,7 +49,7 @@ class AuthController extends Controller
             }
 
             // Jika sudah login dan sudah verifikasi, arahkan ke halaman
-            return redirect('/login');
+            return redirect('login');
         }
         return view('register');
     }

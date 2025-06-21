@@ -90,7 +90,7 @@ Route::middleware(['auth'])->group(function (){
 });
 
 // Auth pages
-Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticating']);
 Route::get('/register', [AuthController::class, 'register']);
 Route::post('/register', [AuthController::class, 'createUser']);

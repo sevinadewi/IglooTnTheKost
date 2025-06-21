@@ -7,8 +7,8 @@
     <title>Document</title>
     {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
     {{-- <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="{{asset ('assets/css/property.css')}}">
-    <link rel="stylesheet" href="{{asset ('assets/css/style.css')}}"> --}}
+    {{-- <link rel="stylesheet" href="{{asset ('assets/css/property.css')}}"> --}}
+    {{-- <link rel="stylesheet" href="{{asset ('assets/css/style.css')}}">  --}}
     <style>
 
         body {
@@ -103,52 +103,95 @@
         font-size: 12px;
         }
 
-        /* Modal */
-        .modal {
-        display: none;
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        }
 
-        .modal.show {
-        display: flex;
-        }
+ /* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* backdrop gelap */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
 
-        .modal-content {
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        width: 90%;
-        max-width: 500px;
-        }
+.modal.show {
+    display: flex;
+    padding-right: 1rem; /* menghindari loncatan scrollbar */
+}
 
-        .modal-content input {
-        width: 100%;
-        margin-bottom: 10px;
-        padding: 8px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
-        }
+.modal-content {
+    background-color: #fff; /* sama seperti .card */
+    padding: 1.25rem;
+    border-radius: 0.75rem; /* sama seperti .card-person */
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* serasi dengan .card */
+    scrollbar-gutter: stable;
+    font-family: Arial, sans-serif;
+}
 
-        .form-buttons {
-        display: flex;
-        justify-content: space-between;
-        }
+/* SCROLLBAR custom agar konsisten */
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
 
-        .btn-save, .btn-cancel {
-        padding: 8px 16px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        }
+.modal-content::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
 
-        .btn-save { background: green; color: white; }
-        .btn-cancel { background: red; color: white; }
+/* FORM DALAM MODAL */
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.btn-save,
+.btn-cancel {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.375rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-save {
+    background-color: #000;
+    color: #fff;
+}
+
+.btn-cancel {
+    background-color: #EBC005;
+    border: 1px solid #000;
+    color: #000;
+}
+
+
+
     </style>
 </head>
 <body>
@@ -173,18 +216,58 @@
             </div>
         </div>
 
-        <div class="modal" id="propertyModal">
+
+        <div id="propertyModal" class="modal" role="dialog" aria-modal="true">
             <div class="modal-content">
-                <h3>Tambah Properti Baru</h3>
-                <input type="text" id="propertyName" placeholder="Nama Properti">
-                <input type="text" id="propertyAddress" placeholder="Alamat Properti">
-                <input type="text" id="propertyImage" placeholder="Link Gambar">
-                <div class="form-buttons">
-                <button class="btn-save" id="saveProperty">Simpan</button>
-                <button class="btn-cancel" id="cancelProperty">Batal</button>
-                </div>
+                <form action="{{ route('property.store')}}" method="POST" enctype="multipart/form-data">
+                @csrf
+                    <h3 id="formTitle">Tambah properti baru</h3>
+                    {{-- <input type="hidden" id="editingIndex"> --}}
+                    <div class="form-group">
+                        <label for="properti">Nama Properti</label>
+                        <input type="text" id="properti" name="properti" placeholder="Nama Properti *" value="{{ old('properti') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="alamat">Alamat</label>
+                        <input type="text" id="alamat" name="alamat" placeholder="Alamat *" value="{{ old('alamat') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="kodePos">Kode Pos</label>
+                        <input type="text" id="kodePos" name="kodePos" placeholder="Kode pos *" value="{{ old('kodePos') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="provinsi">Provinsi</label>
+                        <input type="text" id="provinsi" name="provinsi" placeholder="Provinsi *" value="{{ old('provinsi') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="kotaKab">Kota/Kabupaten</label>
+                        <input type="text" id="kotaKab" name="kotaKab" placeholder="Kota/Kabupaten *" value="{{ old('kotaKab') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="kec">Kecamatan</label>
+                        <input type="text" id="kec" name="kec" placeholder="Kecamatan *" value="{{ old('kec') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="kel">Kelurahan</label>
+                        <input type="text" id="kel" name="kel" placeholder="Kelurahan *" value="{{ old('kel') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nomor">Whatsapp Admin Properti</label>
+                        <input type="text" id="nomor" name="no_wa" placeholder="Whatsapp Admin Properti" value="{{ old('no_wa') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="foto">Foto Kos</label>
+                        <input type="file" id="foto" name="foto"  accept="image/*">
+                    </div>
+                    <input type="hidden" name="redirect_to" value="display">
+                    <div class="form-buttons">
+                        <button type="submit" class="btn-save">Simpan</button>
+                        <button type="button" onclick="hideForm('propertyModal')" class="btn-cancel">Batal</button>
+                    </div>
+                </form>
             </div>
         </div>
+
             
         </div>
     </div>
@@ -201,12 +284,14 @@
         addBtn.addEventListener("click", () => {
             modal.style.display = "flex";
         });
-        cancelBtn.addEventListener("click", () => {
-        modal.style.display = "none";
-        nameInput.value = "";
-        addressInput.value = "";
-        imageInput.value = "";
-        });
+        function hideForm(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'none';
+  }
+}
+
+
 
         
     </script>

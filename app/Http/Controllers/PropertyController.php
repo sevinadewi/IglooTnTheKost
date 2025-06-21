@@ -62,6 +62,11 @@ class PropertyController extends Controller
         session(['currentStep' => 2]);
         session(['property_id' => $property->id]);
 
+        // Tentukan redirect berdasarkan input
+        if ($request->redirect_to === 'display') {
+            return redirect()->route('property.display-property', ['id' => $property->id])
+                            ->with('success', 'Properti berhasil ditambahkan.');
+        }
         return redirect()->route('property.index')->with('success', 'Properti berhasil ditambahkan.');
     }
 
