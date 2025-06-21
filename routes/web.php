@@ -85,6 +85,7 @@ Route::middleware(['auth'])->group(function (){
 
     // Route::get('/dashboard-penghuni/{propertyId}', [TenantController::class, 'showTenant'])->name('dashboard.dashboard-penghuni');
     Route::get('/dashboard-tagihan/{propertyId}', [BillController::class, 'index'])->name('dashboard-tagihan');
+    Route::patch('/bills/{bill}/status', [BillController::class, 'updateStatus'])->name('bills.updateStatus');
 
 
 });

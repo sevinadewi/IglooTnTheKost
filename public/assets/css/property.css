@@ -132,6 +132,16 @@ html, body {
             scrollbar-gutter: stable;
         }
 
+        /* SCROLLBAR custom agar konsisten */
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
         .modal.show {
             display: flex;
             padding-right: 1rem; /* atau 16px */

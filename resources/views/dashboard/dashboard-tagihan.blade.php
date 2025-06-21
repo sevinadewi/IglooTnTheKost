@@ -88,7 +88,7 @@
     @if(isset($bills) && count($bills) > 0)
     <div id="tabelTagihan" class="mx-4 mt-4" style="display: {{ (request('bulan') && request('tahun')) ? 'block' : 'none' }}">
 
-      <div class="mt-4">
+      {{-- <div class="mt-4">
         <table class="table table-bordered">
           <thead class="table-light">
             <tr>
@@ -113,35 +113,99 @@
             @endforeach
           </tbody>
         </table>
-      </div>
-      </div>
-    @elseif(request('bulan') && request('tahun'))
+      </div> --}}
+      <!-- Modal Tabel -->
+    <div class="modal fade" id="tableModal" tabindex="-1" aria-labelledby="tableModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="tableModalLabel">Tabel Tagihan Lengkap</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="scroll-wrapper">
+              <table class="table table-bordered">
+                <thead class="table-light">
+                  <tr>
+                    <th>No</th>
+                    <th>Nama Penyewa</th>
+                    <th>Bulan</th>
+                    <th>Tahun</th>
+                    <th>Jumlah</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach($bills as $index => $bill)
+                    <tr>
+                      <td>{{ $index + 1 }}</td>
+                      <td>{{ $bill->tenant->nama ?? '-' }}</td>
+                      <td>{{ DateTime::createFromFormat('!m', $bill->bulan)->format('F') }}</td>
+                      <td>{{ $bill->tahun }}</td>
+                      <td>Rp{{ number_format($bill->jumlah, 0, ',', '.') }}</td>
+                      <td>
+                        <form method="POST" action="{{ route('bills.updateStatus', $bill->id) }}">
+                          @csrf
+                          @method('PATCH')
+                          <select name="status" class="form-select form-select-sm 
+                            {{ $bill->status == 'lunas' ? 'text-success' : 'text-danger' }}" 
+                            onchange="this.form.submit()">
+                            <option value="belum lunas" {{ $bill->status == 'belum lunas' ? 'selected' : '' }}>Belum Lunas</option>
+                            <option value="lunas" {{ $bill->status == 'lunas' ? 'selected' : '' }}>Lunas</option>
+                          </select>
+                        </form>
+                      </td>
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+         @elseif(request('bulan') && request('tahun'))
       <div class="alert alert-warning mt-4">Tidak ada data tagihan untuk bulan dan tahun ini.</div>
     @endif
+        </div>
+      </div>
+      
+    </div>
+
+    </div>
+   
 
 
   
   </div>
-     
+     @if(request('bulan') && request('tahun') && isset($bills) && count($bills) > 0)
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          var tableModal = new bootstrap.Modal(document.getElementById('tableModal'));
+          tableModal.show();
+        });
+      </script>
+    @endif
+
      <!-- Script untuk menampilkan data -->
      <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-  <script>
-    document.getElementById('formBulanTahunDefault').addEventListener('submit', function (e) {
-    const bulan = document.getElementById('bulanDefault').value;
-    const tahun = document.getElementById('tahunDefault').value;
+     
+      <script>
+        document.getElementById('formBulanTahunDefault').addEventListener('submit', function (e) {
+        const bulan = document.getElementById('bulanDefault').value;
+        const tahun = document.getElementById('tahunDefault').value;
 
-    if (!bulan || !tahun) {
-      e.preventDefault();
-      alert('Mohon pilih bulan dan tahun terlebih dahulu.');
-    }
-  });
-  </script>
+        if (!bulan || !tahun) {
+          e.preventDefault();
+          alert('Mohon pilih bulan dan tahun terlebih dahulu.');
+        }
+      });
+      </script>
 
   <!-- Collapse Sidebar Script -->
-  <script>
-    document.querySelector('[data-resize-btn]').addEventListener('click', function(e) {
-      e.preventDefault();
-      document.body.classList.toggle('sb-collapsed');
-    });
-  </script>
+    <script>
+      document.querySelector('[data-resize-btn]').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.body.classList.toggle('sb-collapsed');
+      });
+    </script>
 @endsection

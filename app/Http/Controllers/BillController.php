@@ -20,6 +20,21 @@ class BillController extends Controller
     $tenants = Tenant::where('property_id', $propertyId)->get();
 
     foreach ($tenants as $tenant) {
+
+        if (!$tenant->tanggal) {
+        continue; // skip jika tanggal kosong
+        }
+        $tanggalMasuk = \Carbon\Carbon::parse($tenant->tanggal);
+        $bulanMasuk = (int) $tanggalMasuk->format('m');
+        $tahunMasuk = (int) $tanggalMasuk->format('Y');
+
+         // Lewati tenant yang belum masuk
+        if (
+            $tahunMasuk > (int)$tahun ||
+            ($tahunMasuk == (int)$tahun && $bulanMasuk > (int)$bulan)
+        ) {
+            continue;
+        }
         // Cek apakah tagihan sudah ada
         $existingBill = Bill::where('tenant_id', $tenant->id)
                             ->where('bulan', $bulan)
@@ -39,8 +54,12 @@ class BillController extends Controller
     }
 
     // Ambil semua tagihan setelah proses di atas
-    $bills = Bill::whereHas('tenant', function($query) use ($propertyId) {
-        $query->where('property_id', $propertyId);
+    // $bills = Bill::whereHas('tenant', function($query) use ($propertyId) {
+    //     $query->where('property_id', $propertyId);
+    // })
+    $bills = Bill::whereHas('tenant', function($query) use ($propertyId, $bulan, $tahun) {
+        $query->where('property_id', $propertyId)
+          ->whereDate('tanggal', '<=', "$tahun-$bulan-01");
     })
     ->with('tenant.room')
     ->where('bulan', $bulan)
@@ -49,5 +68,19 @@ class BillController extends Controller
 
     return view('dashboard.dashboard-tagihan', compact('bills', 'bulan', 'tahun', 'property', 'propertyId'));
 }
+
+
+public function updateStatus(Request $request, Bill $bill)
+{
+    $request->validate([
+        'status' => 'required|in:lunas,belum lunas',
+    ]);
+
+    $bill->status = $request->status;
+    $bill->save();
+
+    return back()->with('success', 'Status tagihan berhasil diperbarui.');
+}
+
 
 }
