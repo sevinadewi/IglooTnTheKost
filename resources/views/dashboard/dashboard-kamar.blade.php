@@ -49,11 +49,17 @@
                                         onclick="openEditModal({{ $room->id }}, '{{ $room->nama }}', '{{ implode(',', is_array($room->fasilitas) ? $room->fasilitas : json_decode($room->fasilitas)) }}', {{ $room->harga }}, '{{ $room->status }}', '{{ asset('storage/' . $room->gambar) }}')">
                                         <i class='bx bx-edit-alt'></i>
                                     </button>
-                                    <form action="{{ route('rooms.destroy', $room->id) }}" method="POST" style="display:inline">
+                                    <form method="POST" 
+                                        action="{{ route('rooms.destroy', $room->id) }}" 
+                                        style="display:inline"
+                                        onsubmit="return confirmDelete(event, '{{ strtolower($room->status) }}')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="icon-btn delete" onclick="return confirm('Yakin ingin menghapus?')"><i class='bx bx-trash'></i></button>
+                                        <button type="submit" class="icon-btn delete">
+                                            <i class='bx bx-trash'></i>
+                                        </button>
                                     </form>
+
                                 </td>
                             </tr>
                             
@@ -113,7 +119,7 @@
 
                 <div class="form-buttons">
                     <button type="submit" class="btn-save">Simpan</button>
-                    <button type="button" onclick="hideForm('editRoomModal')" class="btn-cancel">Batal</button>
+                    <button type="button" onclick="hideEditModal()" class="btn-cancel">Batal</button>
                 </div>
                 </form>
             </div>
@@ -123,24 +129,60 @@
 
 <script>
             function openEditModal(id, nama, fasilitas, harga, status, gambarUrl) {
-            const form = document.getElementById('editRoomForm');
-            form.action = `/rooms/${id}`; // Ini sangat penting!
+                const form = document.getElementById('editRoomForm');
+                form.action = `/rooms/${id}`; // Ini sangat penting!
 
-            document.getElementById('editRoomName').value = nama;
-            document.getElementById('editRoomFacilities').value = fasilitas;
-            document.getElementById('editRoomPrice').value = harga;
-            document.getElementById('editRoomStatus').value = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+                document.getElementById('editRoomName').value = nama;
+                document.getElementById('editRoomFacilities').value = fasilitas;
+                document.getElementById('editRoomPrice').value = harga;
+                document.getElementById('editRoomStatus').value = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
 
-            const previewImg = document.getElementById('currentRoomImage');
-            if (gambarUrl && gambarUrl !== 'null') {
-                previewImg.src = gambarUrl;
-                previewImg.style.display = 'block';
-            } else {
-                previewImg.style.display = 'none';
+                const previewImg = document.getElementById('currentRoomImage');
+                if (gambarUrl && gambarUrl !== 'null') {
+                    previewImg.src = gambarUrl;
+                    previewImg.style.display = 'block';
+                } else {
+                    previewImg.style.display = 'none';
+                }
+
+                document.getElementById('editRoomModal').style.display = 'block';
             }
 
-            document.getElementById('editRoomModal').style.display = 'block';
-        }
+            function hideEditModal() {
+                document.getElementById('editRoomModal').style.display = 'none';
+            }
+
+            function confirmDelete(event, status) {
+                if (status === 'terisi') {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Kamar tidak bisa dihapus!',
+                        text: 'Kamar dalam keadaan terisi dan tidak dapat dihapus.',
+                        confirmButtonText: 'Oke'
+                    });
+                    event.preventDefault();
+                    return false;
+                }
+
+                event.preventDefault();
+                Swal.fire({
+                    title: 'Yakin ingin menghapus kamar ini?',
+                    text: "Data tidak dapat dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        event.target.submit();
+                    }
+                });
+
+                return false;
+            }
+
 
 </script>
 <script>

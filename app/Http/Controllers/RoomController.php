@@ -69,7 +69,7 @@ class RoomController extends Controller
     {
         $fasilitasArray = array_map('trim', explode(',', $request->input('fasilitas')));
         $request->merge(['fasilitas' => $fasilitasArray]);
-        
+
         $request->validate([
             'property_id' => 'required|exists:properties,id',
             'nama' => 'required|string|max:255',
@@ -104,22 +104,30 @@ class RoomController extends Controller
 
     public function destroy(Room $room)
     {
+         // Cek jika kamar sedang terisi
+        if (strcasecmp($room->status, 'Terisi') === 0) {
+        return back()->with('error', 'Kamar tidak bisa dihapus karena sedang terisi.');
+        }
+
+        $propertyId = $room->property_id;
+
         if ($room->gambar && Storage::disk('public')->exists($room->gambar)) {
             Storage::disk('public')->delete($room->gambar);
         }
 
         $room->delete();
 
-        return redirect()->route('rooms.index')->with('success', 'Kamar berhasil dihapus');
+        return redirect()->route('dashboard-kamar', ['id' => $propertyId])
+        ->with('success', 'Kamar berhasil dihapus.');
     }
 
     public function dashboardViewByProperty($propertyId)
-{
-    $property = \App\Models\Property::with('rooms')->findOrFail($propertyId);
-    $rooms = $property->rooms;
+    {
+        $property = \App\Models\Property::with('rooms')->findOrFail($propertyId);
+        $rooms = $property->rooms;
 
-    return view('dashboard.dashboard-kamar', compact('property', 'rooms'));
-}
+        return view('dashboard.dashboard-kamar', compact('property', 'rooms'));
+    }
 
 
     public function listByProperty($propertyId)
