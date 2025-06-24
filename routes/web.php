@@ -68,7 +68,9 @@ Route::middleware(['auth'])->group(function (){
     
 
 
-    Route::resource('rooms', RoomController::class);
+    Route::resource('rooms', RoomController::class)->except(['edit', 'create', 'show']);
+    Route::put('/rooms/{room}', [RoomController::class, 'update'])->name('rooms.update');
+
 
     Route::prefix('tenants')->name('tenants.')->group(function () {
         // Route::get('/', [TenantController::class, 'index'])->name('index');

@@ -36,5 +36,83 @@
               <div class="card-footer">More Info <i class='bx bx-right-arrow-alt'></i></div>
             </div>
           </div>
-  
+        </div>
+    
+
+        <div style="margin-top: 40px;">
+            <h4>📈 Jumlah Penghuni Aktif per Bulan</h4>
+            <canvas id="penghuniBulananChart"></canvas>
+        </div>
+
+        <div style="margin-top: 40px;">
+            <h4>💰 Total Pemasukan Kos per Bulan</h4>
+            <canvas id="pemasukanBulananChart"></canvas>
+        </div>
+
+        
+
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const bulanLabels = {!! json_encode($tenantsPerMonth->pluck('bulan')) !!};
+const penghuniData = {!! json_encode($tenantsPerMonth->pluck('jumlah_penghuni')) !!};
+const pemasukanData = {!! json_encode($tenantsPerMonth->pluck('total_pemasukan')) !!};
+
+// Grafik penghuni per bulan
+new Chart(document.getElementById('penghuniBulananChart'), {
+    type: 'bar',
+    data: {
+        labels: bulanLabels,
+        datasets: [{
+            label: 'Jumlah Penghuni Aktif',
+            data: penghuniData,
+            backgroundColor: '#36A2EB'
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false },
+            title: { display: false }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: { precision: 0 }
+            }
+        }
+    }
+});
+
+// Grafik pemasukan per bulan
+new Chart(document.getElementById('pemasukanBulananChart'), {
+    type: 'line',
+    data: {
+        labels: bulanLabels,
+        datasets: [{
+            label: 'Total Pemasukan',
+            data: pemasukanData,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: '#4BC0C0',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.3
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'top' },
+            title: { display: false }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+
+
 @endsection

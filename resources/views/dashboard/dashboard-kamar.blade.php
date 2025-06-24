@@ -45,7 +45,10 @@
                                 <td>Rp{{ number_format($room->harga, 0, ',', '.')}}</td>
                                 <td>{{ $room->status }}</td>
                                 <td>
-                                    <a href="{{ route('rooms.edit', $room->id) }}" class="icon-btn edit"><i class='bx bx-edit-alt'></i></a>
+                                    <button type="button" class="icon-btn edit"
+                                        onclick="openEditModal({{ $room->id }}, '{{ $room->nama }}', '{{ implode(',', is_array($room->fasilitas) ? $room->fasilitas : json_decode($room->fasilitas)) }}', {{ $room->harga }}, '{{ $room->status }}', '{{ asset('storage/' . $room->gambar) }}')">
+                                        <i class='bx bx-edit-alt'></i>
+                                    </button>
                                     <form action="{{ route('rooms.destroy', $room->id) }}" method="POST" style="display:inline">
                                         @csrf
                                         @method('DELETE')
@@ -117,6 +120,29 @@
         </div>
 
 </div>
+
+<script>
+            function openEditModal(id, nama, fasilitas, harga, status, gambarUrl) {
+            const form = document.getElementById('editRoomForm');
+            form.action = `/rooms/${id}`; // Ini sangat penting!
+
+            document.getElementById('editRoomName').value = nama;
+            document.getElementById('editRoomFacilities').value = fasilitas;
+            document.getElementById('editRoomPrice').value = harga;
+            document.getElementById('editRoomStatus').value = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+
+            const previewImg = document.getElementById('currentRoomImage');
+            if (gambarUrl && gambarUrl !== 'null') {
+                previewImg.src = gambarUrl;
+                previewImg.style.display = 'block';
+            } else {
+                previewImg.style.display = 'none';
+            }
+
+            document.getElementById('editRoomModal').style.display = 'block';
+        }
+
+</script>
 <script>
             function toggleAddModal() {
                 const modal = document.getElementById('roomModal');
@@ -215,19 +241,33 @@
 </script>
         
 
-        @if ($errors->any())
+   
 <script>
+ 
     document.addEventListener('DOMContentLoaded', function () {
-        let errorMessages = `{{ implode('\n', $errors->all()) }}`;
+        @if ($errors->any())
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal Menyimpan!',
+                html: `{!! implode('<br>', $errors->all()) !!}`,
+                confirmButtonText: 'Oke'
+            });
+        @endif
 
-        Swal.fire({
-            icon: 'error',
-            title: 'Gagal Menyimpan!',
-            html: `{!! implode('<br>', $errors->all()) !!}`,
-            confirmButtonText: 'Oke'
-        });
+        @if (session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                confirmButtonText: 'Oke'
+            });
+        @endif
     });
+
+
+
+     
 </script>
-@endif
+
 
 @endsection

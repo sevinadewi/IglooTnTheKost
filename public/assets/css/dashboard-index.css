@@ -11,8 +11,8 @@
     }
 
     .main-container {
-      height: calc(100vh - 150px); /* Atur sesuai ukuran top-bar + margin */
-      overflow: auto; //untuk scroll
+      height: 100vh;
+  overflow-y: auto;
     }
     body.sb-collapsed {
       --sb-width: 80px;
@@ -46,12 +46,20 @@
 
 
     .sidebar {
-      width: var(--sb-width); /* ← ini kunci */
+      width: var(--sb-width); 
       background: #f4f4f4;
       padding: 20px;
       box-shadow: 2px 0 5px rgba(0,0,0,0.1);
       transition: width 0.3s ease;
     }
+    /* Main container geser ke kanan dan scrollable */
+.main-content {
+  /* agar tidak tertutup sidebar */
+  height: 100vh;
+  overflow-y: auto;
+  padding: 30px;
+  box-sizing: border-box;
+}
 
 
     .sidebar a span {
@@ -280,3 +288,6 @@
     }
 
    
+
+
+    

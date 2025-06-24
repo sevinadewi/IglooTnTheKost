@@ -67,6 +67,9 @@ class RoomController extends Controller
 
     public function update(Request $request, Room $room)
     {
+        $fasilitasArray = array_map('trim', explode(',', $request->input('fasilitas')));
+        $request->merge(['fasilitas' => $fasilitasArray]);
+        
         $request->validate([
             'property_id' => 'required|exists:properties,id',
             'nama' => 'required|string|max:255',
