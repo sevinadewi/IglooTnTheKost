@@ -60,7 +60,13 @@ class TenantController extends Controller
 
     public function edit(Tenant $tenant)
     {
-        $rooms = Room::where('status', 'kosong')->orWhere('id', $tenant->room_id)->get();
+          // Ambil kamar yang kosong ATAU kamar yang sedang ditempati oleh tenant ini
+        $rooms = Room::where('property_id', $tenant->property_id)
+                ->where(function ($query) use ($tenant) {
+                    $query->where('status', 'kosong')
+                        ->orWhere('id', $tenant->room_id);
+                })->get();
+
         return view('tenants.edit', compact('tenant', 'rooms'));
     }
 
@@ -68,8 +74,9 @@ class TenantController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'telepon' => 'required|string|max:20',
+            'telepon' => 'required|string|max:20|unique:tenants,telepon,' . $tenant->id,
             'tanggal' => 'required|date',
+            'email' => 'nullable|email',
             'room_id' => 'required|exists:rooms,id',
         ]);
 
@@ -90,9 +97,12 @@ class TenantController extends Controller
             'tanggal' => $request->tanggal,
             'room_id' => $request->room_id,
             'harga' => $tenant->harga,
+            'email' => $request->email,
         ]);
 
-        return redirect()->route('tenants.index')->with('success', 'Data penyewa berhasil diperbarui');
+        $tenant->save();
+
+       return redirect()->back()->with('success', 'Data kamar berhasil diperbarui.');
     }
 
     public function destroy(Tenant $tenant)
@@ -115,15 +125,15 @@ class TenantController extends Controller
 
     public function keluar(Tenant $tenant)
     {
-    $tenant->update([
-        'status' => 'keluar'
-    ]);
+        $tenant->update([
+            'status' => 'keluar'
+        ]);
 
-    if ($tenant->room) {
-        $tenant->room->update(['status' => 'kosong']);
-    }
+        if ($tenant->room) {
+            $tenant->room->update(['status' => 'kosong']);
+        }
 
-    return redirect()->back()->with('success', 'Penyewa telah keluar kos.');
+        return redirect()->back()->with('success', 'Penyewa telah keluar kos.');
     }
 
 }

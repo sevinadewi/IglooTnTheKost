@@ -6,6 +6,7 @@
                         <i class='bx bx-search'></i>
                         <input type="text" id="searchInput" placeholder="Cari Penyewa" class="search-input">
                     </div>
+                    <button onclick="" class="">History Penyewa</button>
                     <button onclick="toogleAddModal()" class="btn-add">+ Tambah Penyewa</button>
                 </div>
 
@@ -33,6 +34,36 @@
                                 </form>
                             </div>
                 </div>
+
+                 {{-- MODAL EDIT PENYEWA --}}
+                <div id="editTenantModal" class="modal">
+                    <div class="modal-content">
+                        <form id="editTenantForm" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <h3>Edit Penyewa</h3>
+                            <input type="text" name="nama" id="editNama" placeholder="Nama" required>
+                            <input type="text" name="telepon" id="editTelepon" placeholder="No. Telepon" required>
+                            <input type="date" name="tanggal" id="editTanggal" required>
+                            <input type="email" name="email" id="editEmail" placeholder="Email">
+                            <select name="room_id" id="editRoomSelect" required>
+                                <option value="">Pilih Kamar</option>
+                                @foreach ($rooms as $room)
+                                    <option value="{{ $room->id }}" data-harga="{{ $room->harga }}">{{ $room->nama }}</option>
+                                @endforeach
+                            </select>
+                            <input type="text" name="harga" id="editHargaField" placeholder="Harga" readonly required>
+                            
+
+                            <div class="form-buttons">
+                                <button type="submit" class="btn-save">Update</button>
+                                <button type="button" onclick="hideModal('editTenantModal')" class="btn-cancel">Batal</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
             
 
                 <div id="cardsContainer" class="cards-wrapper">
@@ -44,19 +75,26 @@
                         <i class='bx bx-bed' ></i> {{ $tenant->room->nama ?? '-' }}<br>
                         <i class='bx bx-money' ></i> Rp{{ number_format($tenant->harga, 0, ',', '.') }}
                         <div style="position:absolute; top:10px; right:10px;">
-                            <a href="{{ route('tenants.edit', $tenant->id)}}"><i class='bx bx-edit-alt' ></i></button>
+                            <button type="button"
+                                onclick="openEditModal(
+                                    {{ $tenant->id }},
+                                    '{{ addslashes($tenant->nama) }}',
+                                    '{{ addslashes($tenant->telepon) }}',
+                                    '{{ $tenant->tanggal }}',
+                                    '{{ addslashes($tenant->email ?? '') }}',
+                                    '{{ $tenant->room_id }}'
+                                )">
+                                <i class='bx bx-edit-alt'></i>
+                            </button>
+
                             <form action="{{ route('tenants.keluar', $tenant->id) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('PATCH')
                                 <button type="submit" onclick="return confirm('Yakin penyewa ini keluar kos?')">
                                     <i class='bx bx-log-out'></i>
                                 </button>
-                            </form>
-
-                                
+                            </form>     
                         </div>
-                        {{-- <pre>{{ dd($tenant->room) }}</pre> --}}
-
                     </div>
                     @endforeach
                 </div>
@@ -122,8 +160,33 @@
                 })
             }
 
+             // Untuk modal edit
+            function openEditModal(id, nama, telepon, tanggal, email, room_id) {
+                const form = document.getElementById("editTenantForm");
+                form.action = `/tenants/${id}`;
+                document.getElementById("editNama").value = nama;
+                document.getElementById("editTelepon").value = telepon;
+                document.getElementById("editTanggal").value = tanggal;
+                document.getElementById("editEmail").value = email;
+                 const roomSelect = document.getElementById("editRoomSelect");
+    const hargaField = document.getElementById("editHargaField");
+
+    // Set selected value
+    roomSelect.value = room_id;
+
+    // Ambil harga dari option yang sesuai
+    const selectedOption = roomSelect.querySelector(`option[value="${room_id}"]`);
+    if (selectedOption) {
+        const harga = selectedOption.getAttribute('data-harga');
+        hargaField.value = harga ?? '';
+    }
+
+                document.getElementById("editTenantModal").style.display = 'block';
+            }
+
             // Jalankan fungsi saat file ini dimuat
-            setUpHargaOtomatis();
+            setUpHargaOtomatis("editRoomSelect", "editHargaField");
+
         </script>
 @endsection
 

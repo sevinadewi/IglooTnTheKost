@@ -54,6 +54,7 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/property/display-property', [PropertyController::class, 'showProperty'])->name('property.display-property');
     Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
     Route::post('/penghuni', [TenantController::class, 'store'])->name('tenants.store');
+    Route::put('/penghuni/{tenant}', [RoomController::class, 'update'])->name('tenants.update');
 
     // Route::post('/tenant/store', [TenantController::class, 'store'])->name('tenant.store');
 
@@ -76,7 +77,7 @@ Route::middleware(['auth'])->group(function (){
         // Route::get('/', [TenantController::class, 'index'])->name('index');
         // Route::get('/create', [TenantController::class, 'create'])->name('create');
         // Route::post('/', [TenantController::class, 'store'])->name('store');
-        Route::get('/{tenant}/edit', [TenantController::class, 'edit'])->name('edit');
+        // Route::get('/{tenant}/edit', [TenantController::class, 'edit'])->name('edit');
         Route::put('/{tenant}', [TenantController::class, 'update'])->name('update');
         Route::delete('/{tenant}', [TenantController::class, 'destroy'])->name('destroy');
         
