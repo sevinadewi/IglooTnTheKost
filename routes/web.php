@@ -6,6 +6,7 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TenantController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\BillController;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Route;
@@ -82,6 +83,15 @@ Route::middleware(['auth'])->group(function (){
         Route::delete('/{tenant}', [TenantController::class, 'destroy'])->name('destroy');
         
     });
+
+    Route::prefix('reservations')->group(function () {
+        Route::get('/{propertyId}', [ReservationController::class, 'index'])->name('dashboard-pemesanan');
+        Route::get('/create/{propertyId}', [ReservationController::class, 'create'])->name('reservations.create');
+        Route::post('/store', [ReservationController::class, 'store'])->name('reservations.store');
+        Route::post('/accept/{reservation}', [ReservationController::class, 'accept'])->name('reservations.accept');
+        Route::delete('/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+    });
+
     // Route::get('/dashboard-penghuni', [TenantController::class, 'index'])->name('dashboard-penghuni');
     // web.php
     

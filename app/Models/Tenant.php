@@ -14,6 +14,7 @@ class Tenant extends Model
         'telepon',
         'email',
         'tanggal',
+        'tanggal_keluar',
         'room_id',
         'harga',
         'property_id',

@@ -126,7 +126,8 @@ class TenantController extends Controller
     public function keluar(Tenant $tenant)
     {
         $tenant->update([
-            'status' => 'keluar'
+            'status' => 'keluar',
+            'tanggal_keluar' => now(),
         ]);
 
         if ($tenant->room) {

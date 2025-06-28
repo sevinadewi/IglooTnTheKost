@@ -14,20 +14,15 @@ class ReservationController extends Controller
     {
         $property = Property::findOrFail($propertyId);
         $reservations = Reservation::with('room')->where('property_id', $propertyId)->get();
-
-        return view('dashboard.dashboard-pemesanan', compact('reservations','property'));
-    }
-
-    public function create($propertyId)
-    {
-        $property = Property::findOrFail($propertyId);
         $rooms = Room::where('property_id', $propertyId)->get();
 
-        return view('reservations.create', compact('rooms', 'property'));
+        return view('dashboard.dashboard-pemesanan', compact('reservations','property','rooms'));
     }
+
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'nama' => 'required|string|max:255',
             'telepon' => 'required|string|max:20',
@@ -36,15 +31,20 @@ class ReservationController extends Controller
             'room_id' => 'required|exists:rooms,id',
         ]);
 
-        $room = Room::findOrFail($request->room_id);
+        $tanggalMasuk = $request->tanggal_masuk;
+
+        $existingReservation = Reservation::where('room_id', $request->room_id)->where('status', '!=', 'cancelled')->where('tanggal_masuk', $tanggalMasuk)->first();
+        if ($existingReservation) {
+            return redirect()->back()->with('error', 'Kamar sudah dipesan pada tanggal ini');
+        }
 
         Reservation::create([
             'nama' => $request->nama,
             'telepon' => $request->telepon,
             'email' => $request->email,
-            'tanggal_masuk' => $request->tanggal_masuk,
-            'room_id' => $room->id,
-            'property_id' => $room->property_id,
+            'tanggal_masuk' => $tanggalMasuk,
+            'room_id' => $request->room_id,
+            'property_id' => $request->property_id,
             'catatan' => $request->catatan,
             'status' => 'pending'
         ]);
@@ -54,21 +54,26 @@ class ReservationController extends Controller
 
     public function accept(Reservation $reservation)
     {
-        Tenant::create([
-            'nama' => $reservation->nama,
-            'telepon' => $reservation->telepon,
-            'email' => $reservation->email,
-            'tanggal' => now(),
-            'room_id' => $reservation->room_id,
-            'property_id' => $reservation->property_id,
-            'harga' => $reservation->room->harga,
-            'status' => 'aktif'
-        ]);
+        $room = $reservation->room;
 
-        $reservation->room->update(['status'=>'terisi']);
+        if ($room->status == 'kosong') {
+            Tenant::create([
+                'nama' => $reservation->nama,
+                'telepon' => $reservation->telepon,
+                'tanggal' => $reservation->tanggal_masuk,
+                'email' => $reservation->email,
+                'room_id' => $reservation->room_id,
+                'property_id' => $reservation->property_id,
+                'harga' => $room->harga,
+                'status' => 'aktif'
+            ]);
 
-        $reservation->update(['status' =>'booked']);
+            $room->update(['status' => 'terisi']);
+            $reservation->update(['status' => 'booked']);
 
-        return redirect()->back()->with('success', 'Pemesanan diterima dan menjadi penyewa aktif');
+            return redirect()->back()->with('success', 'Pemesanan diterima, sudah menjadi penyewa.');
+        } else {
+            return redirect()->back()->with('error', 'Kamar masih terisi. Penyewa sebelumnya belum keluar.');
+        }
     }
 }

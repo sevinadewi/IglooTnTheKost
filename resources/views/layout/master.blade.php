@@ -28,7 +28,7 @@
           <a href="{{route('dashboard-penghuni', ['id' => $property->id])}}"><i class='bx bx-user'></i> Data Penghuni</a>
           
           <a href="{{route('dashboard-tagihan', ['propertyId' => $property->id])}}"><i class='bx bx-wallet'></i> Data Pembayaran</a>
-          <a href="pemesanan.html"><i class='bx bx-file'></i> Data Pemesanan</a>
+          <a href="{{route('dashboard-pemesanan', ['propertyId' => $property->id])}}"><i class='bx bx-file'></i> Data Pemesanan</a>
           <a href="#"><i class='bx bx-cog'></i> Pengaturan</a>
           <li>
             <a href="#" data-resize-btn>
