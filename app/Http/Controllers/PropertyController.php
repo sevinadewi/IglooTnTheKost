@@ -168,5 +168,65 @@ class PropertyController extends Controller
         return redirect()->back()->with('success', 'Penyewa telah keluar kos.');
     }
 
+    public function edit($id)
+    {
+        $property = Property::findOrFail($id);
+        return view('dashboard.dashboard-edit-properti', compact('property'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $property = Property::findOrFail($id);
+
+        $validated = $request->validate([
+            'nama' => 'required|string',
+            'alamat' => 'required|string',
+            'kode_pos' => 'required|string',
+            'provinsi' => 'required|string',
+            'kota_kabupaten' => 'required|string',
+            'kecamatan' => 'required|string',
+            'kelurahan' => 'required|string',
+            'no_wa' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        if ($request->hasFile('foto')) {
+            $fotoPath = $request->file('foto')->store('public/foto_property');
+            $fotoPath = str_replace('public/', 'storage/', $fotoPath);
+            $property->foto = $fotoPath;
+        }
+
+        $property->update($validated);
+
+        return redirect()->route('property.display-property')
+                        ->with('success', 'Properti berhasil diperbarui.');
+    }
+
+    public function destroy($id)
+    {
+        $property = Property::findOrFail($id);
+
+        // Opsional: Hapus semua kamar dan penyewa terkait
+        Room::where('property_id', $property->id)->delete();
+        Tenant::where('property_id', $property->id)->delete();
+
+        $property->delete();
+
+        session()->forget('property_id');
+        session()->forget('currentStep');
+
+        return redirect()->route('property.display-property')
+                        ->with('success', 'Properti berhasil dihapus.');
+    }
+
+    public function setting($id)
+    {
+        $property = Property::findOrFail($id);
+        return view('dashboard.dashboard-pengaturan', compact('property'));
+    }
+
+
+
+
     
 }

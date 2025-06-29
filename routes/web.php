@@ -67,7 +67,16 @@ Route::middleware(['auth'])->group(function (){
     // Route::get('/dashboard-kamar/{id}', [DashboardController::class, 'showRooms'])->name('dashboard.kamar');
     // web.php
     Route::patch('/tenants/{tenant}/keluar', [TenantController::class, 'keluar'])->name('tenants.keluar');
-    
+    // Pengaturan Properti
+    Route::get('/property/{id}/setting', [PropertyController::class, 'setting'])->name('property.setting');
+
+    // Edit dan Update
+    Route::get('/property/{id}/edit', [PropertyController::class, 'edit'])->name('property.edit');
+    Route::put('/property/{id}', [PropertyController::class, 'update'])->name('property.update');
+
+    // Delete
+    Route::delete('/property/{id}', [PropertyController::class, 'destroy'])->name('property.destroy');
+
 
 
     Route::resource('rooms', RoomController::class)->except(['edit', 'create', 'show']);

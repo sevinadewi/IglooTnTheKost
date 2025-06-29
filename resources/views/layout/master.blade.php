@@ -33,7 +33,7 @@
           
           <a href="{{route('dashboard-tagihan', ['propertyId' => $property->id])}}" class="{{ Route::currentRouteName() == 'dashboard-tagihan' ? 'active' : '' }}"><i class='bx bx-wallet'></i><span>Data Pembayaran</span> </a>
           <a href="{{route('dashboard-pemesanan', ['propertyId' => $property->id])}}" class="{{ Route::currentRouteName() == 'dashboard-pemesanan' ? 'active' : '' }}"><i class='bx bx-file'></i> <span>Data Pemesanan</span></a>
-          <a href="#"><i class='bx bx-cog'></i> <span>Pengaturan</span></a>
+          <a href="{{ route('property.setting', ['id' => $property->id]) }}"><i class='bx bx-cog'></i> <span>Pengaturan</span></a>
           <li>
             <a href="#" data-resize-btn>
               <i class='bx bx-chevrons-right'></i>
