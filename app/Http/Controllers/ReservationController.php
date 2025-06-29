@@ -54,9 +54,9 @@ class ReservationController extends Controller
 
     public function accept(Reservation $reservation)
     {
-        $room = $reservation->room;
+        $room = Room::findOrFail($reservation->room_id);
 
-        if ($room->status == 'kosong') {
+        if (strtolower($room->status) == 'kosong') {
             Tenant::create([
                 'nama' => $reservation->nama,
                 'telepon' => $reservation->telepon,

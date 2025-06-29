@@ -1,7 +1,106 @@
 @extends('layout.master')
+
+@section('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        .btn-icon {
+        border: none;
+        padding: 6px 8px;
+        border-radius: 8px;
+        cursor: pointer;
+        color: white;
+        font-size: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s;
+        }
+
+        /* Tombol Edit */
+        .btn-edit {
+            background-color: #f1c40f; /* Biru kehijauan */
+        }
+
+        .btn-edit:hover {
+            background-color: #6a691b;
+        }
+
+        /* Tombol Delete */
+        .btn-delete {
+            background-color: #dc3545; /* Merah */
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+       /* Style untuk tabel tanpa garis vertikal */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        /* Header tabel rata tengah */
+        .table thead th {
+            text-align: center;
+            background-color: #f4f4f4;
+            border-bottom: 2px solid #ccc;
+            color: #333;
+            padding: 10px;
+        }
+
+        /* Isi tabel */
+        .table tbody td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Kolom ID dan Opsi tetap rata tengah */
+        .table tbody td:nth-child(1),
+        .table tbody td:last-child {
+            text-align: center;
+        }
+
+        /* Baris genap beda warna */
+        .table tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        /* Hover efek */
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Gambar tabel */
+        .table img {
+            border-radius: 6px;
+        }
+
+        /* Fasilitas */
+        .table .fasilitas-list {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .table .fasilitas-list li {
+            margin-bottom: 3px;
+            line-height: 1.4;
+        }
+
+        
+
+    </style>
+@endsection
+
 @section('content')
 
 <div style="padding: 0 20px; width: 100%; margin: 20px;">
+    <button class="toggle-sidebar" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
             <div class="top-bar">
                 <button class="btn-add" id="addRoomBtn">+ Tambah kamar</button>
                 <div class="search-wrapper">
@@ -11,6 +110,8 @@
             </div>
             
             <div class="main-container">
+                
+
                 <table class="table" style="width: 100%; margin-top: 1rem;">
                     <thead>
                         <tr>
@@ -43,9 +144,17 @@
                                     @endif
                                 </td>
                                 <td>Rp{{ number_format($room->harga, 0, ',', '.')}}</td>
-                                <td>{{ $room->status }}</td>
                                 <td>
-                                    <button type="button" class="icon-btn edit"
+                                    @if ($room->status == 'kosong')
+                                        <span class="badge badge-success">Kosong</span>
+                                    @elseif ($room->status == 'terisi')
+                                        <span class="badge badge-danger">Terisi</span>
+                                    @else
+                                        <span class="badge badge-danger">{{ ucfirst($room->status) }}</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <button type="button" class="btn-icon btn-edit"
                                         onclick="openEditModal({{ $room->id }}, '{{ $room->nama }}', '{{ implode(',', is_array($room->fasilitas) ? $room->fasilitas : json_decode($room->fasilitas)) }}', {{ $room->harga }}, '{{ $room->status }}', '{{ asset('storage/' . $room->gambar) }}')">
                                         <i class='bx bx-edit-alt'></i>
                                     </button>
@@ -55,7 +164,7 @@
                                         onsubmit="return confirmDelete(event, '{{ strtolower($room->status) }}')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="icon-btn delete">
+                                        <button type="submit" class="btn-icon btn-delete">
                                             <i class='bx bx-trash'></i>
                                         </button>
                                     </form>
@@ -126,6 +235,7 @@
         </div>
 
 </div>
+
 
 <script>
             function openEditModal(id, nama, fasilitas, harga, status, gambarUrl) {

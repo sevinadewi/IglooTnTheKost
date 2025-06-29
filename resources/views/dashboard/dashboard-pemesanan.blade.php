@@ -1,14 +1,77 @@
 @extends('layout.master')
 
+@section('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        /* Badge */
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .badge-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .badge-success {
+            background-color: #28a745;
+        }
+
+        .badge-danger {
+            background-color: #dc3545;
+        }
+
+        /* Tombol */
+        .btn-accept {
+            background-color: #28a745;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .btn-accept:hover {
+            background-color: #218838;
+        }
+
+        .btn-cancel {
+            background-color: #dc3545;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .btn-cancel:hover {
+            background-color: #c82333;
+        }
+    </style>
+@endsection
+
 @section('content')
+
+<div style="padding: 0 20px; width: 100%; margin: 20px;">
 <div class="main-container">
     <h2>Daftar Pemesanan Kamar - {{ $property->nama }}</h2>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
-    <button onclick="showForm('reservationModal')" class="btn-add">+ Tambah Pemesanan</button>
+    
+    <div class="top-bar">
+        <div class="search-wrapper">
+            <i class='bx bx-search'></i>
+            <input type="text" id="searchInput" placeholder="Cari Pemesan" class="search-input">
+        </div>
+        <button onclick="showForm('reservationModal')" class="btn-add">+ Tambah Pemesanan</button>
+    </div>
 
     <table class="table">
         <thead>
@@ -30,7 +93,7 @@
                 <td>{{ $reservation->nama }}</td>
                 <td>{{ $reservation->telepon }}</td>
                 <td>{{ $reservation->email }}</td>
-                <td>{{ $reservation->room->nama_kamar ?? '-' }}</td>
+                <td>{{ $reservation->room->nama ?? '-' }}</td>
                 <td>
                     Rp {{ number_format($reservation->room->harga ?? 0) }}
                 </td>
@@ -38,24 +101,24 @@
                 <td>{{ $reservation->catatan }}</td>
                 <td>
                     @if($reservation->status == 'pending')
-                        <span class="badge bg-warning">Pending</span>
+                        <span class="badge badge-warning">Pending</span>
                     @elseif($reservation->status == 'booked')
-                        <span class="badge bg-success">Booked</span>
+                        <span class="badge badge-success">Booked</span>
                     @else
-                        <span class="badge bg-danger">Cancelled</span>
+                        <span class="badge badge-danger">Cancelled</span>
                     @endif
                 </td>
                 <td>
                     @if($reservation->status == 'pending')
                         <form action="{{ route('reservations.accept', $reservation->id) }}" method="POST" style="display:inline;">
                             @csrf
-                            <button class="btn btn-sm btn-primary" onclick="return confirm('Terima pemesanan ini?')">Accept</button>
+                            <button class="btn-accept" onclick="return confirm('Terima pemesanan ini?')"><i class="fa fa-check"></i> Terima</button>
                         </form>
 
                         <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-sm btn-danger" onclick="return confirm('Batalkan pemesanan ini?')">Cancel</button>
+                            <button class="btn-cancel" onclick="return confirm('Batalkan pemesanan ini?')"><i class="fa fa-times"></i> Batal</button>
                         </form>
                     @else
                         <em>Tidak ada aksi</em>
@@ -102,6 +165,7 @@
         </div>
     </div>
 
+</div>
 </div>
 
 <script>

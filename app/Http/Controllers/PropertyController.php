@@ -73,10 +73,10 @@ class PropertyController extends Controller
     public function storeRoom(Request $request)
     {
              // Ubah string fasilitas jadi array (trim tiap elemen)
-    $fasilitasArray = array_map('trim', explode(',', $request->input('fasilitas')));
+        $fasilitasArray = array_map('trim', explode(',', $request->input('fasilitas')));
 
-    // Ganti input fasilitas jadi array supaya validasi array bisa jalan
-    $request->merge(['fasilitas' => $fasilitasArray]);
+        // Ganti input fasilitas jadi array supaya validasi array bisa jalan
+        $request->merge(['fasilitas' => $fasilitasArray]);
     
         Log::info('Room store request:', $request->all());
     
@@ -157,15 +157,15 @@ class PropertyController extends Controller
 
     public function keluar(Tenant $tenant)
     {
-    $tenant->update([
-        'status' => 'keluar'
-    ]);
+        $tenant->update([
+            'status' => 'keluar'
+        ]);
 
-    if ($tenant->room) {
-        $tenant->room->update(['status' => 'kosong']);
-    }
+        if ($tenant->room) {
+            $tenant->room->update(['status' => 'kosong']);
+        }
 
-    return redirect()->back()->with('success', 'Penyewa telah keluar kos.');
+        return redirect()->back()->with('success', 'Penyewa telah keluar kos.');
     }
 
     

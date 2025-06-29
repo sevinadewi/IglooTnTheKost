@@ -257,3 +257,23 @@ function setUpHargaOtomatis(roomSelectId = "roomSelect", hargaFieldId = "hargaFi
 
 // Jalankan fungsi saat file ini dimuat
 setUpHargaOtomatis();
+
+
+function toggleSidebar() {
+    document.body.classList.toggle('sb-open');
+}
+
+// Tutup sidebar jika klik di luar
+window.addEventListener('click', function(e) {
+    const sidebar = document.querySelector('.sidebar');
+    const toggleButton = document.querySelector('.toggle-sidebar');
+
+    if (
+        document.body.classList.contains('sb-open') &&
+        !sidebar.contains(e.target) &&
+        !toggleButton.contains(e.target)
+    ) {
+        document.body.classList.remove('sb-open');
+    }
+});
+

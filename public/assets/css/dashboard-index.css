@@ -63,7 +63,7 @@
 
 
     .sidebar a span {
-      font-size: 0.875rem;
+      font-size: 1rem; /* sebelumnya 0.875rem */
       opacity: 1;
       visibility: visible;
       transition: 
@@ -139,6 +139,29 @@
       background: #fcd92c;
       color: #000;
     }
+
+    * Sidebar Collapse */
+.sidebar a span {
+    font-size: 0.875rem;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+body.sb-collapsed .sidebar a span {
+    opacity: 0;
+    visibility: hidden;
+}
+
+body.sb-collapsed .sidebar h2 span {
+    display: none;
+}
+
+body.sb-collapsed .sidebar h2 img {
+    margin: 0 auto;
+}
+
+  
 
     .main-content {
       flex: 1;
@@ -240,52 +263,88 @@
         background-color: #b7950b;
     }
 
-    /* .topbar {
-      position: absolute;
-      top: 30px;
-      right: 30px;
-      
-    }
+    /* Badge Umum */
+  .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+      border-radius: 5px;
+      text-align: center;
+      white-space: nowrap;
+  }
 
-    .topbar i {
-      font-size: 24px;
-      color: #e91e63;
-      background: #fdd;
-      padding: 10px;
-      border-radius: 50%;
-    }
+  /* Warna badge */
+  .badge-success {
+      background-color: #28a745;
+  }
+
+  .badge-warning {
+      background-color: #ffc107;
+      color: #333;
+  }
+
+  .badge-danger {
+      background-color: #dc3545;
+  }
 
 
-    table, th, td {
-        border: 1px solidrgb(143, 159, 177); /* Warna biru */
-        /* border-collapse: collapse;
-    }
-    th, td {
-        padding: 8px;
-        text-align: left;
-    } */ */
+  /* Responsif untuk HP */
+@media (max-width: 768px) {
+  body {
+    --sb-width: 0;
+  }
+
+  body.sb-open {
+    --sb-width: 250px; /* Sidebar muncul */
+  }
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  body.sb-open .sidebar {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    padding: 20px;
+  }
+
+  /* Tambahkan background gelap saat sidebar muncul */
+  body.sb-open::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 998;
+  }
+}
+
+.toggle-sidebar {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+  .toggle-sidebar {
+    display: block;
+  }
+}
 
 
-    .icon-btn {
-        background: none;
-    border: none;
-    padding: 4px;
-    font-size: 20px;
-    cursor: pointer;
-    color: #333;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: color 0.2s ease;
-    }
-
-    .icon-btn.edit {
-        color: #2a9d8f; /* warna hijau */
-    }
-
-    .icon-btn.delete {
-        color: #e63946; /* warna merah */
-    }
+    
 
    
 

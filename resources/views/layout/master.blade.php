@@ -9,8 +9,12 @@
   <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css" />
   <link rel="stylesheet" href="assets/vendor/boxicons/css/boxicons.min.css" />
   <link rel="stylesheet" href="{{ asset ('assets/css/dashboard-index.css')}}">
+    {{-- <link rel="stylesheet" href="{{ asset ('assets/css/dashboard-index-new.css')}}"> --}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href=" {{ asset ('assets/css/style.css')}}">
+    {{-- <link rel="stylesheet" href=" {{ asset ('assets/css/style-new.css')}}"> --}}
+  <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+      <script src="{{ asset('assets/js/dashboard.js') }}"></script>
   @yield('styles')
 </head>
 <body>
@@ -21,15 +25,15 @@
           @if(isset($property))
           <h2><img src="assets/img/IndekostLogo.svg" alt="Logo"> Igloo Indekos</h2>
           
-          <a href="{{route('property.dashboard', ['id' => $property->id])}}" class="active"><i class='bx bx-home-alt'></i> Dashboard</a>
+          <a href="{{route('property.dashboard', ['id' => $property->id])}}" class="{{ Route::currentRouteName() == 'property.dashboard' ? 'active' : '' }}"><i class='bx bx-home-alt'></i><span>Dashboard</span> </a>
           
-          <a href="{{route('dashboard-kamar', ['id' => $property->id])}}"><i class='bx bx-bed'></i> Data Kamar</a>
+          <a href="{{route('dashboard-kamar', ['id' => $property->id])}}" class="{{ Route::currentRouteName() == 'dashboard-kamar' ? 'active' : '' }}"><i class='bx bx-bed'></i> <span>Data Kamar</span></a>
        
-          <a href="{{route('dashboard-penghuni', ['id' => $property->id])}}"><i class='bx bx-user'></i> Data Penghuni</a>
+          <a href="{{route('dashboard-penghuni', ['id' => $property->id])}}" class="{{ Route::currentRouteName() == 'dashboard-penghuni' ? 'active' : '' }}"><i class='bx bx-user'></i> <span>Data Penghuni</span></a>
           
-          <a href="{{route('dashboard-tagihan', ['propertyId' => $property->id])}}"><i class='bx bx-wallet'></i> Data Pembayaran</a>
-          <a href="{{route('dashboard-pemesanan', ['propertyId' => $property->id])}}"><i class='bx bx-file'></i> Data Pemesanan</a>
-          <a href="#"><i class='bx bx-cog'></i> Pengaturan</a>
+          <a href="{{route('dashboard-tagihan', ['propertyId' => $property->id])}}" class="{{ Route::currentRouteName() == 'dashboard-tagihan' ? 'active' : '' }}"><i class='bx bx-wallet'></i><span>Data Pembayaran</span> </a>
+          <a href="{{route('dashboard-pemesanan', ['propertyId' => $property->id])}}" class="{{ Route::currentRouteName() == 'dashboard-pemesanan' ? 'active' : '' }}"><i class='bx bx-file'></i> <span>Data Pemesanan</span></a>
+          <a href="#"><i class='bx bx-cog'></i> <span>Pengaturan</span></a>
           <li>
             <a href="#" data-resize-btn>
               <i class='bx bx-chevrons-right'></i>
@@ -52,18 +56,33 @@
 
 
     <script>
-    //   const resizeBtn = document.querySelector('[data-resize-btn]');
-    // resizeBtn.addEventListener('click', function(e) {
-    //   e.preventDefault();
-    //   document.body.classList.toggle('sb-collapsed');
-    // });
-      
+    // Toggle sidebar di HP (responsive)
+function toggleSidebar() {
+    document.body.classList.toggle('sb-open');
+}
+
+// Tutup sidebar jika klik di luar
+window.addEventListener('click', function(e) {
+    if (document.body.classList.contains('sb-open')) {
+        const sidebar = document.querySelector('.sidebar');
+        const toggle = document.querySelector('.toggle-sidebar');
+        if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+            document.body.classList.remove('sb-open');
+        }
+    }
+});
+
     // Collapse sidebar
+    document.addEventListener('DOMContentLoaded', function() {
     const resizeButton = document.querySelector('[data-resize-btn]');
-    resizeButton.addEventListener('click', function(e) {
-      e.preventDefault();
-      document.body.classList.toggle('sb-collapsed');
-    });
+    if (resizeButton) {
+        resizeButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.body.classList.toggle('sb-collapsed');
+        });
+    }
+});
+
 
     // Window Scroll
     window.addEventListener('scroll', function() {
