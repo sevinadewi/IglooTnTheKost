@@ -378,6 +378,10 @@
     margin-bottom: 1rem;
     padding: 0 20px; /* sesuaikan agar sejajar dengan tabel */
     box-sizing: border-box;
+
+    background: linear-gradient(90deg, #EBC005, #FF5733);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
 }
 
 .search-wrapper {
@@ -445,7 +449,7 @@
     margin-left: 0.25rem;
 }
 
-.modal {
+/* .modal {
     display: none;
     position: fixed;
     inset: 0;
@@ -464,9 +468,34 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+} */
+
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
 }
 
+.modal.active {
+    opacity: 1;
+    visibility: visible;
+}
 
+.modal-content {
+    background-color: #f1c40f; /* kuning */
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    color: #333; /* biar teks tetap terbaca */
+}
 
 .modal-content input {
     padding: 0.5rem;

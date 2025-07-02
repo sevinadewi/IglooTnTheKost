@@ -6,7 +6,7 @@
   <title>Dashboard Igloo Indekos</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.4/css/boxicons.min.css" rel="stylesheet"/>
   <!-- Bootstrap & Boxicons -->
-  <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css" />
+  {{-- <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css" /> --}}
   <link rel="stylesheet" href="assets/vendor/boxicons/css/boxicons.min.css" />
   <link rel="stylesheet" href="{{ asset ('assets/css/dashboard-index.css')}}">
     {{-- <link rel="stylesheet" href="{{ asset ('assets/css/dashboard-index-new.css')}}"> --}}
@@ -23,7 +23,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
           @if(isset($property))
-          <h2><img src="assets/img/IndekostLogo.svg" alt="Logo"> Igloo Indekos</h2>
+          <h2><img src="{{ asset('assets/img/IndekostLogo.svg') }}" alt="Logo"> Igloo Indekos</h2>
           
           <a href="{{route('property.dashboard', ['id' => $property->id])}}" class="{{ Route::currentRouteName() == 'property.dashboard' ? 'active' : '' }}"><i class='bx bx-home-alt'></i><span>Dashboard</span> </a>
           

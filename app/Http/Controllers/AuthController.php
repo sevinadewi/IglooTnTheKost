@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,16 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
  
-            return redirect()->intended(route('property.index'));
+            // return redirect()->route('property.index');
+          
+
+             $user = Auth::user();
+
+            if ($user->properties()->exists()) {
+                return redirect()->route('property.display-property');
+            } else {
+                return redirect()->route('property.index');
+            }
         }
 
         return back()->withErrors([

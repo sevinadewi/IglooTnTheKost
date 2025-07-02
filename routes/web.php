@@ -39,10 +39,13 @@ Route::middleware(['auth'])->group(function (){
     // return view('welcome');
     // });
 
-    Route::get('/contohlogout', function () {
-    return view('contohlogout');
-    });
+    
 
+
+//  Route::get('/logout', function () {
+//     return view('contohlogout');
+//     });
+   
 
     Route::get('/property', [PropertyController::class, 'index'])->name('property.index');
 
@@ -110,14 +113,17 @@ Route::middleware(['auth'])->group(function (){
     Route::patch('/bills/{bill}/status', [BillController::class, 'updateStatus'])->name('bills.updateStatus');
 
 
+        
 });
 
 // Auth pages
 Route::get('/', [AuthController::class, 'login'])->name('login');
+Route::get('/login', [AuthController::class, 'login']); 
 Route::post('/login', [AuthController::class, 'authenticating']);
 Route::get('/register', [AuthController::class, 'register']);
 Route::post('/register', [AuthController::class, 'createUser']);
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
 // Email Verification
 Route::middleware('auth')->group(function (){

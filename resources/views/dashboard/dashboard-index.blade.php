@@ -1,13 +1,105 @@
 @extends('layout.master')
+
+@section('styles')
+    <style>
+        /* 🔥 User Button */
+.topbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.user-button {
+    background: none;
+    border: none;
+    font-size: 32px;
+    cursor: pointer;
+    color: #333;
+}
+
+.user-button:hover {
+    color: #fcd92c;
+}
+
+/* 🔥 User Dropdown */
+.user-menu {
+    position: relative;
+}
+
+.user-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 40px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    min-width: 160px;
+    z-index: 999;
+}
+
+.user-dropdown a,
+.user-dropdown button {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.user-dropdown a:hover,
+.user-dropdown button:hover {
+    background-color: #fcd92c;
+    color: #000;
+}
+
+.user-dropdown.show {
+    display: block;
+}
+
+/* 🔥 Page Title */
+.page-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: #333;
+    margin-left: 20px;
+    
+}
+
+    </style>
+@endsection
 @section('content')
     <div class="main-content">
-      <div class="topbar">
+      {{-- <div class="topbar">
         <i class='bx bx-user-circle'></i>
-      </div>
-      
-          
+      </div> --}}
+      <div class="topbar">
+        <div class="user-menu">
+            <button class="user-button" onclick="toggleUserMenu()">
+                <i class='bx bx-user-circle'></i>
+            </button>
+            <div class="user-dropdown" id="userDropdown">
+                <a href="#">Edit Profil</a>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit">Logout</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
      
-      <h2>Selamat Datang! Admin {{ $property->nama }}</h2>
+      <h2 class="page-title">Selamat Datang! Admin {{ $property->nama }}</h2>
 
 
       <div class="info-cards">
@@ -39,20 +131,37 @@
         </div>
     
 
-        <div style="margin-top: 40px;">
+        {{-- <div style="margin-top: 40px;">
             <h4>📈 Jumlah Penghuni Aktif per Bulan</h4>
             <canvas id="penghuniBulananChart"></canvas>
-        </div>
+        </div> --}}
 
-        <div style="margin-top: 40px;">
+        {{-- <div style="margin-top: 40px;">
             <h4>💰 Total Pemasukan Kos per Bulan</h4>
             <canvas id="pemasukanBulananChart"></canvas>
-        </div>
+        </div> --}}
 
         
 
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        {{-- 🔥 Dropdown Script --}}
+        <script>
+            function toggleUserMenu() {
+                const dropdown = document.getElementById('userDropdown');
+                dropdown.classList.toggle('show');
+            }
+
+            window.onclick = function(event) {
+                if (!event.target.matches('.user-button') && !event.target.closest('.user-menu')) {
+                    const dropdown = document.getElementById('userDropdown');
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show');
+                    }
+                }
+            };
+        </script>
 <script>
 const bulanLabels = {!! json_encode($tenantsPerMonth->pluck('bulan')) !!};
 const penghuniData = {!! json_encode($tenantsPerMonth->pluck('jumlah_penghuni')) !!};

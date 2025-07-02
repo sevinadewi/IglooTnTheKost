@@ -7,8 +7,8 @@
     <title>Document</title>
 </head>
 <body>
-    <a type="button"  href="{{route('logout')}}" class="">
+    {{-- <a type="button"  href="{{route('logout')}}" class="">
                   Logout
-                </a>
+                </a> --}}
 </body>
 </html>

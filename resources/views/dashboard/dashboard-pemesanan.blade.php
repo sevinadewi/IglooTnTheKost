@@ -56,6 +56,7 @@
             background-color: #c82333;
         }
     </style>
+ 
 @endsection
 
 @section('content')
@@ -179,11 +180,11 @@
     });
 
     function showForm(id) {
-        document.getElementById(id).style.display = 'block';
+        document.getElementById(id).classList.add('active');
     }
 
     function hideForm(id) {
-        document.getElementById(id).style.display = 'none';
+        document.getElementById(id).classList.remove('active');
     }
 </script>
 

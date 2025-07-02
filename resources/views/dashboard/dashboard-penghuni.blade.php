@@ -1,12 +1,13 @@
 @extends('layout.master')
 @section('content')
+<div style="padding: 0 20px; width: 100%; margin: 20px;">
     <div class="main-container">
                 <div class="top-bar">
                     <div class="search-wrapper">
                         <i class='bx bx-search'></i>
                         <input type="text" id="searchInput" placeholder="Cari Penyewa" class="search-input">
                     </div>
-                    <button onclick="" class="">History Penyewa</button>
+                    <button onclick="" class="btn-all">History Penyewa</button>
                     <button onclick="toogleAddModal()" class="btn-add">+ Tambah Penyewa</button>
                 </div>
 
@@ -101,7 +102,7 @@
             
             </div>
         </main>
-        
+</div>  
             {{-- NOTIFIKASI SUCCESS --}}
         @if(session('success'))
         <script>
@@ -129,18 +130,18 @@
         <script>
             function toogleAddModal() {
                 const modal = document.getElementById('tenantModal');
-                modal.style.display = 'block';
+                modal.classList.add('active');
             }
 
             function hideForm() {
                 const modal = document.getElementById('tenantModal');
-                modal.style.display = 'none';
+                modal.classList.add('active');
             }
             // Tutup modal jika klik luar area modal
             window.onclick = function(event) {
                 const modal = document.getElementById('tenantModal');
                 if (event.target === modal) {
-                    modal.style.display = 'none';
+                    modal.classList.add('active');
                 }
             }
 
@@ -169,7 +170,8 @@
                 document.getElementById("editTanggal").value = tanggal;
                 document.getElementById("editEmail").value = email;
                  const roomSelect = document.getElementById("editRoomSelect");
-    const hargaField = document.getElementById("editHargaField");
+    
+                 const hargaField = document.getElementById("editHargaField");
 
     // Set selected value
     roomSelect.value = room_id;
@@ -181,7 +183,7 @@
         hargaField.value = harga ?? '';
     }
 
-                document.getElementById("editTenantModal").style.display = 'block';
+                document.getElementById("editTenantModal").classList.add('active');
             }
 
             // Jalankan fungsi saat file ini dimuat

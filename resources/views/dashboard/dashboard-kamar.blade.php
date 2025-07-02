@@ -255,12 +255,18 @@
                     previewImg.style.display = 'none';
                 }
 
-                document.getElementById('editRoomModal').style.display = 'block';
+                // document.getElementById('editRoomModal').style.display = 'block';
+                document.getElementById('editRoomModal').classList.add('active');
+
             }
 
+            // function hideEditModal() {
+            //     document.getElementById('editRoomModal').style.display = 'none';
+            // }
             function hideEditModal() {
-                document.getElementById('editRoomModal').style.display = 'none';
-            }
+    document.getElementById('editRoomModal').classList.remove('active');
+}
+
 
             function confirmDelete(event, status) {
                 if (status === 'terisi') {
@@ -296,15 +302,23 @@
 
 </script>
 <script>
-            function toggleAddModal() {
-                const modal = document.getElementById('roomModal');
-                modal.style.display = 'block';
-            }
+            // function toggleAddModal() {
+            //     const modal = document.getElementById('roomModal');
+            //     modal.style.display = 'block';
+            // }
 
-            function hideForm() {
-                const modal = document.getElementById('roomModal');
-                modal.style.display = 'none';
-            }
+            // function hideForm() {
+            //     const modal = document.getElementById('roomModal');
+            //     modal.style.display = 'none';
+            // }
+
+            function toggleAddModal() {
+    document.getElementById('roomModal').classList.add('active');
+}
+
+function hideForm() {
+    document.getElementById('roomModal').classList.remove('active');
+}
 
             // Tambahkan event listener pada tombol
             document.addEventListener('DOMContentLoaded', function () {
@@ -321,10 +335,22 @@
                 });
             });
             // Tutup modal jika klik luar area modal
+            // window.onclick = function(event) {
+            //     const modal = document.getElementById('roomModal');
+            //     if (event.target === modal) {
+            //         modal.style.display = 'none';
+            //     }
+            // }
+
             window.onclick = function(event) {
-                const modal = document.getElementById('roomModal');
-                if (event.target === modal) {
-                    modal.style.display = 'none';
+                const addModal = document.getElementById('roomModal');
+                const editModal = document.getElementById('editRoomModal');
+
+                if (event.target === addModal) {
+                    addModal.classList.remove('active');
+                }
+                if (event.target === editModal) {
+                    editModal.classList.remove('active');
                 }
             }
 

@@ -7,6 +7,7 @@
 @endsection
 
 @section('content')
+
   <div class="tagihan-main">
      <div class="top-bar p-3">
       {{-- <button class="btn-add" id="addRoomBtn">
@@ -24,36 +25,6 @@
         <h5 class="mb-0" style="color: rgb(17, 16, 16);"><i class='bx bx-edit'></i> Lihat Tagihan</h5>
       </div>
       <div class="card-body" id="formSectionDefault">
-        {{-- <form id="formBulanTahunDefault">
-          <div class="mb-3">
-            <label for="bulanDefault" class="form-label">Bulan</label>
-            <select id="bulanDefault" class="form-select" required>
-              <option value="" selected>-- Pilih Bulan --</option>
-              <option value="01">Januari</option>
-              <option value="02">Februari</option>
-              <option value="03">Maret</option>
-              <option value="04">April</option>
-              <option value="05">Mei</option>
-              <option value="06">Juni</option>
-              <option value="07">Juli</option>
-              <option value="08">Agustus</option>
-              <option value="09">September</option>
-              <option value="10">Oktober</option>
-              <option value="11">November</option>
-              <option value="12">Desember</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="tahunDefault" class="form-label">Tahun</label>
-            <select id="tahunDefault" class="form-select" required>
-              <option value="" selected>-- Pilih Tahun --</option>
-              <option value="2024">2024</option>
-              <option value="2025">2025</option>
-              <option value="2026">2026</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-primary btn-submit">Lihat Tagihan</button>
-        </form> --}}
         <form id="formBulanTahunDefault" method="GET" action="{{ route('dashboard-tagihan', ['propertyId' => $property->id]) }}">
           <div class="mb-3">
             <label for="bulanDefault" class="form-label">Bulan</label>
@@ -88,32 +59,6 @@
     @if(isset($bills) && count($bills) > 0)
     <div id="tabelTagihan" class="mx-4 mt-4" style="display: {{ (request('bulan') && request('tahun')) ? 'block' : 'none' }}">
 
-      {{-- <div class="mt-4">
-        <table class="table table-bordered">
-          <thead class="table-light">
-            <tr>
-              <th>No</th>
-              <th>Nama Penyewa</th>
-              <th>Bulan</th>
-              <th>Tahun</th>
-              <th>Jumlah</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($bills as $index => $bill)
-              <tr>
-                <td>{{ $index + 1 }}</td>
-                <td>{{ $bill->tenant->nama ?? '-' }}</td>
-                <td>{{ DateTime::createFromFormat('!m', $bill->bulan)->format('F') }}</td>
-                <td>{{ $bill->tahun }}</td>
-                <td>Rp{{ number_format($bill->jumlah, 0, ',', '.') }}</td>
-                <td>{{ ucfirst($bill->status) }}</td>
-              </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div> --}}
       <!-- Modal Tabel -->
     <div class="modal fade" id="tableModal" tabindex="-1" aria-labelledby="tableModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-xl modal-dialog-scrollable">
