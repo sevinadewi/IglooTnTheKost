@@ -290,7 +290,7 @@ body.sb-collapsed .sidebar h2 img {
       background-color: #dc3545;
   }
 
-  .btn-all {
+  /* .btn-all {
     padding: 0.5rem 1rem;
     background-color: #000;
     border: none;
@@ -301,7 +301,7 @@ body.sb-collapsed .sidebar h2 img {
     transition: background-color 0.3s ease;
   }
 
-  .btn-all:hover { background-color: #EBC005; }
+  .btn-all:hover { background-color: #EBC005; } */
 
 
   /* Responsif untuk HP */

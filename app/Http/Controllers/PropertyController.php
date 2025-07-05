@@ -59,6 +59,9 @@ class PropertyController extends Controller
             'user_id' => Auth::id(),
         ]);
 
+        // 🟡 Tambahkan user pembuat ke relasi akses properti (pivot)
+        $property->users()->attach(Auth::id());
+
         session(['currentStep' => 2]);
         session(['property_id' => $property->id]);
 
@@ -151,7 +154,14 @@ class PropertyController extends Controller
     public function showProperty()
     {
         $userId = Auth::id();
-        $properties = Property::where('user_id', $userId)->get();
+        // $properties = Property::where('user_id', $userId)->get();
+        // return view('property.display-property', compact('properties'));
+        $createdProperties = Property::where('user_id', $userId)->get();
+        $assignedProperties = \App\Models\User::find($userId)->properties;
+
+        // Gabungkan tanpa duplikat
+        $properties = $createdProperties->merge($assignedProperties)->unique('id');
+
         return view('property.display-property', compact('properties'));
     }
 

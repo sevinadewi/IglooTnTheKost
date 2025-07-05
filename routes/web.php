@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\BillController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -148,6 +149,14 @@ Route::middleware('guest')->group(function (){
     Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])->name('password.update');
 });
 
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::post('/admin/assign-property', [AdminController::class, 'assignProperty'])->name('admin.assignProperty');
+    Route::post('/admin/update-role', [AdminController::class, 'updateRole'])->name('admin.updateRole');
+    Route::get('/admin/user/{id}/properties', [AdminController::class, 'editUserProperties'])->name('admin.editUserProperties');
+Route::post('/admin/user/{id}/properties', [AdminController::class, 'updateUserProperties'])->name('admin.updateUserProperties');
+
+});
 
 Route::get('/test-email/{tenantId}', function ($tenantId) {
     $tenant = Tenant::findOrFail($tenantId);
@@ -160,3 +169,18 @@ Route::get('/test-email/{tenantId}', function ($tenantId) {
 
     return "Email pengingat berhasil dikirim ke " . $tenant->email;
 });
+
+use App\Models\Property;
+
+Route::get('/repair-property-user', function () {
+    $properties = Property::all();
+
+    foreach ($properties as $property) {
+        if ($property->user_id && !$property->users->contains($property->user_id)) {
+            $property->users()->attach($property->user_id);
+        }
+    }
+
+    return 'Selesai memperbaiki relasi user-properti!';
+});
+

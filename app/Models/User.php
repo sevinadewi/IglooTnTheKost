@@ -15,6 +15,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
  * App\Models\User
  *
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Property[] $properties
+ * @method bool isAdmin()
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -29,6 +30,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -50,8 +52,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    public function isAdmin() {
+        return $this->role === 'admin';
+    }
+
     public function properties()
     {
-        return $this->hasMany(Property::class);
+        return $this->belongsToMany(Property::class);
     }
 }

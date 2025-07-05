@@ -7,8 +7,11 @@
                         <i class='bx bx-search'></i>
                         <input type="text" id="searchInput" placeholder="Cari Penyewa" class="search-input">
                     </div>
-                    <button onclick="" class="btn-all">History Penyewa</button>
-                    <button onclick="toogleAddModal()" class="btn-add">+ Tambah Penyewa</button>
+                    <div style="display: flex; gap: 0.75rem;">
+                        <button onclick="" class="btn-all">History Penyewa</button>
+                        <button onclick="toogleAddModal()" class="btn-add">+ Tambah Penyewa</button>
+                    </div>
+                    
                 </div>
 
                 <div id="tenantModal" class="modal">

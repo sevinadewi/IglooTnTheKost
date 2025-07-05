@@ -26,6 +26,10 @@ class AuthController extends Controller
           
 
              $user = Auth::user();
+            // ✅ Routing berdasarkan role
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
 
             if ($user->properties()->exists()) {
                 return redirect()->route('property.display-property');
