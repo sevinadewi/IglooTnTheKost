@@ -1,75 +1,100 @@
 @extends('layout.admin-master')
 
+@section('styles')
+    <style>
+        canvas {
+            max-width: 50px;
+        }
+
+
+    </style>
+@endsection
+
 @section('content')
+<div class="main-content">
+    <h2>Statistik Sistem</h2>
 
-<div style="padding: 0 20px; width: 100%; margin: 20px;">
-    <form action="{{ route('admin.assignProperty') }}" method="POST">
-    @csrf
-    <select name="user_id">
-        @foreach ($users as $user)
-            <option value="{{ $user->id }}">{{ $user->name }}</option>
-        @endforeach
-    </select>
-
-    <select name="property_id">
-        @foreach ($properties as $property)
-            <option value="{{ $property->id }}">{{ $property->name }}</option>
-        @endforeach
-    </select>
-
-    <button type="submit">Assign Property</button>
-</form>
-
-<div class="topbar">
-        <div class="user-menu">
-            <button class="user-button" onclick="toggleUserMenu()">
-                <i class='bx bx-user-circle'></i>
-            </button>
-            <div class="user-dropdown" id="userDropdown">
-                <a href="#">Edit Profil</a>
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit">Logout</button>
-                </form>
+    <div class="info-cards">
+        <div class="card-container">
+          
+            <div class="card green">
+              <div class="card-header">{{ $userCount }}</div>
+              <div class="card-label">Jumlah Pengguna</div>
+              <div class="card-footer">More Info <i class='bx bx-right-arrow-alt'></i></div>
             </div>
-
+            <div class="card yellow">
+                <div class="card-header">{{ $adminCount }}</div>
+              <div class="card-label">Jumlah Admin</div>
+              
+              <div class="card-footer">More Info <i class='bx bx-right-arrow-alt'></i></div>
+            </div>
+            <div class="card blue">
+              <div class="card-header">{{ $propertyCount }}</div>
+              <div class="card-label">Jumlah Properti</div>
+              <div class="card-footer">More Info <i class='bx bx-right-arrow-alt'></i></div>
+            </div>
+          
         </div>
-        
-<h3>Daftar User</h3>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nama</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Aksi</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($users as $user)
-        <tr>
-            <td>{{ $user->name }}</td>
-            <td>{{ $user->email }}</td>
-            <td>
-                <form method="POST" action="{{ route('admin.updateRole') }}">
-                    @csrf
-                    <input type="hidden" name="user_id" value="{{ $user->id }}">
-                    <select name="role" onchange="this.form.submit()">
-                        <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>User</option>
-                        <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
-                    </select>
-                </form>
-            </td>
-            <td>
-                <a href="{{ route('admin.editUserProperties', $user->id) }}" class="btn-all">Kelola Akses Properti</a>
-            </td>
-            <td>
-                <!-- Aksi lain seperti lihat properti yang dia kelola -->
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
-</div>
+    </div>
+    <div style="max-width: 500px">
+        <h4 style="margin-bottom: 10px; color: #333;">Statistik Sistem</h4>
+        <canvas id="propertyChart" height="120" style="max-width: 100%; margin-bottom: 40px;"></canvas>
+    </div>
+    
 
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const ctx = document.getElementById('propertyChart').getContext('2d');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Pengguna', 'Admin', 'Properti'],
+      datasets: [{
+        label: 'Jumlah',
+        data: [{{ $userCount }}, {{ $adminCount }}, {{ $propertyCount }}],
+        backgroundColor: [
+          '#EBC005', // Kuning tema
+          '#FFB300', // Kuning terang
+          '#FFD54F'  // Kuning pastel
+        ],
+        borderRadius: 10,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#333',
+          titleColor: '#fff',
+          bodyColor: '#fff'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: '#333',
+            font: { weight: 'bold' }
+          }
+        },
+        x: {
+          ticks: {
+            color: '#333',
+            font: { weight: 'bold' }
+          }
+        }
+      }
+    }
+  });
+});
+</script>
+
+
+    {{-- Tambahkan Chart di sini --}}
+</div>
 @endsection

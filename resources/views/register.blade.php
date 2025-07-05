@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Igloo Indekost</title>
+        <title>Minkos</title>
 
         <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/vendor/boxicons/css/boxicons.min.css">
@@ -17,7 +17,7 @@
             <div class="login-cont">
                 <div class="left">
                     <img src="assets/img/IndekostLogo.svg" alt="Igloo Indekos">
-                    <h2>Igloo Indekos</h2>
+                    <h2>Minkos</h2>
                 </div>
                 <div class="right">
                     <h2>Create your Free Account</h2>
@@ -39,12 +39,12 @@
                    </form>
 
                     <p class="login-text">Already have an account? <a href="/login">Log in</a></p>
-                    <p class="or">- OR -</p>
+                    {{-- <p class="or">- OR -</p>
                     <div class="google-btn">
                         <i class='bx bxl-google'></i>
                         <span>Sign up with Google</span>
-                    </div>
-                    <p class="footer-login">Copyright Igloo Indekos</p>
+                    </div> --}}
+                    <p class="footer-login">Copyright Minkos</p>
                 </div>
             </div>
         </div>

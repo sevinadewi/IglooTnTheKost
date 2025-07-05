@@ -137,4 +137,17 @@ class TenantController extends Controller
         return redirect()->back()->with('success', 'Penyewa telah keluar kos.');
     }
 
+    public function history($propertyId)
+    {
+    $property = Property::findOrFail($propertyId);
+    $tenants = Tenant::with('room')
+                ->where('property_id', $propertyId)
+                ->where('status', 'keluar')
+                ->orderBy('tanggal_keluar', 'desc')
+                ->get();
+
+    return view('dashboard.dashboard-history-penghuni', compact('tenants', 'property'));
+    }
+
+
 }

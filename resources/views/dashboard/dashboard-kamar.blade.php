@@ -98,15 +98,16 @@
 @section('content')
 
 <div style="padding: 0 20px; width: 100%; margin: 20px;">
-    <button class="toggle-sidebar" onclick="toggleSidebar()">
-                    <i class="fas fa-bars"></i>
-                </button>
+            <button class="toggle-sidebar" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
             <div class="top-bar">
-                <button class="btn-add" id="addRoomBtn">+ Tambah kamar</button>
+                
                 <div class="search-wrapper">
                     <i class='bx bx-search'></i>
                     <input type="text" class="search-input" id="searchInput" placeholder="Cari Kamar">
                 </div>
+                <button class="btn-add" id="addRoomBtn">+ Tambah kamar</button>
             </div>
             
             <div class="main-container">
@@ -416,6 +417,12 @@ function hideForm() {
             // Inisialisasi pertama
             displayPage(currentPage);
         });
+
+        //pencarian
+        document.addEventListener("DOMContentLoaded", function () {
+            setupTableSearch("searchInput", "roomTableBody", [1, 2]); // Kolom Nama dan Fasilitas
+        });
+
 </script>
         
 

@@ -2,77 +2,7 @@
 
 @section('styles')
     <style>
-        /* 🔥 User Button */
-.topbar {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 10px 20px;
-}
 
-.user-button {
-    background: none;
-    border: none;
-    font-size: 32px;
-    cursor: pointer;
-    color: #333;
-}
-
-.user-button:hover {
-    color: #fcd92c;
-}
-
-/* 🔥 User Dropdown */
-.user-menu {
-    position: relative;
-}
-
-.user-dropdown {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 40px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    min-width: 160px;
-    z-index: 999;
-}
-
-.user-dropdown a,
-.user-dropdown button {
-    display: block;
-    width: 100%;
-    padding: 10px 15px;
-    color: #333;
-    text-decoration: none;
-    background: none;
-    border: none;
-    text-align: left;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.user-dropdown a:hover,
-.user-dropdown button:hover {
-    background-color: #fcd92c;
-    color: #000;
-}
-
-.user-dropdown.show {
-    display: block;
-}
-
-/* 🔥 Page Title */
-.page-title {
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 25px;
-    color: #333;
-    margin-left: 20px;
-    
-}
 
     </style>
 @endsection

@@ -10,10 +10,11 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $users = User::where('role', 'user')->get();
-        $properties = Property::all();
+         $userCount = User::count();
+        $propertyCount = Property::count();
+        $adminCount = User::where('role', 'admin')->count();
 
-        return view('admin.dashboard', compact('users', 'properties'));
+        return view('admin.dashboard', compact('userCount', 'propertyCount', 'adminCount'));
     }
 
     public function assignProperty(Request $request)
@@ -40,50 +41,33 @@ class AdminController extends Controller
         $user->role = $request->role;
         $user->save();
 
-        return redirect()->route('admin.dashboard')->with('success', 'Role updated!');
+        return redirect()->route('admin.edit-user-role')->with('success', 'Role updated!');
     }
 
     public function editUserProperties($user_id)
     {
         $user = User::with('properties')->findOrFail($user_id);
 
-        // $allProperties = Property::all();
-        // Ambil semua properti yang belum diassign ke siapapun ATAU yang sudah dimiliki user ini
-        // $allProperties = Property::whereDoesntHave('users', function ($query) use ($user_id) {
-        //     $query->where('user_id', '!=', $user_id);
-        // })->orWhereHas('users', function ($query) use ($user_id) {
-        //     $query->where('user_id', $user_id);
-        // })->get();
         $allProperties = Property::all();
-
 
         return view('admin.edit-user-properties', compact('user', 'allProperties'));
     }
 
     public function updateUserProperties(Request $request, $user_id)
     {
-    //     $user = User::with('properties')->findOrFail($user_id);
+        $user = User::with('properties')->findOrFail($user_id);
+        $propertyIds = $request->input('properties', []);
+        $user->properties()->sync($propertyIds);
 
-    //     $propertyIds = $request->input('properties', []);
+        return redirect()->route('admin.dashboard')->with('success', 'User property access updated');
+    }
 
-    //     // Cek apakah ada properti yang sudah dimiliki user lain
-    // $conflictProperties = Property::whereIn('id', $propertyIds)
-    //     ->whereHas('users', function ($q) use ($user_id) {
-    //         $q->where('user_id', '!=', $user_id);
-    //     })->pluck('nama')->toArray();
+    public function editUserRole()
+    {
+    $users = User::all();
+    $properties = Property::all();
 
-    // if (count($conflictProperties) > 0) {
-    //     return back()->with('error', 'Properti berikut sudah dimiliki user lain: ' . implode(', ', $conflictProperties));
-    // }
-
-
-    //     $user->properties()->sync($propertyIds); // update akses properti
-    //     return redirect()->route('admin.dashboard')->with('success', 'User property access updated');
-     $user = User::with('properties')->findOrFail($user_id);
-    $propertyIds = $request->input('properties', []);
-    $user->properties()->sync($propertyIds);
-
-    return redirect()->route('admin.dashboard')->with('success', 'User property access updated');
+    return view('admin.edit-user-role', compact('users', 'properties'));
     }
 
 

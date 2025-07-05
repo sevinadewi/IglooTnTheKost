@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
 
     <link rel="stylesheet" href="{{asset ('assets/css/dashboard-tagihan.css')}}">
+    <link rel="stylesheet" href="{{asset ('assets/css/style.css')}}">
 @endsection
 
 @section('content')
@@ -48,7 +49,7 @@
             </select>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-submit">Lihat Tagihan</button>
+          <button type="submit" class="btn-add">Lihat Tagihan</button>
         </form>
 
         <!-- Tempat untuk render hasil tagihan -->

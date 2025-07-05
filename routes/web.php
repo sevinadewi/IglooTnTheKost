@@ -60,6 +60,8 @@ Route::middleware(['auth'])->group(function (){
     Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
     Route::post('/penghuni', [TenantController::class, 'store'])->name('tenants.store');
     Route::put('/penghuni/{tenant}', [RoomController::class, 'update'])->name('tenants.update');
+    Route::get('/penghuni/{id}/histori-penghuni', [TenantController::class, 'history'])->name('histori-penghuni');
+
 
     // Route::post('/tenant/store', [TenantController::class, 'store'])->name('tenant.store');
 
@@ -154,7 +156,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/assign-property', [AdminController::class, 'assignProperty'])->name('admin.assignProperty');
     Route::post('/admin/update-role', [AdminController::class, 'updateRole'])->name('admin.updateRole');
     Route::get('/admin/user/{id}/properties', [AdminController::class, 'editUserProperties'])->name('admin.editUserProperties');
-Route::post('/admin/user/{id}/properties', [AdminController::class, 'updateUserProperties'])->name('admin.updateUserProperties');
+    Route::post('/admin/user/{id}/properties', [AdminController::class, 'updateUserProperties'])->name('admin.updateUserProperties');
+    Route::get('/admin/user-role', [AdminController::class, 'editUserRole'])->name('admin.edit-user-role');
+
 
 });
 
@@ -170,17 +174,17 @@ Route::get('/test-email/{tenantId}', function ($tenantId) {
     return "Email pengingat berhasil dikirim ke " . $tenant->email;
 });
 
-use App\Models\Property;
+// use App\Models\Property;
 
-Route::get('/repair-property-user', function () {
-    $properties = Property::all();
+// Route::get('/repair-property-user', function () {
+//     $properties = Property::all();
 
-    foreach ($properties as $property) {
-        if ($property->user_id && !$property->users->contains($property->user_id)) {
-            $property->users()->attach($property->user_id);
-        }
-    }
+//     foreach ($properties as $property) {
+//         if ($property->user_id && !$property->users->contains($property->user_id)) {
+//             $property->users()->attach($property->user_id);
+//         }
+//     }
 
-    return 'Selesai memperbaiki relasi user-properti!';
-});
+//     return 'Selesai memperbaiki relasi user-properti!';
+// });
 

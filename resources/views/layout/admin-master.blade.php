@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard Igloo Indekos</title>
+  <title>Dashboard Admin Minkos</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.4/css/boxicons.min.css" rel="stylesheet"/>
   <!-- Bootstrap & Boxicons -->
   {{-- <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css" /> --}}
@@ -22,14 +22,14 @@
   <div class="dashboard">
     <!-- Sidebar -->
     <div class="sidebar">
-        @if(isset($property))
-        <h2><img src="{{ asset('assets/img/IndekostLogo.svg') }}" alt="Logo"> Igloo Indekos</h2>
+        @if(isset($user))
+        <h2><img src="{{ asset('assets/img/IndekostLogo.svg') }}" alt="Logo">  Minkos</h2>
           
         <a href="{{ route('admin.dashboard') }}" class="{{ Route::currentRouteName() == 'admin.dashboard' ? 'active' : '' }}">
             <i class='bx bx-home-alt'></i> <span>Dashboard</span>
         </a>
 
-        <a href="{{ route('admin.editUserProperties', ['id' => Auth::id()]) }}">
+        <a href="{{ route('admin.edit-user-role', ['id' => Auth::id()]) }}">
             <i class='bx bx-user-pin'></i> <span>Edit Akses Properti</span>
         </a>
           <li>

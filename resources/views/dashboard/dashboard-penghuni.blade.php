@@ -8,7 +8,7 @@
                         <input type="text" id="searchInput" placeholder="Cari Penyewa" class="search-input">
                     </div>
                     <div style="display: flex; gap: 0.75rem;">
-                        <button onclick="" class="btn-all">History Penyewa</button>
+                        <button onclick="window.location.href='{{ route('histori-penghuni', ['id' => $property->id]) }}'" class="btn-all">History Penyewa</button>
                         <button onclick="toogleAddModal()" class="btn-add">+ Tambah Penyewa</button>
                     </div>
                     
