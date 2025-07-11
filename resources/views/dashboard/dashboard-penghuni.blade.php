@@ -2,6 +2,9 @@
 @section('content')
 <div style="padding: 0 20px; width: 100%; margin: 20px;">
     <div class="main-container">
+        <button class="toggle-sidebar" onclick="toggleSidebar()">
+                <i class="bx bx-menu"></i>
+            </button>
                 <div class="top-bar">
                     <div class="search-wrapper">
                         <i class='bx bx-search'></i>
@@ -14,34 +17,34 @@
                     
                 </div>
 
-                <div id="tenantModal" class="modal">
-                            <div class="modal-content">
-                                <form action="{{ route('tenants.store')}}" method="POST">
-                                    @csrf
-                                    <h3 id="formTitle">Tambah Penyewa</h3>
-                                    <input type="text" id="nama" name="nama" placeholder="Nama">
-                                    <input type="text" id="telepon" name="telepon" placeholder="No. Telepon">
-                                    <input type="date" id="tanggal" name="tanggal">
-                                    <input type="email" id="email" name="email" placeholder="email">
-                                    
-                                    <select name="room_id" id="roomSelect" required>
-                                        <option value="">Pilih Kamar</option>
-                                        @foreach ($rooms as $room)
-                                            <option value="{{ $room->id}}" data-harga="{{ $room->harga }}">{{ $room->nama }}</option>
-                                        @endforeach
-                                    </select>
-                                    <input type="text" name="harga" id="hargaField" placeholder="Harga" readonly required>
-                                    <div class="form-buttons">
-                                        <button type="submit" class="btn-save">Simpan</button>
-                                        <button type="button" id="" onclick="hideForm('tenantModal')" class="btn-cancel">Batal</button>
-                                    </div>
-                                </form>
+                <div id="tenantModal" class="my-modal">
+                    <div class="my-modal-content">
+                        <form action="{{ route('tenants.store')}}" method="POST">
+                            @csrf
+                            <h3 id="formTitle">Tambah Penyewa</h3>
+                            <input type="text" id="nama" name="nama" placeholder="Nama">
+                            <input type="text" id="telepon" name="telepon" placeholder="No. Telepon">
+                            <input type="date" id="tanggal" name="tanggal">
+                            <input type="email" id="email" name="email" placeholder="email">
+                            
+                            <select name="room_id" id="roomSelect" required>
+                                <option value="">Pilih Kamar</option>
+                                @foreach ($rooms as $room)
+                                    <option value="{{ $room->id}}" data-harga="{{ $room->harga }}">{{ $room->nama }}</option>
+                                @endforeach
+                            </select>
+                            <input type="text" name="harga" id="hargaField" placeholder="Harga" readonly required>
+                            <div class="form-buttons">
+                                <button type="submit" class="btn-save">Simpan</button>
+                                <button type="button" id="" onclick="hideForm('tenantModal')" class="btn-cancel">Batal</button>
                             </div>
+                        </form>
+                    </div>
                 </div>
 
                  {{-- MODAL EDIT PENYEWA --}}
-                <div id="editTenantModal" class="modal">
-                    <div class="modal-content">
+                <div id="editTenantModal" class="my-modal">
+                    <div class="my-modal-content">
                         <form id="editTenantForm" method="POST">
                             @csrf
                             @method('PUT')
@@ -72,6 +75,7 @@
 
                 <div id="cardsContainer" class="cards-wrapper">
                     @foreach ($tenants as $tenant)
+                    
                     <div>
                         <strong>{{ $tenant->nama }}</strong><br>
                         <i class='bx bx-phone' ></i> {{ $tenant->telepon }}<br>
@@ -98,6 +102,9 @@
                                     <i class='bx bx-log-out'></i>
                                 </button>
                             </form>     
+                        </div>
+                        <div class="cards-footer">
+                            <a href="{{ route('detail-penghuni', $tenant->id) }}">Lihat Detail</a>
                         </div>
                     </div>
                     @endforeach
@@ -131,6 +138,10 @@
         @endif
 
         <script>
+            // Toggle sidebar di HP (responsive)
+            function toggleSidebar() {
+                document.body.classList.toggle('sb-open');
+            }
             function toogleAddModal() {
                 const modal = document.getElementById('tenantModal');
                 modal.classList.add('active');
@@ -138,8 +149,14 @@
 
             function hideForm() {
                 const modal = document.getElementById('tenantModal');
-                modal.classList.add('active');
+                modal.classList.remove('active');
             }
+
+            function hideModal(modalId) {
+                const modal = document.getElementById(modalId);
+                if (modal) modal.classList.remove('active');
+            }
+
             // Tutup modal jika klik luar area modal
             window.onclick = function(event) {
                 const modal = document.getElementById('tenantModal');
@@ -192,6 +209,25 @@
             // Jalankan fungsi saat file ini dimuat
             setUpHargaOtomatis("editRoomSelect", "editHargaField");
 
+            
         </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const searchInput = document.getElementById("searchInput");
+                const cardsContainer = document.getElementById("cardsContainer");
+                const cards = Array.from(cardsContainer.children);
+
+                searchInput.addEventListener("input", function () {
+                    const query = this.value.toLowerCase();
+
+                    cards.forEach(card => {
+                        const textContent = card.textContent.toLowerCase();
+                        const isMatch = textContent.includes(query);
+                        card.style.display = isMatch ? "" : "none";
+                    });
+                });
+            });
+        </script>
+
 @endsection
 

@@ -20,22 +20,7 @@
     <button type="submit">Assign Property</button>
 </form> --}}
 
-<div class="topbar">
-        <div class="user-menu">
-            <button class="user-button" onclick="toggleUserMenu()">
-                <i class='bx bx-user-circle'></i>
-            </button>
-            <div class="user-dropdown" id="userDropdown">
-                <a href="#">Edit Profil</a>
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit">Logout</button>
-                </form>
-            </div>
 
-        </div>
- 
-</div>
 
 <h3>Daftar User</h3>
 <div class="main-container">

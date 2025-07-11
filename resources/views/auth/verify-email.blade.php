@@ -6,27 +6,27 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Verifikasi Email</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-
 </head>
 <body>
-    <h2>VERIF EMAIL COY</h2>
+    <h2>Verifikasi Email</h2>
+    <p>Silakan cek email Anda dan klik link verifikasi untuk melanjutkan.</p>
 
-    <!-- SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        // Tampilkan notifikasi SweetAlert
-        Swal.fire({
-            icon: 'success',
-            title: 'Email berhasil diverifikasi!',
-            text: 'Anda akan diarahkan ke halaman login.',
-            timer: 3000,
-            showConfirmButton: false
-        });
+    @if (session('status') == 'verification-link-sent')
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Link verifikasi dikirim ulang!',
+                text: 'Silakan periksa email Anda.',
+                timer: 3000,
+                showConfirmButton: false
+            });
+        </script>
+    @endif
 
-        // Redirect ke halaman login setelah 3 detik
-        setTimeout(function() {
-            window.location.href = "{{ route('login') }}";
-        }, 3000);
-    </script>
+    <form method="POST" action="{{ route('verification.send') }}">
+        @csrf
+        <button type="submit">Kirim ulang email verifikasi</button>
+    </form>
 </body>
 </html>

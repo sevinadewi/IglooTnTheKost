@@ -149,5 +149,17 @@ class TenantController extends Controller
     return view('dashboard.dashboard-history-penghuni', compact('tenants', 'property'));
     }
 
+    public function showDetail($id)
+    {
+    // Ambil tenant beserta kamar dan tagihannya
+    $tenant = Tenant::with(['room', 'bills' => function($q) {
+        $q->orderBy('tahun', 'desc')->orderBy('bulan', 'desc');
+    }])->findOrFail($id);
+    $property = Property::findOrFail($tenant->property_id);
+
+    return view('dashboard.dashboard-detail-penghuni', compact('tenant', 'property'));
+    }
+
+
 
 }

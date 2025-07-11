@@ -56,12 +56,12 @@ class KirimPengingatTagihan extends Command
             }
 
             // Kirim jika 7 hari lagi jatuh tempo
-            // if ($today->diffInDays($jatuhTempoBulanIni) === 7) {
-            //     Mail::to($tenant->email)->send(new \App\Mail\PengingatTagihanMail($tenant));
-            //     $this->info('Email dikirim ke: ' . $tenant->nama . ' (' . $tenant->email . ')');
-            // }
+            if ($today->diffInDays($jatuhTempoBulanIni) === 7) {
+                Mail::to($tenant->email)->send(new \App\Mail\PengingatTagihanMail($tenant));
+                $this->info('Email dikirim ke: ' . $tenant->nama . ' (' . $tenant->email . ')');
+            }
 
-            Mail::to($tenant->email)->send(new \App\Mail\PengingatTagihanMail($tenant));
+            // Mail::to($tenant->email)->send(new \App\Mail\PengingatTagihanMail($tenant));
 
 
         }

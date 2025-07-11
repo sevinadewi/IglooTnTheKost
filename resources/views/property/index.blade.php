@@ -93,15 +93,32 @@
                                 <form action="{{ route('property.storeRoom')}}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <h3 id="modalTitle">Tambah Kamar</h3>
-                                    <input type="hidden" name="property_id" value="{{ session('property_id') ?? '' }}">
-                                    <input type="text" id="roomName" name="nama" placeholder="Nama Kamar">
-                                    <input type="text" id="roomFacilities" name="fasilitas" placeholder="Fasilitas (pisahkan dengan koma)">
-                                    <input type="number" id="roomPrice" name="harga" placeholder="Harga">
-                                    <input type="file" id="roomImage" name="gambar" accept="image/*">
-                                    <select id="roomStatus" name="status">
-                                        <option value="Kosong">Kosong</option>
-                                        <option value="Terisi">Terisi</option>
-                                    </select>
+                                    <div class="form-group">
+                                        <input type="hidden" name="property_id" value="{{ session('property_id') ?? '' }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="roomName">Nama Kamar</label>
+                                        <input type="text" id="roomName" name="nama" placeholder="Nama Kamar">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="roomFacilities">Fasilitas</label>
+                                        <input type="text" id="roomFacilities" name="fasilitas" placeholder="Fasilitas (pisahkan dengan koma)">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="roomPrice">Harga</label>
+                                        <input type="number" id="roomPrice" name="harga" placeholder="Harga">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="roomImage">Gambar</label>
+                                        <input type="file" id="roomImage" name="gambar" accept="image/*">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="roomStatus">Status</label>
+                                        <select id="roomStatus" name="status">
+                                            <option value="Kosong">Kosong</option>
+                                            <option value="Terisi">Terisi</option>
+                                        </select>
+                                    </div>
                                     <div class="form-buttons">
                                     <button type="submit" class="btn-save"  id="saveRoomBtn">Simpan</button>
                                     <button type="button" class="btn-cancel" onclick="hideForm('roomModal')" id="cancelRoomBtn">Batal</button>
@@ -121,19 +138,45 @@
                                 <form action="{{ route('property.storeTenant')}}" method="POST">
                                     @csrf
                                     <h3 id="formTitle">Tambah Penyewa</h3>
-                                    <input type="hidden" id="editingIndex">
-                                    <input type="text" id="nama" name="nama" placeholder="Nama">
-                                    <input type="text" id="telepon" name="telepon" placeholder="No. Telepon">
-                                    <input type="date" id="tanggal" name="tanggal">
-                                    <input type="email" id="email" name="email"  placeholder="Email">
-                                    
-                                    <select name="room_id" id="roomSelect" required>
-                                        <option value="">Pilih Kamar</option>
-                                        @foreach ($rooms as $room)
-                                            <option value="{{ $room->id}}" data-harga="{{ $room->harga }}">{{ $room->nama }}</option>
-                                        @endforeach
-                                    </select>
-                                    <input type="text" name="harga" id="hargaField" placeholder="Harga" readonly required>
+
+                                    <div class="form-group">
+                                        <input type="hidden" id="editingIndex">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="nama">Nama</label>
+                                        <input type="text" id="nama" name="nama" placeholder="Nama">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="telepon">No. Telepon</label>
+                                        <input type="text" id="telepon" name="telepon" placeholder="No. Telepon">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="tanggal">Tanggal Masuk</label>
+                                        <input type="date" id="tanggal" name="tanggal">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" id="email" name="email" placeholder="Email">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="roomSelect">Pilih Kamar</label>
+                                        <select name="room_id" id="roomSelect" required>
+                                            <option value="">Pilih Kamar</option>
+                                            @foreach ($rooms as $room)
+                                                <option value="{{ $room->id }}" data-harga="{{ $room->harga }}">{{ $room->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="hargaField">Harga</label>
+                                        <input type="text" name="harga" id="hargaField" placeholder="Harga" readonly required>
+                                    </div>
                                     <div class="form-buttons">
                                         <button type="submit" class="btn-save">Simpan</button>
                                         <button type="button" id="" onclick="hideForm('tenantModal')" class="btn-cancel">Batal</button>

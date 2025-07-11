@@ -13,7 +13,13 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href=" {{ asset ('assets/css/style.css')}}">
     {{-- <link rel="stylesheet" href=" {{ asset ('assets/css/style-new.css')}}"> --}}
-  <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+  {{-- <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script> --}}
+  <script>
+    function toggleSidebar() {
+    document.body.classList.toggle('sb-open');
+  }
+  </script>
+
       <script src="{{ asset('assets/js/dashboard.js') }}"></script>
   @yield('styles')
 </head>
@@ -48,23 +54,17 @@
           
           @endif
     </div>
-@if(session('success'))
-  <div class="alert alert-success alert-dismissible fade show mx-4 mt-3" role="alert">
-    {{ session('success') }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-@endif
+
 
     <!-- Main Content -->
     @yield('content')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+ @stack('scripts')
 
     <script>
     // Toggle sidebar di HP (responsive)
-function toggleSidebar() {
-    document.body.classList.toggle('sb-open');
-}
+
 
 // Tutup sidebar jika klik di luar
 window.addEventListener('click', function(e) {

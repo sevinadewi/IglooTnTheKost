@@ -99,7 +99,7 @@
 
 <div style="padding: 0 20px; width: 100%; margin: 20px;">
             <button class="toggle-sidebar" onclick="toggleSidebar()">
-                <i class="fas fa-bars"></i>
+                <i class="bx bx-menu"></i>
             </button>
             <div class="top-bar">
                 
@@ -112,75 +112,76 @@
             
             <div class="main-container">
                 
-
-                <table class="table" style="width: 100%; margin-top: 1rem;">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nama Kamar</th>
-                            <th>Fasilitas</th>
-                            <th>Gambar</th>
-                            <th>Harga</th>
-                            <th>Status</th>
-                            <th>Opsi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="roomTableBody">
-                        @foreach ($rooms as $room)
+                <div class="table-responsive">
+                    <table class="table" style="width: 100%; margin-top: 1rem;">
+                        <thead>
                             <tr>
-                                <td>{{ $room->id }}</td>
-                                <td>{{ $room->nama }}</td>
-                                <td>
-                                    <ul>
-                                        @foreach (is_array($room->fasilitas) ? $room->fasilitas : json_decode($room->fasilitas, true) as $fasilitas)
-                                            <li>{{ $fasilitas}}</li>
-                                        @endforeach
-                                    </ul>
-                                </td>
-                                <td>
-                                    @if ($room->gambar)
-                                        <img src="{{ asset('storage/' .$room->gambar) }}" width="100" alt="">    
-                                    @else
-                                        Tidak ada gambar
-                                    @endif
-                                </td>
-                                <td>Rp{{ number_format($room->harga, 0, ',', '.')}}</td>
-                                <td>
-                                    @if ($room->status == 'kosong')
-                                        <span class="badge badge-success">Kosong</span>
-                                    @elseif ($room->status == 'terisi')
-                                        <span class="badge badge-danger">Terisi</span>
-                                    @else
-                                        <span class="badge badge-danger">{{ ucfirst($room->status) }}</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    <button type="button" class="btn-icon btn-edit"
-                                        onclick="openEditModal({{ $room->id }}, '{{ $room->nama }}', '{{ implode(',', is_array($room->fasilitas) ? $room->fasilitas : json_decode($room->fasilitas)) }}', {{ $room->harga }}, '{{ $room->status }}', '{{ asset('storage/' . $room->gambar) }}')">
-                                        <i class='bx bx-edit-alt'></i>
-                                    </button>
-                                    <form method="POST" 
-                                        action="{{ route('rooms.destroy', $room->id) }}" 
-                                        style="display:inline"
-                                        onsubmit="return confirmDelete(event, '{{ strtolower($room->status) }}')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-icon btn-delete">
-                                            <i class='bx bx-trash'></i>
-                                        </button>
-                                    </form>
-
-                                </td>
+                                <th>ID</th>
+                                <th>Nama Kamar</th>
+                                <th>Fasilitas</th>
+                                <th>Gambar</th>
+                                <th>Harga</th>
+                                <th>Status</th>
+                                <th>Opsi</th>
                             </tr>
-                            
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody id="roomTableBody">
+                            @foreach ($rooms as $room)
+                                <tr>
+                                    <td>{{ $room->id }}</td>
+                                    <td>{{ $room->nama }}</td>
+                                    <td>
+                                        <ul>
+                                            @foreach (is_array($room->fasilitas) ? $room->fasilitas : json_decode($room->fasilitas, true) as $fasilitas)
+                                                <li>{{ $fasilitas}}</li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        @if ($room->gambar)
+                                            <img src="{{ asset('storage/' .$room->gambar) }}" width="100" alt="">    
+                                        @else
+                                            Tidak ada gambar
+                                        @endif
+                                    </td>
+                                    <td>Rp{{ number_format($room->harga, 0, ',', '.')}}</td>
+                                    <td>
+                                        @if ($room->status == 'kosong')
+                                            <span class="badge badge-success">Kosong</span>
+                                        @elseif ($room->status == 'terisi')
+                                            <span class="badge badge-danger">Terisi</span>
+                                        @else
+                                            <span class="badge badge-danger">{{ ucfirst($room->status) }}</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn-icon btn-edit"
+                                            onclick="openEditModal({{ $room->id }}, '{{ $room->nama }}', '{{ implode(',', is_array($room->fasilitas) ? $room->fasilitas : json_decode($room->fasilitas)) }}', {{ $room->harga }}, '{{ $room->status }}', '{{ asset('storage/' . $room->gambar) }}')">
+                                            <i class='bx bx-edit-alt'></i>
+                                        </button>
+                                        <form method="POST" 
+                                            action="{{ route('rooms.destroy', $room->id) }}" 
+                                            style="display:inline"
+                                            onsubmit="return confirmDelete(event, '{{ strtolower($room->status) }}')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn-icon btn-delete">
+                                                <i class='bx bx-trash'></i>
+                                            </button>
+                                        </form>
+
+                                    </td>
+                                </tr>
+                                
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 <div id="pagination" style="margin-top: 1rem; text-align: center;"></div>
             </div>
         </div>    
-            <div class="modal" id="roomModal">
-                <div class="modal-content">
+            <div class="my-modal" id="roomModal">
+                <div class="my-modal-content">
                    <form action="{{ route('rooms.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <h3 id="modalTitle">Tambah Kamar</h3>
@@ -202,8 +203,8 @@
             </div>
         </div>
 
-        <div id="editRoomModal" class="modal">
-            <div class="modal-content">
+        <div id="editRoomModal" class="my-modal">
+            <div class="my-modal-content">
                 <form id="editRoomForm" method="POST"  enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -303,15 +304,6 @@
 
 </script>
 <script>
-            // function toggleAddModal() {
-            //     const modal = document.getElementById('roomModal');
-            //     modal.style.display = 'block';
-            // }
-
-            // function hideForm() {
-            //     const modal = document.getElementById('roomModal');
-            //     modal.style.display = 'none';
-            // }
 
             function toggleAddModal() {
     document.getElementById('roomModal').classList.add('active');
@@ -335,13 +327,7 @@ function hideForm() {
                     hideForm();
                 });
             });
-            // Tutup modal jika klik luar area modal
-            // window.onclick = function(event) {
-            //     const modal = document.getElementById('roomModal');
-            //     if (event.target === modal) {
-            //         modal.style.display = 'none';
-            //     }
-            // }
+           
 
             window.onclick = function(event) {
                 const addModal = document.getElementById('roomModal');
@@ -354,9 +340,6 @@ function hideForm() {
                     editModal.classList.remove('active');
                 }
             }
-
-
-
 
             //panah
            document.addEventListener("DOMContentLoaded", function () {

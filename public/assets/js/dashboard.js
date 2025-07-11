@@ -1,9 +1,11 @@
 // Collapse sidebar
 const resizeButton = document.querySelector('[data-resize-btn]');
-resizeButton.addEventListener('click', function(e) {
-  e.preventDefault();
-  document.body.classList.toggle('sb-collapsed');
-});
+if (resizeButton) {
+  resizeButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.body.classList.toggle('sb-collapsed');
+  });
+}
 
 // Window Scroll
 window.addEventListener('scroll', function() {
@@ -70,10 +72,14 @@ function readImage(file, callback) {
   reader.readAsDataURL(file);
 }
 
-document.getElementById('addRoomBtn').addEventListener('click', () => {
-  resetForm();
-  openModal(false);
-});
+const addRoomBtn = document.getElementById('addRoomBtn');
+if (addRoomBtn) {
+  addRoomBtn.addEventListener('click', () => {
+    resetForm();
+    openModal(false);
+  });
+}
+
 
 document.getElementById('cancelRoomBtn').addEventListener('click', () => {
   closeModal();

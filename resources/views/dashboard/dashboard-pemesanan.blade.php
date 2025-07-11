@@ -63,6 +63,9 @@
 
 <div style="padding: 0 20px; width: 100%; margin: 20px;">
 <div class="main-container">
+    <button class="toggle-sidebar" onclick="toggleSidebar()">
+        <i class="bx bx-menu"></i>
+    </button>
     <h2>Daftar Pemesanan Kamar - {{ $property->nama }}</h2>
 
     
@@ -73,7 +76,7 @@
         </div>
         <button onclick="showForm('reservationModal')" class="btn-add">+ Tambah Pemesanan</button>
     </div>
-
+    <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
@@ -88,7 +91,7 @@
                 <th>Aksi</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="reservationTableBody">
             @foreach($reservations as $reservation)
             <tr>
                 <td>{{ $reservation->nama }}</td>
@@ -129,9 +132,9 @@
             @endforeach
         </tbody>
     </table>
-
-    <div id="reservationModal" class="modal">
-        <div class="modal-content">
+    </div>
+    <div id="reservationModal" class="my-modal">
+        <div class="my-modal-content">
             <form action="{{ route('reservations.store') }}" method="POST">
                 @csrf
                 <h3 id="formTitle">Tambah Pemesanan</h3>
@@ -170,6 +173,10 @@
 </div>
 
 <script>
+    // Toggle sidebar di HP (responsive)
+function toggleSidebar() {
+    document.body.classList.toggle('sb-open');
+}
     const roomSelect = document.getElementById('roomSelect');
     const hargaField = document.getElementById('hargaField');
 
@@ -186,6 +193,11 @@
     function hideForm(id) {
         document.getElementById(id).classList.remove('active');
     }
+
+    //pencarian
+    document.addEventListener("DOMContentLoaded", function () {
+        setupTableSearch("searchInput", "reservationTableBody", [1, 2]); // Kolom Nama dan Fasilitas
+    });
 </script>
 
 {{-- NOTIFIKASI SUCCESS --}}

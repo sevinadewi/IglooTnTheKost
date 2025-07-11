@@ -31,4 +31,10 @@ class Tenant extends Model
     {
         return $this->belongsTo(Property::class);
     }
+
+    public function bills()
+    {
+        return $this->hasMany(Bill::class);
+    }
+
 }

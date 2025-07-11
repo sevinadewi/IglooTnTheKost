@@ -19,7 +19,7 @@ class DashboardController extends Controller
                             ->count();
 
         $penghuniNonAktif = Tenant::where('property_id', $id)
-                                ->where('status', 'non-aktif')
+                                ->where('status', 'keluar')
                                 ->count();
         
                                 

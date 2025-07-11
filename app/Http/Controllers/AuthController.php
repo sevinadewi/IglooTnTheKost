@@ -30,7 +30,7 @@ class AuthController extends Controller
             if ($user->role === 'admin') {
                 return redirect()->route('admin.dashboard');
             }
-
+         
             if ($user->properties()->exists()) {
                 return redirect()->route('property.display-property');
             } else {

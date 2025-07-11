@@ -72,7 +72,7 @@
         visibility 0.3s ease-in-out;
     }
 
-    body.sb-collapsed .sidebar a span {
+    body.sb-collapsed .sidebar a span, body.sb-collapsed .sidebar h2 {
       opacity: 0;
       visibility: hidden;
     }
@@ -176,9 +176,35 @@ body.sb-collapsed .sidebar h2 img {
       font-weight: bold;
     }
 
+    .user-button {
+      position: relative;
+      z-index: 2;
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: #333;
+      cursor: pointer;
+      padding: 10px; /* supaya lebih clickable */
+    }
+
+    .user-button::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 42px;   /* diameter lebih besar */
+      height: 42px;
+      background: #fff;  /* warna putih */
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1;   /* supaya di belakang icon */
+      box-shadow: 0 0 5px rgba(0,0,0,0.1); /* opsional: agar lebih “angkat” */
+    }
+
     .info-cards {
       display: flex;
       gap: 20px;
+
       margin-bottom: 30px;
     }
     .card-container {
@@ -206,6 +232,7 @@ body.sb-collapsed .sidebar h2 img {
         justify-content: space-between;
         font-family: Arial, sans-serif;
         float: left;
+        flex-shrink: 0;
     }
 
     .card-header {
@@ -322,6 +349,7 @@ body.sb-collapsed .sidebar h2 img {
     z-index: 999;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
+    overflow: hidden; 
   }
 
   body.sb-open .sidebar {
@@ -358,7 +386,53 @@ body.sb-collapsed .sidebar h2 img {
 }
 
 
-    
+//CHART
+.chart-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chart-box {
+  background-color:#fff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  margin-top: 10px;
+}
+
+.chart-box canvas {
+  max-width: 100%;
+  height: 80px;   /* atau coba 180px jika ingin lebih kecil */
+}
+.chart-wrapper {
+  width: 100%;
+  height: 180px; /* atau 150px, sesuaikan */
+}
+
+
+@media (min-width: 769px) {
+  .dashboard-grid {
+    flex-wrap: nowrap;
+  }
+
+  .info-cards {
+    flex: 1 1 50%;
+  }
+
+  .chart-section {
+    flex: 1 1 50%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
+    gap: 20px;
+  }
+}
 
    
 

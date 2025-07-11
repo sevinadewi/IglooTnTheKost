@@ -46,6 +46,9 @@
 
 @section('content')
 <div class="main-content">
+    <button class="toggle-sidebar" onclick="toggleSidebar()">
+                <i class="bx bx-menu"></i>
+            </button>
     <h2>Pengaturan Properti</h2>
 
     <div class="card-container">

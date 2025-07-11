@@ -28,8 +28,11 @@ class PasswordResetController extends Controller
             : back()->withErrors(['email' => __($status)]);
     }
 
-    public function sendResetPasswordForm(string $token){
-        return view('auth.reset-password', ['token' => $token]);
+    public function showResetPasswordForm(Request $request,string $token){
+        return view('auth.reset-password', [
+            'token' => $token,
+            'email' => $request->query('email')
+        ]);
     }
 
     public function resetPassword(Request $request){

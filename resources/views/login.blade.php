@@ -22,16 +22,17 @@
                 <div class="right">
                     <h2>Login</h2>
 
-                    @if ($errors->any())
-                        <div class="alert alert-danger col-md-6">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    
-                                @endforeach
-                            </ul>
-
-                        </div>
+                    @if (session('status'))
+                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil!',
+                                text: '{{ session("status") }}',
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                        </script>
                     @endif
 
                     <form action="login" method="POST" onsubmit="return validateLogin()">
@@ -45,7 +46,7 @@
                             <input type="password" id="password" name="password" placeholder="Enter your Password here">
                         </div>
                         <div>
-                            Lupa password?
+                            <a href="{{ route('password.request') }}">Lupa password?</a>
                         </div>
                         <button type="submit" class="btn-login">Login</button>
                     </form>
@@ -57,11 +58,7 @@
                     </div> --}}
                     <p class="footer-login">Copyright Minkos</p>
                 </div>
-                @if (session('status'))
-                        <div class="alert alert-success mt-3">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+    
             </div>
         </div>
 

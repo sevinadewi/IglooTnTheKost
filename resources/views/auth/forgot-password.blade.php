@@ -16,8 +16,8 @@
         <div class="app-v1">
             <div class="login-cont">
                 <div class="left">
-                    <img src="assets/img/IndekostLogo.svg" alt="Igloo Indekost">
-                    <h2>Igloo Indekost</h2>
+                    <img src="{{ asset('assets/img/IndekostLogo.svg') }}" alt="Igloo Indekost">
+                    <h2>Minkos</h2>
                 </div>
                 <div class="right">
                     <h2>Forgot Password</h2>
@@ -50,7 +50,7 @@
                         </div>
                     @endif
 
-                    <p class="footer-login">Copyright Igloo Indekost</p>
+                    <p class="footer-login">Copyright Minkos</p>
                 </div>
             </div>
         </div>

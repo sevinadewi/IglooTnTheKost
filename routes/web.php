@@ -61,6 +61,7 @@ Route::middleware(['auth'])->group(function (){
     Route::post('/penghuni', [TenantController::class, 'store'])->name('tenants.store');
     Route::put('/penghuni/{tenant}', [RoomController::class, 'update'])->name('tenants.update');
     Route::get('/penghuni/{id}/histori-penghuni', [TenantController::class, 'history'])->name('histori-penghuni');
+    Route::get('/penghuni/{id}', [TenantController::class, 'showDetail'])->name('detail-penghuni');
 
 
     // Route::post('/tenant/store', [TenantController::class, 'store'])->name('tenant.store');
@@ -129,18 +130,32 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 // Email Verification
-Route::middleware('auth')->group(function (){
+// Route::middleware('auth')->group(function (){
+//     Route::get('/email/verify', function () {
+//         return view('auth.verify-email');
+//     })->middleware('auth')->name('verification.notice');
+
+//     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+//         $request->fulfill();
+//         return redirect()->route('login')->with('status', 'Email berhasil diverifikasi');
+//     })->middleware(['auth', 'signed', 'throttle:6,1'])->name('verification.verify');
+
+// });
+Route::middleware('auth')->group(function () {
     Route::get('/email/verify', function () {
         return view('auth.verify-email');
-    })->middleware('auth')->name('verification.notice');
+    })->name('verification.notice');
 
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
- 
-        // return redirect('/profile');
+        $request->fulfill();
         return redirect()->route('login')->with('status', 'Email berhasil diverifikasi');
-    })->middleware(['auth', 'signed'])->name('verification.verify');
+    })->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
 
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+
+        return back()->with('status', 'verification-link-sent');
+    })->middleware('throttle:6,1')->name('verification.send');
 });
 
 // Reset Password
